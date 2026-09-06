@@ -36,15 +36,13 @@ public abstract class ResultSlotMixin {
         if (player.level() instanceof ServerLevel serverLevel) {
             CraftingInput.Positioned positionedRecipe = this.craftSlots.asPositionedCraftInput();
             CraftingInput input = positionedRecipe.input();
-            int recipeLeft = positionedRecipe.left();
-            int recipeTop = positionedRecipe.top();
 
             serverLevel.recipeAccess().getRecipeFor(RecipeType.CRAFTING, input, serverLevel).ifPresent(recipe -> {
                 SizedItemRecipe sizedRecipe = recipe.value() instanceof SizedItemRecipe sized ? sized : null;
 
                 for (int y = 0; y < input.height(); ++y) {
                     for (int x = 0; x < input.width(); ++x) {
-                        int slot = x + recipeLeft + (y + recipeTop) * this.craftSlots.getWidth();
+                        int slot = x + positionedRecipe.left() + (y + positionedRecipe.top()) * this.craftSlots.getWidth();
                         this.craftSlots.removeItem(slot,
                                 sizedRecipe == null ? 1 : sizedRecipe.pattern().ingredients().get(slot).map(SizedIngredient::count).orElse(1)
                         );

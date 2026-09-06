@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class GiantCleaver extends UnshatteredCleaver {
+public class GiantCleaver extends CleaverItem {
     public GiantCleaver(Properties properties) {
         super(properties.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.LEGENDARY)
                         .component(UnshatteredDataComponents.ABILITY.get(), new ItemAbility(Identifier.fromNamespaceAndPath(MODID, "giant_cleaver_cleave"), 0, 0, 0, true))

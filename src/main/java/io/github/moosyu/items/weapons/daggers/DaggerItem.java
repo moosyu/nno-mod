@@ -6,8 +6,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.Weapon;
 
-public class UnshatteredDagger extends Item {
-    public UnshatteredDagger(Properties properties) {
+public class DaggerItem extends Item {
+    public DaggerItem(Properties properties) {
         super(properties
                 .stacksTo(1)
                 .component(UnshatteredDataComponents.ITEM_TYPE, ItemTypes.DAGGER)

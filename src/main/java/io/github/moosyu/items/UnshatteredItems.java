@@ -3,23 +3,25 @@ package io.github.moosyu.items;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.blocks.UnshatteredBlocks;
-import io.github.moosyu.data.components.ItemAbility;
 import io.github.moosyu.data.components.ItemCharges;
 import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.regions.UnshatteredRegions;
 import io.github.moosyu.items.talismans.BatTalisman;
+import io.github.moosyu.items.talismans.TalismanItem;
 import io.github.moosyu.items.tools.axes.RegionLockedFortuneAxe;
 import io.github.moosyu.items.tools.axes.UnshatteredAxeTool;
 import io.github.moosyu.items.tools.rods.UnshatteredRod;
 import io.github.moosyu.items.weapons.axes.UnshatteredAxeWeapon;
 import io.github.moosyu.items.weapons.cleavers.*;
-import io.github.moosyu.items.weapons.daggers.IronDagger;
+import io.github.moosyu.items.weapons.daggers.DaggerItem;
+import io.github.moosyu.items.weapons.daggers.EmeraldDagger;
 import io.github.moosyu.items.weapons.swords.*;
 import io.github.moosyu.rarities.UnshatteredRarities;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -396,6 +398,16 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
     ));
 
+    public static final DeferredItem<EnchantedItem> ENCHANTED_EMERALD = ITEMS.registerItem("enchanted_emerald", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_EMERALD_BLOCK = ITEMS.registerItem("enchanted_emerald_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+    ));
+
     public static final DeferredItem<Item> HEALING_TISSUE = ITEMS.registerItem("healing_tissue", props -> new Item(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
@@ -433,8 +445,8 @@ public class UnshatteredItems {
 
     public static final DeferredItem<Item> UNDEAD_SWORD = ITEMS.registerItem("undead_sword", UndeadSword::new);
 
-    public static final DeferredItem<UnshatteredZombieSwordBase> ZOMBIE_SWORD = ITEMS.registerItem("zombie_sword",
-            props -> new UnshatteredZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+    public static final DeferredItem<ZombieSwordBase> ZOMBIE_SWORD = ITEMS.registerItem("zombie_sword",
+            props -> new ZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
                     .component(UnshatteredDataComponents.CHARGES.get(), new ItemCharges(4, 300))
                     .component(UnshatteredDataComponents.SELL_VALUE.get(), 300000)
                     .component(UnshatteredDataComponents.DESCRIPTION.get(), true),
@@ -448,8 +460,8 @@ public class UnshatteredItems {
             )
     );
 
-    public static final DeferredItem<UnshatteredZombieSwordBase> ORNATE_ZOMBIE_SWORD = ITEMS.registerItem("ornate_zombie_sword",
-            props -> new UnshatteredZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.EPIC)
+    public static final DeferredItem<ZombieSwordBase> ORNATE_ZOMBIE_SWORD = ITEMS.registerItem("ornate_zombie_sword",
+            props -> new ZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.EPIC)
                     .component(UnshatteredDataComponents.CHARGES.get(), new ItemCharges(5, 300))
                     .component(UnshatteredDataComponents.SELL_VALUE.get(), 600000)
                     .component(UnshatteredDataComponents.DESCRIPTION.get(), true),
@@ -463,8 +475,8 @@ public class UnshatteredItems {
             )
     );
 
-    public static final DeferredItem<UnshatteredZombieSwordBase> FLORID_ZOMBIE_SWORD = ITEMS.registerItem("florid_zombie_sword",
-            props -> new UnshatteredZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.LEGENDARY)
+    public static final DeferredItem<ZombieSwordBase> FLORID_ZOMBIE_SWORD = ITEMS.registerItem("florid_zombie_sword",
+            props -> new ZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.LEGENDARY)
                     .component(UnshatteredDataComponents.CHARGES.get(), new ItemCharges(5, 300))
                     .component(UnshatteredDataComponents.SELL_VALUE.get(), 2000000)
                     .component(UnshatteredDataComponents.DESCRIPTION.get(), true),
@@ -484,7 +496,23 @@ public class UnshatteredItems {
     public static final DeferredItem<Item> HYPER_CLEAVER = ITEMS.registerItem("hyper_cleaver", HyperCleaver::new);
     public static final DeferredItem<Item> GIANT_CLEAVER = ITEMS.registerItem("giant_cleaver", GiantCleaver::new);
     public static final DeferredItem<Item> BAT_TALISMAN = ITEMS.registerItem("bat_talisman", BatTalisman::new);
-    public static final DeferredItem<Item> IRON_DAGGER = ITEMS.registerItem("iron_dagger", IronDagger::new);
+
+    public static final DeferredItem<DaggerItem> IRON_DAGGER = ITEMS.registerItem("iron_dagger", props -> new DaggerItem(props
+            .component(UnshatteredDataComponents.DESCRIPTION, true)
+            .attributes(ItemAttributeModifiers.builder()
+                    .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "iron_dagger_damage"), 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                    .add(UnshatteredAttributeValues.FEROCITY.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "iron_dagger_ferocity"), 25, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                    .add(Attributes.ATTACK_SPEED, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "iron_dagger_attack_speed"), 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                    .build()
+            )
+    ));
+
+    public static final DeferredItem<DaggerItem> EMERALD_DAGGER = ITEMS.registerItem("emerald_dagger", EmeraldDagger::new);
+
+    public static final DeferredItem<TalismanItem> COINS_TALISMAN = ITEMS.registerItem("coins_talisman", props -> new TalismanItem(props
+            .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 70)
+    ));
 
     public static final DeferredItem<Item> GLOW_SQUID_BOOTS = ITEMS.registerItem("glow_squid_boots", props -> new Item(props
             .humanoidArmor(GLOW_SQUID_BOOTS_MATERIAL, ArmorType.BOOTS)

@@ -30,9 +30,9 @@ public class UnshatteredRod extends FishingRodItem implements UnshatteredInstant
 
     @Override
     public void onAbilityFinished(Player player, LivingEntity target) {
-        UnshatteredUtils.getAttributeInstance(player, UnshatteredAttributeValues.FINAL_DAMAGE_MODIFIER.holder).ifPresent(finalDamageModifierAttribute -> {
-            finalDamageModifierAttribute.removeModifier(ABILITY_IDENTIFIER);
-        });
+        UnshatteredUtils.getAttributeInstance(player,
+                UnshatteredAttributeValues.FINAL_DAMAGE_MODIFIER.holder)
+                .ifPresent(finalDamageModifierAttribute -> finalDamageModifierAttribute.removeModifier(ABILITY_IDENTIFIER));
     }
 
     @Override

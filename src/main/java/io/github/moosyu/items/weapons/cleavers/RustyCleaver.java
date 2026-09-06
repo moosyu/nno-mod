@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class RustyCleaver extends UnshatteredCleaver {
+public class RustyCleaver extends CleaverItem {
     public RustyCleaver(Properties properties) {
         super(properties.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.COMMON)
                         .component(UnshatteredDataComponents.ABILITY.get(), new ItemAbility(Identifier.fromNamespaceAndPath(MODID, "rusty_cleaver_cleave"), 0, 0, 0, true))

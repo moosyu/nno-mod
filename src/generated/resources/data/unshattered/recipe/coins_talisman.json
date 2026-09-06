@@ -1,0 +1,21 @@
+{
+  "type": "unshattered:sized_recipe",
+  "key": {
+    "A": {
+      "count": 5,
+      "ingredient": "minecraft:emerald"
+    },
+    "B": {
+      "count": 5,
+      "ingredient": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "id": "unshattered:coins_talisman"
+  }
+}

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
@@ -35,7 +36,15 @@ public class TalismansMenu extends AbstractContainerMenu {
                 this.addSlot(new Slot(container, col + row * 9, 8 + col * 18, 17 + row * 18) {
                     @Override
                     public boolean mayPlace(@NonNull ItemStack itemStack) {
-                        return itemStack.getComponents().get(UnshatteredDataComponents.ITEM_TYPE) == ItemTypes.TALISMAN;
+                        if (itemStack.getComponents().get(UnshatteredDataComponents.ITEM_TYPE) == ItemTypes.TALISMAN) {
+                            Item placingItem = itemStack.getItem();
+                            for (int i = 0; i < container.getContainerSize(); i++) {
+                                ItemStack currentSlotContents = container.getItem(i);
+                                if (currentSlotContents.is(placingItem)) return false;
+                            }
+                        } else return false;
+
+                        return true;
                     }
                 });
             }

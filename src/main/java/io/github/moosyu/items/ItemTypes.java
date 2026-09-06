@@ -19,7 +19,7 @@ public enum ItemTypes implements StringRepresentable {
     LEGGINGS("leggings", true),
     BOOTS("boots", true),
     WAND("wand", true),
-    TALISMAN("talisman", true),
+    TALISMAN("talisman", false),
     STAFF("staff", true),
     GRIMOIRES("grimoire", true),
     LONGSWORD("longsword", true),

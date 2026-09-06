@@ -30,12 +30,12 @@ import org.jspecify.annotations.NonNull;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class UnshatteredZombieSwordBase extends UnshatteredSword {
+public class ZombieSwordBase extends UnshatteredSword {
     private final Identifier abilityIdentifier;
     private final int healAmount;
     private final ItemAbility instantHealAbility;
 
-    public UnshatteredZombieSwordBase(Properties properties, String identifier, int damage, int strength, int mana, int healAmount, int manaCost, int cooldown) {
+    public ZombieSwordBase(Properties properties, String identifier, int damage, int strength, int mana, int healAmount, int manaCost, int cooldown) {
         String snakeCaseIdentifier = UnshatteredUtils.convertToSnakeCase(identifier);
         Identifier abilityId = Identifier.fromNamespaceAndPath(MODID, snakeCaseIdentifier + "_instant_heal");
         ItemAbility ability = new ItemAbility(abilityId, manaCost, cooldown, 0, false);

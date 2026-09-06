@@ -19,12 +19,12 @@ import net.minecraft.world.phys.AABB;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class UnshatteredCleaver extends Item implements UnshatteredInstantPassiveAbilityItem {
+public class CleaverItem extends Item implements UnshatteredInstantPassiveAbilityItem {
     private static final Identifier ABILITY_IDENTIFIER = Identifier.fromNamespaceAndPath(MODID, "cleaver_cleave");
     private final float radius;
     private final float cleaveDamageFraction;
 
-    public UnshatteredCleaver(Properties properties, float radius, float cleaveDamageFraction) {
+    public CleaverItem(Properties properties, float radius, float cleaveDamageFraction) {
         super(properties.stacksTo(1).component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.CLEAVER));
         this.radius = radius;
         this.cleaveDamageFraction = cleaveDamageFraction;

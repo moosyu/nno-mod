@@ -96,6 +96,8 @@ public class UnshatteredCreativeTabs {
             output.accept(HEALING_TISSUE);
             output.accept(ENCHANTED_DIAMOND);
             output.accept(ENCHANTED_DIAMOND_BLOCK);
+            output.accept(ENCHANTED_EMERALD);
+            output.accept(ENCHANTED_EMERALD_BLOCK);
         }).build()
     );
 
@@ -149,6 +151,7 @@ public class UnshatteredCreativeTabs {
             output.accept(HYPER_CLEAVER.get());
             output.accept(GIANT_CLEAVER.get());
             output.accept(IRON_DAGGER.get());
+            output.accept(EMERALD_DAGGER.get());
         }).build()
     );
 
@@ -159,6 +162,7 @@ public class UnshatteredCreativeTabs {
                 .icon(() -> BAT_TALISMAN.get().getDefaultInstance())
                 .displayItems((_, output) -> {
                     output.accept(BAT_TALISMAN.get());
-            }).build()
+                    output.accept(COINS_TALISMAN.get());
+                }).build()
     );
 }

@@ -83,7 +83,11 @@
   "item.unshattered.enchanted_gold_block": "Enchanted Golden Block",
   "item.unshattered.enchanted_diamond": "Enchanted Diamond",
   "item.unshattered.enchanted_diamond_block": "Enchanted Diamond Block",
+  "item.unshattered.enchanted_emerald": "Enchanted Emerald",
+  "item.unshattered.enchanted_emerald_block": "Enchanted Emerald Block",
   "item.unshattered.healing_tissue": "Healing Tissue",
+  "item.unshattered.coins_talisman": "Coins Talisman",
+  "item.unshattered.emerald_dagger": "Emerald Dagger",
 
   "item.ability.unshattered.rogue_sword_speed_boost": "Speed Boost",
   "item.ability.unshattered.mind_blowing": "Mind Blowing",
@@ -99,6 +103,7 @@
   "item.ability.unshattered.fish_out_of_water": "Fish Out Of Water",
   "item.ability.unshattered.treecapitator_park_enthusiast": "Park Enthusiast",
   "item.ability.unshattered.spruce_axe_park_enthusiast": "Park Enthusiast",
+  "item.ability.unshattered.emerald_dagger_greed": "Greed",
 
   "item.ability.description.unshattered.rogue_sword_speed_boost": "Grants [colour=0xFFFFFFFF]+0.5✦ Speed[/colour] for [colour=0xFF55FF55]30s[/colour].",
   "item.ability.description.unshattered.mind_blowing": "Deals [colour=0xFF55FF55]+100%[/colour] damage to undead mobs.",
@@ -114,6 +119,7 @@
   "item.ability.description.unshattered.fish_out_of_water": "You can only damage [colour=0xFF5555FF]aquatic[/colour] enemies with this fishing rod!",
   "item.ability.description.unshattered.treecapitator_park_enthusiast": "Gain [colour=0xFFFFAA00]+50\uD83E\uDE93[/colour] while in the [colour=0xFF55FF55]The Plains[/colour]!",
   "item.ability.description.unshattered.spruce_axe_park_enthusiast": "Gain [colour=0xFFFFAA00]+25\uD83E\uDE93[/colour] while in the [colour=0xFF55FF55]The Plains[/colour]!",
+  "item.ability.description.unshattered.emerald_dagger_greed": "The emerald dagger grows stronger the more [colour=0xFFFFAA00]coins[/colour] stored in your purse.",
 
   "block.unshattered.fig_log": "Fig Log",
   "block.unshattered.breakable_fig_log": "Breakable Fig Log",
@@ -191,6 +197,7 @@
   "item.description.unshattered.bat_talisman": "I'm all ears!",
   "item.description.unshattered.iron_dagger": "Seems unbalanced.",
   "item.description.unshattered.end_stone": "It's lived a hard life.",
+  "item.description.unshattered.coins_talisman": "Best investment you'll ever make.",
 
   "attribute.name.unshattered.sweep": "Sweep",
   "attribute.name.unshattered.foraging_fortune": "Foraging Fortune",

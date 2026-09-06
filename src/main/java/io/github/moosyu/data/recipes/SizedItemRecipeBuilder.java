@@ -1,5 +1,6 @@
 package io.github.moosyu.data.recipes;
 
+import io.github.moosyu.data.datagen.UnshatteredRecipeProvider;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -59,8 +60,6 @@ public class SizedItemRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(RecipeOutput output, @NonNull ResourceKey<Recipe<?>> key) {
-        SizedShapedRecipePattern resolvedPattern = SizedShapedRecipePattern.of(this.key, this.pattern);
-        SizedItemRecipe recipe = new SizedItemRecipe(this.result, resolvedPattern);
-        output.accept(key, recipe, null);
+        output.accept(key, new SizedItemRecipe(this.result, SizedShapedRecipePattern.of(this.key, this.pattern)), null);
     }
 }

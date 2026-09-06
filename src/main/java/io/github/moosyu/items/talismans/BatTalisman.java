@@ -6,11 +6,9 @@ import io.github.moosyu.rarities.UnshatteredRarities;
 import net.minecraft.world.item.Item;
 
 // talismans (proper) coming soon i promise
-public class BatTalisman extends Item {
+public class BatTalisman extends TalismanItem {
     public BatTalisman(Properties properties) {
-        super(properties.stacksTo(1)
-                .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.TALISMAN)
-                .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+        super(properties.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
                 .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
         );
     }
