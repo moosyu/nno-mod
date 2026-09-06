@@ -1,0 +1,16 @@
+{
+  "type": "unshattered:sized_recipe",
+  "key": {
+    "A": {
+      "count": 32,
+      "ingredient": "unshattered:enchanted_lapis"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "AA "
+  ],
+  "result": {
+    "id": "unshattered:enchanted_lapis_block"
+  }
+}

@@ -420,6 +420,54 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 102400)
     ));
 
+    public static final DeferredItem<EnchantedItem> ENCHANTED_IRON = ITEMS.registerItem("enchanted_iron", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 320)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_IRON_BLOCK = ITEMS.registerItem("enchanted_iron_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 51200)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_COAL = ITEMS.registerItem("enchanted_coal", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 320)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_COAL_BLOCK = ITEMS.registerItem("enchanted_coal_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 25600)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_LAPIS = ITEMS.registerItem("enchanted_lapis", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 320)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_LAPIS_BLOCK = ITEMS.registerItem("enchanted_lapis_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 25600)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_REDSTONE = ITEMS.registerItem("enchanted_redstone", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 320)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_REDSTONE_BLOCK = ITEMS.registerItem("enchanted_redstone_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 25600)
+    ));
+
     public static final DeferredItem<Item> HEALING_TISSUE = ITEMS.registerItem("healing_tissue", props -> new Item(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)

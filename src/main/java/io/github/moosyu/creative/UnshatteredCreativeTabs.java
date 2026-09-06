@@ -98,6 +98,14 @@ public class UnshatteredCreativeTabs {
             output.accept(ENCHANTED_DIAMOND_BLOCK);
             output.accept(ENCHANTED_EMERALD);
             output.accept(ENCHANTED_EMERALD_BLOCK);
+            output.accept(ENCHANTED_IRON);
+            output.accept(ENCHANTED_IRON_BLOCK);
+            output.accept(ENCHANTED_COAL);
+            output.accept(ENCHANTED_COAL_BLOCK);
+            output.accept(ENCHANTED_LAPIS);
+            output.accept(ENCHANTED_LAPIS_BLOCK);
+            output.accept(ENCHANTED_REDSTONE);
+            output.accept(ENCHANTED_REDSTONE_BLOCK);
         }).build()
     );
 

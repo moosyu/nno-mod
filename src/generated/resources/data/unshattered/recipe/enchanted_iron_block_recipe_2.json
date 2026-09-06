@@ -1,0 +1,17 @@
+{
+  "type": "unshattered:sized_recipe",
+  "key": {
+    "A": {
+      "count": 32,
+      "ingredient": "unshattered:enchanted_iron"
+    }
+  },
+  "pattern": [
+    " A ",
+    "AAA",
+    " A "
+  ],
+  "result": {
+    "id": "unshattered:enchanted_iron_block"
+  }
+}

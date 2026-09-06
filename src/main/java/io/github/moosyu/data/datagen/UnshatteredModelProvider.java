@@ -88,11 +88,19 @@ public class UnshatteredModelProvider extends ModelProvider {
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_GOLD_INGOT.get(), Items.GOLD_INGOT, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_DIAMOND.get(), Items.DIAMOND, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_EMERALD.get(), Items.EMERALD, ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_IRON.get(), Items.IRON_INGOT, ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_COAL.get(), Items.COAL, ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_LAPIS.get(), Items.LAPIS_LAZULI, ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_REDSTONE.get(), Items.REDSTONE, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.COINS_TALISMAN.get(), ModelTemplates.FLAT_ITEM);
 
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get(), Blocks.GOLD_BLOCK);
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_DIAMOND_BLOCK.get(), Blocks.DIAMOND_BLOCK);
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_EMERALD_BLOCK.get(), Blocks.EMERALD_BLOCK);
+        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_IRON_BLOCK.get(), Blocks.IRON_BLOCK);
+        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_COAL_BLOCK.get(), Blocks.COAL_BLOCK);
+        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_LAPIS_BLOCK.get(), Blocks.LAPIS_BLOCK);
+        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_REDSTONE_BLOCK.get(), Blocks.REDSTONE_BLOCK);
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.BEDROCK.get(), Blocks.BEDROCK);
 
         itemModels.generateFlatItem(UnshatteredItems.HEALING_TISSUE.get(), ModelTemplates.FLAT_ITEM);

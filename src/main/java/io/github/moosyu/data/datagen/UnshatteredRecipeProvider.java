@@ -51,6 +51,14 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_DIAMOND, UnshatteredItems.ENCHANTED_DIAMOND_BLOCK.get());
         createEnchantedItemWithBlocksRecipe(output, Items.EMERALD, Items.EMERALD_BLOCK, UnshatteredItems.ENCHANTED_EMERALD.get());
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_EMERALD, UnshatteredItems.ENCHANTED_EMERALD_BLOCK.get());
+        createEnchantedItemWithBlocksRecipe(output, Items.IRON_INGOT, Items.IRON_BLOCK, UnshatteredItems.ENCHANTED_IRON.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_IRON, UnshatteredItems.ENCHANTED_IRON_BLOCK.get());
+        createEnchantedItemWithBlocksRecipe(output, Items.COAL, Items.COAL_BLOCK, UnshatteredItems.ENCHANTED_COAL.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_COAL, UnshatteredItems.ENCHANTED_COAL_BLOCK.get());
+        createEnchantedItemWithBlocksRecipe(output, Items.LAPIS_ORE, Items.LAPIS_BLOCK, UnshatteredItems.ENCHANTED_LAPIS.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_LAPIS, UnshatteredItems.ENCHANTED_LAPIS_BLOCK.get());
+        createEnchantedItemWithBlocksRecipe(output, Items.REDSTONE, Items.REDSTONE_BLOCK, UnshatteredItems.ENCHANTED_REDSTONE.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_REDSTONE, UnshatteredItems.ENCHANTED_REDSTONE_BLOCK.get());
 
         new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ORNATE_ZOMBIE_SWORD.get()))
                 .pattern("A", "B", "C")
@@ -176,7 +184,7 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
         SizedItemRecipeBuilder builder = new SizedItemRecipeBuilder(new ItemStackTemplate(result));
         builder.pattern(" A ", "AAA", " A ")
                 .define('A', SizedIngredient.of(ingredient, 32))
-                .save(output, BuiltInRegistries.ITEM.getKey(ingredient.asItem()).getPath() + "_2");
+                .save(output, createRecipeResourceKey(result, "_2"));
     }
 
     /**
@@ -194,20 +202,20 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
         SizedItemRecipeBuilder builderItem = new SizedItemRecipeBuilder(new ItemStackTemplate(result));
         builderItem.pattern(" A ", "AAA", " A ")
                 .define('A', SizedIngredient.of(itemIngredient, 32))
-                .save(output, createRecipeResourceKey(result, "_recipe_2"));
+                .save(output, createRecipeResourceKey(result, "_2"));
 
         Arrays.fill(ingredients, SizedIngredient.of(blockIngredient, 32));
         createRecipe(output,
                 result,
                 9,
-                createRecipeResourceKey(result, "_recipe_3"),
+                createRecipeResourceKey(result, "_3"),
                 ingredients
         );
 
         SizedItemRecipeBuilder builderBlock = new SizedItemRecipeBuilder(new ItemStackTemplate(result, 9));
         builderBlock.pattern(" A ", "AAA", " A ")
                 .define('A', SizedIngredient.of(blockIngredient, 32))
-                .save(output, createRecipeResourceKey(result, "_recipe_4"));
+                .save(output, createRecipeResourceKey(result, "_4"));
     }
 
     private SizedIngredient singleSizedIngredient(ItemLike item) {

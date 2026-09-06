@@ -123,6 +123,14 @@ public class ModifyDefaultComponentsHandler {
         modifyVanillaItem(event, Items.DIAMOND_BLOCK, ItemTypes.MATERIAL, 72);
         modifyVanillaItem(event, Items.EMERALD, ItemTypes.MATERIAL, 4);
         modifyVanillaItem(event, Items.EMERALD_BLOCK, ItemTypes.MATERIAL, 36);
+        modifyVanillaItem(event, Items.IRON_INGOT, ItemTypes.MATERIAL, 2);
+        modifyVanillaItem(event, Items.IRON_BLOCK, ItemTypes.MATERIAL, 18);
+        modifyVanillaItem(event, Items.COAL, ItemTypes.MATERIAL, 2);
+        modifyVanillaItem(event, Items.COAL_BLOCK, ItemTypes.MATERIAL, 18);
+        modifyVanillaItem(event, Items.LAPIS_LAZULI, ItemTypes.MATERIAL, 1);
+        modifyVanillaItem(event, Items.LAPIS_BLOCK, ItemTypes.MATERIAL, 9);
+        modifyVanillaItem(event, Items.REDSTONE, ItemTypes.MATERIAL, 1);
+        modifyVanillaItem(event, Items.REDSTONE_BLOCK, ItemTypes.MATERIAL, 9);
     }
 
     /**
