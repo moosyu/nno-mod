@@ -79,8 +79,8 @@
   "item.unshattered.iron_dagger": "Iron Dagger",
   "item.unshattered.zombie_heart": "Zombie Heart",
   "item.unshattered.golden_powder": "Golden Powder",
-  "item.unshattered.enchanted_gold_ingot": "Enchanted Golden Ingot",
-  "item.unshattered.enchanted_gold_block": "Enchanted Golden Block",
+  "item.unshattered.enchanted_gold_ingot": "Enchanted Gold Ingot",
+  "item.unshattered.enchanted_gold_block": "Enchanted Gold Block",
   "item.unshattered.enchanted_diamond": "Enchanted Diamond",
   "item.unshattered.enchanted_diamond_block": "Enchanted Diamond Block",
   "item.unshattered.enchanted_emerald": "Enchanted Emerald",
@@ -285,6 +285,7 @@
 
   "tooltip.unshattered.reforgable": "This item can be reforged!",
   "tooltip.unshattered.breaking_power": "Breaking Power ",
+  "tooltip.unshattered.sell_price": "Sell Price:",
 
   "combat.messages.unshattered.failed": "You tried to attack... but nothing happened.",
   "fishing.messages.entity.minecraft.squid": "A Squid appeared.",

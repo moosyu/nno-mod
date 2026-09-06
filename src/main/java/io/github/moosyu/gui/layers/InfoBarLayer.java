@@ -1,6 +1,5 @@
 package io.github.moosyu.gui.layers;
 
-import io.github.moosyu.data.attachments.PlayerRegionAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.regions.Region;
 import io.github.moosyu.data.regions.TemperatureTypes;
@@ -15,9 +14,9 @@ import net.neoforged.neoforge.client.gui.GuiLayer;
 import org.jspecify.annotations.NonNull;
 
 public class InfoBarLayer implements GuiLayer {
-    private int lastCoins;
+    private int lastCoins = 0;
     private int displayNewCoinsTicks = 0;
-    private int coinChange;
+    private int coinChange = 0;
     private ResourceKey<Region> lastRegionKey;
     private float lastTemperature;
     private Component lastText;
@@ -36,8 +35,11 @@ public class InfoBarLayer implements GuiLayer {
 
         if (coins != lastCoins) {
             requiresRebuild = true;
-            displayNewCoinsTicks = 120;
-            coinChange = coins - lastCoins;
+            // so a change won't appear when the player first joins
+            if (lastCoins != 0) {
+                displayNewCoinsTicks = 120;
+                coinChange = coins - lastCoins;
+            }
             lastCoins = coins;
         }
 
@@ -73,7 +75,7 @@ public class InfoBarLayer implements GuiLayer {
 
             lastText = Component.empty().append(Component.translatable("gui.text.unshattered.purse"))
                     .append(": ")
-                    .append(Component.literal(displayNewCoinsTicks > 0 ? String.format("%,d", coins) + " (" + (coinChange < 0 ? "-" : "+") + String.format("%,d", coinChange) + ")" : String.format("%,d", coins)).withColor(0xFFF9A604))
+                    .append(Component.literal(displayNewCoinsTicks > 0 ? String.format("%,d", coins) + " (" + (coinChange < 0 ? "" : "+") + String.format("%,d", coinChange) + ")" : String.format("%,d", coins)).withColor(0xFFF9A604))
                     .append("  ⏣ ")
                     .append(Component.translatable(Region.getRegionTranslationKey(regionKey)).withColor(region.colour()))
                     .append("  ")

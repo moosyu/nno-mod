@@ -117,6 +117,12 @@ public class ModifyDefaultComponentsHandler {
         modifyVanillaItem(event, Items.DIAMOND_CHESTPLATE, ItemTypes.CHESTPLATE, UnshatteredRarities.UNCOMMON, 5, false);
         modifyVanillaItem(event, Items.DIAMOND_LEGGINGS, ItemTypes.LEGGINGS, UnshatteredRarities.UNCOMMON, 4, false);
         modifyVanillaItem(event, Items.DIAMOND_BOOTS, ItemTypes.BOOTS, UnshatteredRarities.UNCOMMON, 3, false);
+        modifyVanillaItem(event, Items.GOLD_INGOT, ItemTypes.MATERIAL, 4);
+        modifyVanillaItem(event, Items.GOLD_BLOCK, ItemTypes.MATERIAL, 27);
+        modifyVanillaItem(event, Items.DIAMOND, ItemTypes.MATERIAL, 8);
+        modifyVanillaItem(event, Items.DIAMOND_BLOCK, ItemTypes.MATERIAL, 72);
+        modifyVanillaItem(event, Items.EMERALD, ItemTypes.MATERIAL, 4);
+        modifyVanillaItem(event, Items.EMERALD_BLOCK, ItemTypes.MATERIAL, 36);
     }
 
     /**
@@ -163,6 +169,20 @@ public class ModifyDefaultComponentsHandler {
         event.modify(item, (components, _, _) -> components
                 .set(UnshatteredDataComponents.ITEM_TYPE, itemType)
                 .set(UnshatteredDataComponents.DESCRIPTION.get(), description)
+                .set(UnshatteredDataComponents.SELL_VALUE.get(), sellValue)
+        );
+    }
+
+    /**
+     * modify a vanilla item by adding unshattered components (assuming it's common)
+     * @param event ModifyDefaultComponentsEvent
+     * @param item item having its components modified
+     * @param itemType the item type
+     * @param sellValue the sell value
+     */
+    private static void modifyVanillaItem(ModifyDefaultComponentsEvent event, Item item, ItemTypes itemType, int sellValue) {
+        event.modify(item, (components, _, _) -> components
+                .set(UnshatteredDataComponents.ITEM_TYPE, itemType)
                 .set(UnshatteredDataComponents.SELL_VALUE.get(), sellValue)
         );
     }

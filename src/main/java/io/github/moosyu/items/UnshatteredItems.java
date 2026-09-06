@@ -336,6 +336,7 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.FISHING_ROD)
             .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.FISHING, 5))
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 5000)
             .attributes(ItemAttributeModifiers.builder()
                     .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "challenging_rod_damage"), 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                     .add(UnshatteredAttributeValues.STRENGTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "challenging_rod_strength"), 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
@@ -349,6 +350,7 @@ public class UnshatteredItems {
             .stacksTo(1)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.FISHING_ROD)
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 2)
             .attributes(ItemAttributeModifiers.builder()
                     .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "fishing_rod_damage"), 10, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                     .add(UnshatteredAttributeValues.STRENGTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "fishing_rod_strength"), 10, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
@@ -360,57 +362,68 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.COMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.LOG)
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 8)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_ROTTEN_FLESH = ITEMS.registerItem("enchanted_rotten_flesh", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 320)
     ));
 
     public static final DeferredItem<Item> ZOMBIE_HEART = ITEMS.registerItem("zombie_heart", props -> new Item(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 123000)
             .stacksTo(1)
     ));
 
     public static final DeferredItem<EnchantedItem> GOLDEN_POWDER = ITEMS.registerItem("golden_powder", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.EPIC)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 10000)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_GOLD_INGOT = ITEMS.registerItem("enchanted_gold_ingot", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 480)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_GOLD_BLOCK = ITEMS.registerItem("enchanted_gold_block", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 76800)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_DIAMOND = ITEMS.registerItem("enchanted_diamond", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 1280)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_DIAMOND_BLOCK = ITEMS.registerItem("enchanted_diamond_block", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 204800)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_EMERALD = ITEMS.registerItem("enchanted_emerald", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 640)
     ));
 
     public static final DeferredItem<EnchantedItem> ENCHANTED_EMERALD_BLOCK = ITEMS.registerItem("enchanted_emerald_block", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 102400)
     ));
 
     public static final DeferredItem<Item> HEALING_TISSUE = ITEMS.registerItem("healing_tissue", props -> new Item(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 5000)
     ));
 
     public static final DeferredItem<BlockItem> BREAKABLE_FIG_LOG = ITEMS.registerSimpleBlockItem(BREAKABLE_FIG_LOG_BLOCK.getDelegate());

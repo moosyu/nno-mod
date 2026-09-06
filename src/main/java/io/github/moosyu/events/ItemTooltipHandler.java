@@ -45,6 +45,7 @@ public class ItemTooltipHandler {
         SkillRequirement itemSkillRequirement = stack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
         ItemAbility itemAbility = stack.get(UnshatteredDataComponents.ABILITY);
         ItemCharges itemCharges = stack.get(UnshatteredDataComponents.CHARGES);
+        int sellPrice = stack.getOrDefault(UnshatteredDataComponents.SELL_VALUE, 0) * stack.count();
         ItemAttributeModifiers modifiers = stack.getAttributeModifiers();
 
         event.getToolTip().clear();
@@ -75,7 +76,7 @@ public class ItemTooltipHandler {
                 UnshatteredUtils.addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
             } else {
                 tooltipComponents.add(Component.literal("Ability: ").append(Component.translatable("item.ability.unshattered." + itemAbility.abilityId().getPath())).withColor(0xFFFFAA00).append(Component.literal(" RIGHT CLICK").withColor(0xFFFFFF55).withStyle(ChatFormatting.BOLD)));
-                UnshatteredUtils.addWrappedText(tooltipComponents,UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
+                UnshatteredUtils.addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
 
                 if (itemAbility.manaCost() > 0) tooltipComponents.add(Component.literal("Mana Cost: ").withColor(0xFF555555).append(Component.literal(String.valueOf(itemAbility.manaCost())).withColor(0xFF00AAAA)));
                 if (itemAbility.cooldown() > 0) tooltipComponents.add(Component.literal("Cooldown: ").withColor(0xFF555555).append(Component.literal(String.format("%.1f", (float) itemAbility.cooldown() / 20 /* convert ticks to seconds */)).append("s").withColor(0xFF55FF55)));
@@ -102,6 +103,13 @@ public class ItemTooltipHandler {
             }
         }
 
+        if (sellPrice > 0) {
+            tooltipComponents.add(Component.translatable("tooltip.unshattered.sell_price").withColor(0xFFAAAAAA)
+                    .append(Component.literal(" "))
+                    .append(Component.literal(String.format("%,d", sellPrice)).withColor(0xFFF9A604))
+            );
+        }
+        
         tooltipComponents.add(Component.literal(Component.translatable("rarity.unshattered." + itemRarity.name().toLowerCase()).getString().toUpperCase() + " " + Component.translatable("item_type.unshattered." + itemType.getSerializedName()).getString().toUpperCase()).withColor(itemRarity.getColour(1.0f)).withStyle(ChatFormatting.BOLD));
     }
 }
