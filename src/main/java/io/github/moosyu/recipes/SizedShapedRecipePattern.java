@@ -46,6 +46,14 @@ public final class SizedShapedRecipePattern {
         this.ingredientCount = (int) ingredients.stream().flatMap(Optional::stream).count();
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     private static SizedShapedRecipePattern createFromNetwork(Integer width, Integer height, List<Optional<SizedIngredient>> ingredients) {
         return new SizedShapedRecipePattern(width, height, ingredients, Optional.empty());
     }
