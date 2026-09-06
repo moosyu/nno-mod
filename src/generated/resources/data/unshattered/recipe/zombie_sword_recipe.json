@@ -1,18 +1,19 @@
 {
   "type": "unshattered:sized_recipe",
-  "ingredients": [
-    {
+  "key": {
+    "A": {
       "count": 1,
       "ingredient": "unshattered:zombie_heart"
     },
-    {
-      "count": 1,
-      "ingredient": "unshattered:zombie_heart"
-    },
-    {
+    "C": {
       "count": 1,
       "ingredient": "minecraft:stick"
     }
+  },
+  "pattern": [
+    "A",
+    "A",
+    "C"
   ],
   "result": {
     "id": "unshattered:zombie_sword"

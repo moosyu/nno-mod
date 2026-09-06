@@ -1,18 +1,23 @@
 {
   "type": "unshattered:sized_recipe",
-  "ingredients": [
-    {
+  "key": {
+    "A": {
       "count": 1,
       "ingredient": "unshattered:enchanted_gold_block"
     },
-    {
+    "B": {
       "count": 1,
       "ingredient": "unshattered:golden_powder"
     },
-    {
+    "C": {
       "count": 1,
       "ingredient": "minecraft:stick"
     }
+  },
+  "pattern": [
+    "A",
+    "B",
+    "C"
   ],
   "result": {
     "id": "unshattered:ornate_zombie_sword"

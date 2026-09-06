@@ -12,6 +12,7 @@
     "CustomSpawnersMixin",
     "BlocksAttacksMixin",
     "AbstractCraftingMenuMixin",
-    "InventoryMenuMixin"
+    "InventoryMenuMixin",
+    "ResultSlotMixin"
   ]
 }

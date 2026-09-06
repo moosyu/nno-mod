@@ -31,8 +31,7 @@ public class PlayerClickHandler {
         BlockState interactedBlock = event.getLevel().getBlockState(pos);
         Player player = event.getEntity();
         // was thinking about a set or something for this but supposedly thatd be slower. i cant see how but whatever
-        if (interactedBlock.is(Blocks.CRAFTING_TABLE)
-                || interactedBlock.is(Blocks.FURNACE)
+        if (interactedBlock.is(Blocks.FURNACE)
                 || interactedBlock.is(Blocks.BLAST_FURNACE)
                 || interactedBlock.is(BlockTags.COPPER_CHESTS)
                 || interactedBlock.is(Blocks.ENDER_CHEST)
@@ -56,11 +55,11 @@ public class PlayerClickHandler {
                 || interactedBlock.is(Blocks.ENCHANTING_TABLE)
         ) event.setCanceled(true);
 
-        // anvils and crafting tables will have custom logic
-        if (interactedBlock.is(Blocks.CRAFTING_TABLE) || interactedBlock.is(Blocks.ANVIL)) {
-            event.setCanceled(true);
-            player.swing(InteractionHand.MAIN_HAND);
-        }
+          // anvils and crafting tables will have custom logic
+//        if (interactedBlock.is(Blocks.CRAFTING_TABLE) || interactedBlock.is(Blocks.ANVIL)) {
+//            event.setCanceled(true);
+//            player.swing(InteractionHand.MAIN_HAND);
+//        }
 
         // disables block placement
         if (event.getItemStack().getItem() instanceof BlockItem && !player.isCreative()) {

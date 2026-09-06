@@ -19,8 +19,4 @@ public class UnshatteredMenus {
     public static final Supplier<MenuType<StorageMenu>> STORAGE_MENU_TYPE = MENUS.register("storage_menu_type", () ->
             new MenuType<>(StorageMenu::new, FeatureFlags.DEFAULT_FLAGS)
     );
-
-    public static final Supplier<MenuType<UnshatteredCraftingMenu>> CRAFTING_MENU_TYPE = MENUS.register("crafting_menu_type", () ->
-            new MenuType<>(UnshatteredCraftingMenu::new, FeatureFlags.DEFAULT_FLAGS)
-    );
 }

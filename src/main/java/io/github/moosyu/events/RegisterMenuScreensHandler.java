@@ -3,7 +3,6 @@ package io.github.moosyu.events;
 import io.github.moosyu.gui.menus.UnshatteredMenus;
 import io.github.moosyu.gui.screens.StorageScreen;
 import io.github.moosyu.gui.screens.TalismansScreen;
-import io.github.moosyu.gui.screens.UnshatteredCraftingScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -18,6 +17,5 @@ public class RegisterMenuScreensHandler {
         event.register(UnshatteredMenus.TALISMAN_MENU_TYPE.get(), TalismansScreen::new);
         // event.register(UnshatteredMenus.INVENTORY_MENU.get(), UnshatteredInventoryScreen::new);
         event.register(UnshatteredMenus.STORAGE_MENU_TYPE.get(), StorageScreen::new);
-        event.register(UnshatteredMenus.CRAFTING_MENU_TYPE.get(), UnshatteredCraftingScreen::new);
     }
 }

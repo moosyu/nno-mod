@@ -14,37 +14,33 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
-public record SizedItemRecipe(ItemStackTemplate result, List<SizedIngredient> ingredients) implements Recipe<SizedItemRecipeInput> {
-    @Override
-    public boolean matches(@NonNull SizedItemRecipeInput inputs, @NonNull Level level) {
-        if (inputs.size() != ingredients.size()) return false;
-        for (int i = 0; i < inputs.size(); i++) {
-            if (!ingredients.get(i).test(inputs.getItem(i))) return false;
-        }
-        return true;
-    }
-
+public record SizedItemRecipe(ItemStackTemplate result, SizedShapedRecipePattern pattern) implements CraftingRecipe {
     public static final MapCodec<SizedItemRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     ItemStackTemplate.CODEC.fieldOf("result").forGetter(SizedItemRecipe::result),
-                    SizedIngredient.NESTED_CODEC.listOf().fieldOf("ingredients").forGetter(SizedItemRecipe::ingredients)
+                    SizedShapedRecipePattern.MAP_CODEC.forGetter(SizedItemRecipe::pattern)
             ).apply(instance, SizedItemRecipe::new)
     );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SizedItemRecipe> STREAM_CODEC = StreamCodec.composite(
             ItemStackTemplate.STREAM_CODEC, SizedItemRecipe::result,
-            SizedIngredient.STREAM_CODEC.apply(ByteBufCodecs.list()), SizedItemRecipe::ingredients,
+            SizedShapedRecipePattern.STREAM_CODEC, SizedItemRecipe::pattern,
             SizedItemRecipe::new
     );
 
     @Override
-    public @NonNull ItemStack assemble(@NonNull SizedItemRecipeInput input) {
-        return result.create();
+    public boolean showNotification() {
+        return false;
     }
 
     @Override
-    public boolean showNotification() {
-        return false;
+    public boolean matches(@NonNull CraftingInput input, @NonNull Level level) {
+        return pattern.matches(input);
+    }
+
+    @Override
+    public @NonNull ItemStack assemble(@NonNull CraftingInput craftingInput) {
+        return result.create();
     }
 
     @Override
@@ -58,18 +54,25 @@ public record SizedItemRecipe(ItemStackTemplate result, List<SizedIngredient> in
     }
 
     @Override
-    public @NonNull RecipeSerializer<? extends Recipe<SizedItemRecipeInput>> getSerializer() {
+    public @NonNull CraftingBookCategory category() {
+        return CraftingBookCategory.EQUIPMENT;
+    }
+
+    @Override
+    public @NonNull RecipeType<CraftingRecipe> getType() {
+        return RecipeType.CRAFTING;
+    }
+
+    @Override
+    public @NonNull RecipeSerializer<? extends CraftingRecipe> getSerializer() {
         return UnshatteredRecipes.SIZED_RECIPE.get();
     }
 
     @Override
-    public @NonNull RecipeType<? extends Recipe<SizedItemRecipeInput>> getType() {
-        return UnshatteredRecipes.SIZED_RECIPE_TYPE.get();
-    }
-
-    @Override
     public @NonNull PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+        return PlacementInfo.create(pattern.ingredients().stream()
+                .map(sizedIngredient -> sizedIngredient.map(SizedIngredient::ingredient).orElse(Ingredient.of()))
+                .toList());
     }
 
     @Override

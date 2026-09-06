@@ -23,6 +23,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -47,7 +48,6 @@ import static io.github.moosyu.Unshattered.MODID;
 // generic utilities i use in multiple places
 public final class UnshatteredUtils {
     // text stuff
-
     public static DecimalFormat oneDecimalFormat = new DecimalFormat("0.#");
     public static final int ERROR_COLOR = 0xFFFF5555;
 
@@ -304,7 +304,7 @@ public final class UnshatteredUtils {
     public static boolean passesManaCheck(Player player, int manaCost) {
         double playerManaAmount = player.getData(UnshatteredAttachments.PLAYER_STATE.get()).getCurrentStat(PlayerStateAttachment.Stat.MANA);
         if (playerManaAmount < manaCost) {
-            player.sendSystemMessage(Component.literal("You don't have enough mana to use this " + "(" + (int) playerManaAmount + "/" + manaCost + ").").withColor(ERROR_COLOR));
+            player.sendSystemMessage(Component.literal("You don't have enough mana to use this " + "(" + Mth.ceil(playerManaAmount) + "/" + manaCost + ").").withColor(ERROR_COLOR));
             return false;
         }
         return true;

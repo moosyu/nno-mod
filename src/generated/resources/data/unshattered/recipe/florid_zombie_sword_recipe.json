@@ -1,18 +1,19 @@
 {
   "type": "unshattered:sized_recipe",
-  "ingredients": [
-    {
+  "key": {
+    "A": {
       "count": 24,
       "ingredient": "unshattered:healing_tissue"
     },
-    {
-      "count": 24,
-      "ingredient": "unshattered:healing_tissue"
-    },
-    {
+    "C": {
       "count": 1,
       "ingredient": "minecraft:stick"
     }
+  },
+  "pattern": [
+    "A",
+    "A",
+    "C"
   ],
   "result": {
     "id": "unshattered:florid_zombie_sword"

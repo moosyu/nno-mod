@@ -1,38 +1,15 @@
 {
   "type": "unshattered:sized_recipe",
-  "ingredients": [
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
-    },
-    {
+  "key": {
+    "A": {
       "count": 32,
       "ingredient": "unshattered:enchanted_rotten_flesh"
     }
+  },
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AA "
   ],
   "result": {
     "id": "unshattered:zombie_heart"

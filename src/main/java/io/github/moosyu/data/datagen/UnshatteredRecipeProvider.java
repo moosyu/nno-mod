@@ -2,6 +2,8 @@ package io.github.moosyu.data.datagen;
 
 import io.github.moosyu.items.UnshatteredItems;
 import io.github.moosyu.recipes.SizedItemRecipeBuilder;
+import io.github.moosyu.recipes.SizedShapedRecipePattern;
+import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -13,10 +15,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 import static io.github.moosyu.Unshattered.MODID;
@@ -39,27 +44,29 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
                 SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32)
         );
 
-        createRecipe(output, UnshatteredItems.ZOMBIE_SWORD.get(),
-                singleSizedIngredient(UnshatteredItems.ZOMBIE_HEART),
-                singleSizedIngredient(UnshatteredItems.ZOMBIE_HEART),
-                singleSizedIngredient(Items.STICK)
-        );
+        new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ZOMBIE_SWORD.get()))
+                .pattern("A", "A", "C")
+                .define('A', singleSizedIngredient(UnshatteredItems.ZOMBIE_HEART))
+                .define('C', singleSizedIngredient(Items.STICK))
+                .save(output, createRecipeResourceKey(UnshatteredItems.ZOMBIE_SWORD.get()));
 
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get(), UnshatteredItems.ENCHANTED_GOLD_INGOT);
 
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_GOLD_INGOT.get(), Items.GOLD_INGOT);
 
-        createRecipe(output, UnshatteredItems.ORNATE_ZOMBIE_SWORD.get(),
-                singleSizedIngredient(UnshatteredItems.ENCHANTED_GOLD_BLOCK),
-                singleSizedIngredient(UnshatteredItems.GOLDEN_POWDER),
-                singleSizedIngredient(Items.STICK)
-        );
+        new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ORNATE_ZOMBIE_SWORD.get()))
+                .pattern("A", "B", "C")
+                .define('A', singleSizedIngredient(UnshatteredItems.ENCHANTED_GOLD_BLOCK))
+                .define('B', singleSizedIngredient(UnshatteredItems.GOLDEN_POWDER))
+                .define('C', singleSizedIngredient(Items.STICK))
+                .save(output, createRecipeResourceKey(UnshatteredItems.ORNATE_ZOMBIE_SWORD.get()));
 
-        createRecipe(output, UnshatteredItems.FLORID_ZOMBIE_SWORD.get(),
-                SizedIngredient.of(UnshatteredItems.HEALING_TISSUE, 24),
-                SizedIngredient.of(UnshatteredItems.HEALING_TISSUE, 24),
-                singleSizedIngredient(Items.STICK)
-        );
+        new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.FLORID_ZOMBIE_SWORD.get()))
+                .pattern("A", "A", "C")
+                .define('A', SizedIngredient.of(UnshatteredItems.HEALING_TISSUE, 24))
+                .define('C', singleSizedIngredient(Items.STICK))
+                .save(output, createRecipeResourceKey(UnshatteredItems.FLORID_ZOMBIE_SWORD.get()));
+
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -79,23 +86,54 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
     }
 
     private void createRecipe(RecipeOutput output, Item result, SizedIngredient... ingredients) {
-        SizedItemRecipeBuilder builder = new SizedItemRecipeBuilder(new ItemStackTemplate(result));
-
-        for (SizedIngredient ingredient : ingredients) {
-            builder.addIngredient(ingredient);
+        if (ingredients.length == 0 || ingredients.length > 9) {
+            throw new IllegalArgumentException("count must be between 1 and 9");
         }
 
-        builder.save(output, ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(MODID, result.getDescriptionId().replace("item." + MODID + ".", "") + "_recipe")));
+        SizedItemRecipeBuilder builder = new SizedItemRecipeBuilder(new ItemStackTemplate(result));
+        int width = Math.min(ingredients.length, 3);
+        int height = (int) Math.ceil(ingredients.length / (double) width);
+        char[] symbols = "ABCDEFGHI".toCharArray();
+        StringBuilder[] rows = new StringBuilder[height];
+        HashMap<SizedIngredient, Character> recipeEntries = new HashMap<>();
+
+        for (int row = 0; row < height; row++) {
+            rows[row] = new StringBuilder();
+        }
+
+        for (int i = 0; i < ingredients.length; i++) {
+            char symbol = symbols[i];
+            if (recipeEntries.containsKey(ingredients[i])) {
+                rows[i / width].append(recipeEntries.get(ingredients[i]));
+            } else {
+                builder.define(symbol, ingredients[i]);
+                rows[i / width].append(symbol);
+                recipeEntries.put(ingredients[i], symbol);
+            }
+        }
+
+        for (StringBuilder row : rows) {
+            while (row.length() < width) {
+                row.append(SizedShapedRecipePattern.EMPTY_SLOT);
+            }
+        }
+
+        builder.pattern(Arrays.stream(rows).map(StringBuilder::toString).toArray(String[]::new));
+        builder.save(output, createRecipeResourceKey(result));
+    }
+
+    private ResourceKey<Recipe<?>> createRecipeResourceKey(Item result) {
+        return ResourceKey.create(Registries.RECIPE, UnshatteredUtils.getUnshatteredIdentifier(result.getDescriptionId().replace("item." + MODID + ".", "") + "_recipe"));
     }
 
     private void createEnchantedItemRecipe(RecipeOutput output, Item result, ItemLike ingredient) {
-        SizedItemRecipeBuilder builder = new SizedItemRecipeBuilder(new ItemStackTemplate(result));
-
-        for (int i = 0; i < 5; i++) {
-            builder.addIngredient(SizedIngredient.of(ingredient, 32));
-        }
-
-        builder.save(output, ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(MODID, result.getDescriptionId().replace("item." + MODID + ".", "") + "_recipe")));
+        createRecipe(output, result,
+                SizedIngredient.of(ingredient, 32),
+                SizedIngredient.of(ingredient, 32),
+                SizedIngredient.of(ingredient, 32),
+                SizedIngredient.of(ingredient, 32),
+                SizedIngredient.of(ingredient, 32)
+        );
     }
 
     private SizedIngredient singleSizedIngredient(ItemLike item) {

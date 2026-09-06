@@ -1,26 +1,14 @@
 {
   "type": "unshattered:sized_recipe",
-  "ingredients": [
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_gold_ingot"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_gold_ingot"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_gold_ingot"
-    },
-    {
-      "count": 32,
-      "ingredient": "unshattered:enchanted_gold_ingot"
-    },
-    {
+  "key": {
+    "A": {
       "count": 32,
       "ingredient": "unshattered:enchanted_gold_ingot"
     }
+  },
+  "pattern": [
+    "AAA",
+    "AA "
   ],
   "result": {
     "id": "unshattered:enchanted_gold_block"
