@@ -6,7 +6,7 @@ import io.github.moosyu.data.regen.RegenPaths;
 import io.github.moosyu.data.regions.BoundaryCoordinates;
 import io.github.moosyu.data.regions.RegionAreas;
 import io.github.moosyu.data.regions.UnshatteredRegions;
-import io.github.moosyu.recipes.UnshatteredRecipes;
+import io.github.moosyu.data.recipes.UnshatteredRecipes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;

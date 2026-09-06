@@ -1,4 +1,4 @@
-package io.github.moosyu.recipes;
+package io.github.moosyu.data.recipes;
 
 import net.minecraft.advancements.Criterion;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -6,7 +6,6 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jspecify.annotations.NonNull;
 

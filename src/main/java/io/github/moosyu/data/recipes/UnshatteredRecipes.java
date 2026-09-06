@@ -1,4 +1,4 @@
-package io.github.moosyu.recipes;
+package io.github.moosyu.data.recipes;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;

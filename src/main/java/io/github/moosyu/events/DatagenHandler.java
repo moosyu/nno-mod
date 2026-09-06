@@ -8,7 +8,6 @@ import io.github.moosyu.data.quests.QuestTypes;
 import io.github.moosyu.data.regen.RegenPaths.*;
 import io.github.moosyu.data.regions.*;
 import io.github.moosyu.data.datagen.*;
-import io.github.moosyu.recipes.UnshatteredRecipes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -16,8 +15,6 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -34,7 +31,6 @@ import org.joml.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 

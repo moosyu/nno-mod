@@ -1,15 +1,14 @@
 package io.github.moosyu.data.datagen;
 
 import io.github.moosyu.items.UnshatteredItems;
-import io.github.moosyu.recipes.SizedItemRecipeBuilder;
-import io.github.moosyu.recipes.SizedShapedRecipePattern;
+import io.github.moosyu.data.recipes.SizedItemRecipeBuilder;
+import io.github.moosyu.data.recipes.SizedShapedRecipePattern;
 import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -33,16 +32,10 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        createRecipe(output, UnshatteredItems.ZOMBIE_HEART.get(),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32),
-                SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32)
-        );
+        new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ZOMBIE_HEART.get()))
+                .pattern("AAA", "A A", "AAA")
+                .define('A', SizedIngredient.of(UnshatteredItems.ENCHANTED_ROTTEN_FLESH, 32))
+                .save(output, createRecipeResourceKey(UnshatteredItems.ZOMBIE_HEART.get()));
 
         new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ZOMBIE_SWORD.get()))
                 .pattern("A", "A", "C")
@@ -50,9 +43,10 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
                 .define('C', singleSizedIngredient(Items.STICK))
                 .save(output, createRecipeResourceKey(UnshatteredItems.ZOMBIE_SWORD.get()));
 
-        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get(), UnshatteredItems.ENCHANTED_GOLD_INGOT);
-
-        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_GOLD_INGOT.get(), Items.GOLD_INGOT);
+        createEnchantedItemRecipe(output, Items.GOLD_INGOT, UnshatteredItems.ENCHANTED_GOLD_INGOT.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_GOLD_INGOT, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get());
+        createEnchantedItemRecipe(output, Items.DIAMOND, UnshatteredItems.ENCHANTED_DIAMOND.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_DIAMOND, UnshatteredItems.ENCHANTED_DIAMOND_BLOCK.get());
 
         new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ORNATE_ZOMBIE_SWORD.get()))
                 .pattern("A", "B", "C")
@@ -66,7 +60,6 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
                 .define('A', SizedIngredient.of(UnshatteredItems.HEALING_TISSUE, 24))
                 .define('C', singleSizedIngredient(Items.STICK))
                 .save(output, createRecipeResourceKey(UnshatteredItems.FLORID_ZOMBIE_SWORD.get()));
-
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -126,17 +119,19 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
         return ResourceKey.create(Registries.RECIPE, UnshatteredUtils.getUnshatteredIdentifier(result.getDescriptionId().replace("item." + MODID + ".", "") + "_recipe"));
     }
 
-    private void createEnchantedItemRecipe(RecipeOutput output, Item result, ItemLike ingredient) {
-        createRecipe(output, result,
-                SizedIngredient.of(ingredient, 32),
-                SizedIngredient.of(ingredient, 32),
-                SizedIngredient.of(ingredient, 32),
-                SizedIngredient.of(ingredient, 32),
-                SizedIngredient.of(ingredient, 32)
-        );
+    /**
+     * creates a basic enchanted item recipe (5 sets of 32)
+     * @param output output
+     * @param ingredient the ingredient that makes up the enchanted item
+     * @param result the item that's crafted
+     */
+    private void createEnchantedItemRecipe(RecipeOutput output, ItemLike ingredient, Item result) {
+        SizedIngredient[] ingredients = new SizedIngredient[5];
+        Arrays.fill(ingredients, SizedIngredient.of(ingredient, 32));
+        createRecipe(output, result, ingredients);
     }
 
     private SizedIngredient singleSizedIngredient(ItemLike item) {
-        return new SizedIngredient(Ingredient.of(item), 1);
+        return SizedIngredient.of(item, 1);
     }
 }

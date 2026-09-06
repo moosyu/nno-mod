@@ -1,9 +1,8 @@
-package io.github.moosyu.recipes;
+package io.github.moosyu.data.recipes;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -11,8 +10,6 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jspecify.annotations.NonNull;
-
-import java.util.List;
 
 public record SizedItemRecipe(ItemStackTemplate result, SizedShapedRecipePattern pattern) implements CraftingRecipe {
     public static final MapCodec<SizedItemRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->

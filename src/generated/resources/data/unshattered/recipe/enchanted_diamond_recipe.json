@@ -3,15 +3,14 @@
   "key": {
     "A": {
       "count": 32,
-      "ingredient": "unshattered:enchanted_rotten_flesh"
+      "ingredient": "minecraft:diamond"
     }
   },
   "pattern": [
     "AAA",
-    "A A",
-    "AAA"
+    "AA "
   ],
   "result": {
-    "id": "unshattered:zombie_heart"
+    "id": "unshattered:enchanted_diamond"
   }
 }

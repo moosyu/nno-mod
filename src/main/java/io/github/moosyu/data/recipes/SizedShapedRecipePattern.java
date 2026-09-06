@@ -1,4 +1,4 @@
-package io.github.moosyu.recipes;
+package io.github.moosyu.data.recipes;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.serialization.Codec;
@@ -127,25 +127,25 @@ public final class SizedShapedRecipePattern {
     }
 
     public boolean matches(CraftingInput input) {
-        return input.ingredientCount() == this.ingredientCount
-                && input.width() == this.width
-                && input.height() == this.height
-                && this.matches(input, false);
-    }
+        if (input.ingredientCount() != this.ingredientCount
+                || input.width() != this.width
+                || input.height() != this.height) return false;
 
-    private boolean matches(CraftingInput input, boolean xFlip) {
         for (int y = 0; y < this.height; ++y) {
             for (int x = 0; x < this.width; ++x) {
-                Optional<SizedIngredient> expected = xFlip ? this.ingredients.get(this.width - x - 1 + y * this.width) : this.ingredients.get(x + y * this.width);
+                Optional<SizedIngredient> expected = this.ingredients.get(x + y * this.width);
                 ItemStack actual = input.getItem(x, y);
 
                 if (expected.isEmpty()) {
-                    if (!actual.isEmpty()) return false;
+                    if (!actual.isEmpty()) {
+                        return false;
+                    }
                 } else if (!expected.get().test(actual)) {
                     return false;
                 }
             }
         }
+
         return true;
     }
 
@@ -191,9 +191,9 @@ public final class SizedShapedRecipePattern {
                     : DataResult.success(symbol.charAt(0));
             }, String::valueOf);
 
-        public static final MapCodec<Data> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+        public static final MapCodec<Data> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 ExtraCodecs.strictUnboundedMap(SYMBOL_CODEC, SizedIngredient.NESTED_CODEC).fieldOf("key").forGetter(Data::key),
                 PATTERN_CODEC.fieldOf("pattern").forGetter(Data::pattern)
-        ).apply(i, Data::new));
+        ).apply(instance, Data::new));
     }
 }

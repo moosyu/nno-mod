@@ -376,13 +376,23 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
     ));
 
+    public static final DeferredItem<EnchantedItem> ENCHANTED_GOLD_INGOT = ITEMS.registerItem("enchanted_gold_ingot", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+    ));
+
     public static final DeferredItem<EnchantedItem> ENCHANTED_GOLD_BLOCK = ITEMS.registerItem("enchanted_gold_block", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
     ));
 
-    public static final DeferredItem<EnchantedItem> ENCHANTED_GOLD_INGOT = ITEMS.registerItem("enchanted_gold_ingot", props -> new EnchantedItem(props
+    public static final DeferredItem<EnchantedItem> ENCHANTED_DIAMOND = ITEMS.registerItem("enchanted_diamond", props -> new EnchantedItem(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
+            .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+    ));
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_DIAMOND_BLOCK = ITEMS.registerItem("enchanted_diamond_block", props -> new EnchantedItem(props
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
     ));
 
