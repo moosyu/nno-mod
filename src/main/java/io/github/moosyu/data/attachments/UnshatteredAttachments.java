@@ -2,8 +2,8 @@ package io.github.moosyu.data.attachments;
 
 import com.mojang.serialization.Codec;
 import io.github.moosyu.data.regions.UnshatteredRegions;
-import io.github.moosyu.storage.StorageContainer;
-import io.github.moosyu.storage.TalismanContainer;
+import io.github.moosyu.gui.menus.storage.StorageContainer;
+import io.github.moosyu.gui.menus.storage.TalismanContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.attachment.AttachmentType;

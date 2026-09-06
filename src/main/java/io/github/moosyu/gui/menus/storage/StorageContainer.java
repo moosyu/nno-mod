@@ -1,4 +1,4 @@
-package io.github.moosyu.storage;
+package io.github.moosyu.gui.menus.storage;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.SimpleContainer;
@@ -7,11 +7,11 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 
-public class TalismanContainer extends SimpleContainer implements ValueIOSerializable {
-    public static final int TALISMAN_SLOTS_MAX = 27;
+public class StorageContainer extends SimpleContainer implements ValueIOSerializable {
+    public static final int STORAGE_SLOTS = 360;
 
-    public TalismanContainer() {
-        super(TALISMAN_SLOTS_MAX);
+    public StorageContainer() {
+        super(STORAGE_SLOTS);
     }
 
     @Override
@@ -22,6 +22,7 @@ public class TalismanContainer extends SimpleContainer implements ValueIOSeriali
     @Override
     public void deserialize(ValueInput input) {
         input.read("items", NonNullList.codecOf(ItemStack.OPTIONAL_CODEC)).ifPresent(items -> {
+            // hopefully items never gets bigger than STORAGE_SLOTS, but you never know i guess.
             for (int i = 0; i < Math.min(items.size(), this.getItems().size()); i++) {
                 this.getItems().set(i, items.get(i));
             }

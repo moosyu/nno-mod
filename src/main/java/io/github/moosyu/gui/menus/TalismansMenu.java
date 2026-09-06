@@ -2,7 +2,7 @@ package io.github.moosyu.gui.menus;
 
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
-import io.github.moosyu.storage.TalismanContainer;
+import io.github.moosyu.gui.menus.storage.TalismanContainer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;

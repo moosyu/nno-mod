@@ -1,6 +1,6 @@
 package io.github.moosyu.gui.menus;
 
-import io.github.moosyu.storage.StorageContainer;
+import io.github.moosyu.gui.menus.storage.StorageContainer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;

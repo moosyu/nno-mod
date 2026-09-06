@@ -23,9 +23,12 @@ import java.util.function.Function;
 
 public final class SizedShapedRecipePattern {
     public static final char EMPTY_SLOT = ' ';
-    public static final MapCodec<SizedShapedRecipePattern> MAP_CODEC;
+    public static final MapCodec<SizedShapedRecipePattern> MAP_CODEC = SizedShapedRecipePattern.Data.MAP_CODEC.flatXmap(SizedShapedRecipePattern::unpack,
+            pattern -> pattern.data.map(DataResult::success)
+                    .orElseGet(() -> DataResult.error(() -> "cannot encode unpacked recipe"))
+    );
     public static final StreamCodec<RegistryFriendlyByteBuf, SizedShapedRecipePattern> STREAM_CODEC =
-            StreamCodec.composite(ByteBufCodecs.VAR_INT, e -> e.width,
+            StreamCodec.composite(ByteBufCodecs.VAR_INT, pattern -> pattern.width,
                     ByteBufCodecs.VAR_INT, pattern -> pattern.height,
                     ByteBufCodecs.optional(SizedIngredient.STREAM_CODEC).apply(ByteBufCodecs.list()), pattern -> pattern.ingredients,
                     SizedShapedRecipePattern::createFromNetwork
@@ -46,14 +49,6 @@ public final class SizedShapedRecipePattern {
         this.ingredientCount = (int) ingredients.stream().flatMap(Optional::stream).count();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
     private static SizedShapedRecipePattern createFromNetwork(Integer width, Integer height, List<Optional<SizedIngredient>> ingredients) {
         return new SizedShapedRecipePattern(width, height, ingredients, Optional.empty());
     }
@@ -69,27 +64,27 @@ public final class SizedShapedRecipePattern {
             for (int x = 0; x < line.length(); ++x) {
                 char symbol = line.charAt(x);
                 Optional<SizedIngredient> ingredient;
-                if (symbol == ' ') {
+
+                if (symbol == EMPTY_SLOT) {
                     ingredient = Optional.empty();
                 } else {
                     SizedIngredient forSymbol = data.key.get(symbol);
                     if (forSymbol == null) {
-                        return DataResult.error(() -> "Pattern references symbol '" + symbol + "' but it's not defined in the key");
+                        return DataResult.error(() -> "pattern references symbol " + symbol + " but it's not defined in the key");
                     }
                     ingredient = Optional.of(forSymbol);
                 }
+
                 unusedSymbols.remove(symbol);
                 ingredients.add(ingredient);
             }
         }
 
         return !unusedSymbols.isEmpty()
-                ? DataResult.error(() -> "Key defines symbols that aren't used in pattern: " + unusedSymbols)
+                ? DataResult.error(() -> "key defines symbols that aren't used in pattern: " + unusedSymbols)
                 : DataResult.success(new SizedShapedRecipePattern(width, height, ingredients, Optional.of(data)));
     }
 
-    // shrink/firstNonEmpty/lastNonEmpty copied VERBATIM from ShapedRecipePattern — no changes needed,
-    // they operate purely on the pattern strings, nothing Ingredient-specific.
     @VisibleForTesting
     static String[] shrink(List<String> pattern) {
         int left = Integer.MAX_VALUE, right = 0, top = 0, bottom = 0;
@@ -105,7 +100,9 @@ public final class SizedShapedRecipePattern {
                 bottom = 0;
             }
         }
+
         if (pattern.size() == bottom) return new String[0];
+
         String[] result = new String[pattern.size() - bottom - top];
         for (int line = 0; line < result.length; ++line) {
             result[line] = pattern.get(line + top).substring(left, right + 1);
@@ -115,34 +112,36 @@ public final class SizedShapedRecipePattern {
 
     private static int firstNonEmpty(String line) {
         int i = 0;
-        while (i < line.length() && line.charAt(i) == ' ') i++;
+        while (i < line.length() && line.charAt(i) == EMPTY_SLOT)  {
+            i++;
+        }
         return i;
     }
 
     private static int lastNonEmpty(String line) {
         int i = line.length() - 1;
-        while (i >= 0 && line.charAt(i) == ' ') i--;
+        while (i >= 0 && line.charAt(i) == EMPTY_SLOT) {
+            i--;
+        }
         return i;
     }
 
     public boolean matches(CraftingInput input) {
-        if (input.ingredientCount() != this.ingredientCount) return false;
-        return input.width() == this.width && input.height() == this.height && this.matches(input, false);
-        // xFlip variant dropped for simplicity — add back the symmetry branch later if you want
-        // mirrored recipes to match; skipping it only means players must place your pattern
-        // exactly as written, not mirrored, which is a safe default to start with.
+        return input.ingredientCount() == this.ingredientCount
+                && input.width() == this.width
+                && input.height() == this.height
+                && this.matches(input, false);
     }
 
     private boolean matches(CraftingInput input, boolean xFlip) {
         for (int y = 0; y < this.height; ++y) {
             for (int x = 0; x < this.width; ++x) {
-                Optional<SizedIngredient> expected = xFlip
-                        ? this.ingredients.get(this.width - x - 1 + y * this.width)
-                        : this.ingredients.get(x + y * this.width);
+                Optional<SizedIngredient> expected = xFlip ? this.ingredients.get(this.width - x - 1 + y * this.width) : this.ingredients.get(x + y * this.width);
                 ItemStack actual = input.getItem(x, y);
+
                 if (expected.isEmpty()) {
                     if (!actual.isEmpty()) return false;
-                } else if (!expected.get().test(actual)) { // adjust to your SizedIngredient's actual test method name
+                } else if (!expected.get().test(actual)) {
                     return false;
                 }
             }
@@ -163,51 +162,38 @@ public final class SizedShapedRecipePattern {
         return unpack(data).getOrThrow();
     }
 
-    static {
-        MAP_CODEC = SizedShapedRecipePattern.Data.MAP_CODEC.flatXmap(
-                SizedShapedRecipePattern::unpack,
-                pattern -> pattern.data.map(DataResult::success)
-                        .orElseGet(() -> DataResult.error(() -> "Cannot encode unpacked recipe")));
-    }
-
     public record Data(Map<Character, SizedIngredient> key, List<String> pattern) {
-        private static final Codec<List<String>> PATTERN_CODEC;
-        private static final Codec<Character> SYMBOL_CODEC;
-        public static final MapCodec<Data> MAP_CODEC;
-
-        static {
-            PATTERN_CODEC = Codec.STRING.listOf().comapFlatMap(strings -> {
-                if (strings.size() > 3) { // your own max, or expose your own maxWidth/maxHeight statics
-                    return DataResult.error(() -> "Invalid pattern: too many rows, 3 is maximum");
-                } else if (strings.isEmpty()) {
-                    return DataResult.error(() -> "Invalid pattern: empty pattern not allowed");
-                } else {
-                    int firstLength = strings.getFirst().length();
-                    for (String line : strings) {
-                        if (line.length() > 3) {
-                            return DataResult.error(() -> "Invalid pattern: too many columns, 3 is maximum");
-                        }
-                        if (firstLength != line.length()) {
-                            return DataResult.error(() -> "Invalid pattern: each row must be the same width");
-                        }
+        private static final Codec<List<String>> PATTERN_CODEC = Codec.STRING.listOf().comapFlatMap(strings -> {
+            if (strings.size() > 3) {
+                return DataResult.error(() -> "too many rows, 3 is maximum");
+            } else if (strings.isEmpty()) {
+                return DataResult.error(() -> "empty pattern not allowed");
+            } else {
+                int firstLength = strings.getFirst().length();
+                for (String line : strings) {
+                    if (line.length() > 3) {
+                        return DataResult.error(() -> "too many columns, 3 is maximum");
                     }
-                    return DataResult.success(strings);
+                    if (firstLength != line.length()) {
+                        return DataResult.error(() -> "each row must be the same width");
+                    }
                 }
-            }, Function.identity());
+                return DataResult.success(strings);
+            }
+        }, Function.identity());
 
-            SYMBOL_CODEC = Codec.STRING.comapFlatMap(symbol -> {
-                if (symbol.length() != 1) {
-                    return DataResult.error(() -> "Invalid key entry: '" + symbol + "' is an invalid symbol (must be 1 character only).");
-                }
-                return " ".equals(symbol)
-                        ? DataResult.error(() -> "Invalid key entry: ' ' is a reserved symbol.")
-                        : DataResult.success(symbol.charAt(0));
+        private static final Codec<Character> SYMBOL_CODEC = Codec.STRING.comapFlatMap(symbol -> {
+            if (symbol.length() != 1) {
+                return DataResult.error(() -> symbol + " is invalid (must be 1 character only).");
+            }
+            return " ".equals(symbol)
+                    ? DataResult.error(() -> "you can't use ' ' (empty char) as a symbol, it's reserved")
+                    : DataResult.success(symbol.charAt(0));
             }, String::valueOf);
 
-            MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-                    ExtraCodecs.strictUnboundedMap(SYMBOL_CODEC, SizedIngredient.NESTED_CODEC).fieldOf("key").forGetter(Data::key),
-                    PATTERN_CODEC.fieldOf("pattern").forGetter(Data::pattern)
-            ).apply(i, Data::new));
-        }
+        public static final MapCodec<Data> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+                ExtraCodecs.strictUnboundedMap(SYMBOL_CODEC, SizedIngredient.NESTED_CODEC).fieldOf("key").forGetter(Data::key),
+                PATTERN_CODEC.fieldOf("pattern").forGetter(Data::pattern)
+        ).apply(i, Data::new));
     }
 }
