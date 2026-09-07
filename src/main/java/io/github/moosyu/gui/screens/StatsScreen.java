@@ -2,6 +2,7 @@ package io.github.moosyu.gui.screens;
 
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.gui.widgets.ScrollerWidget;
+import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -48,14 +49,16 @@ public class StatsScreen extends SimpleScreen {
                 int lineY = this.backgroundTopLeft.y + LINE_HEIGHT + (visibleIndex * LINE_HEIGHT) - (int) scrollOffset;
 
                 if (lineY + LINE_HEIGHT >= scissorTop && lineY <= scissorBottom) {
-                    int attributeBaseValue = (int) player.getAttributeBaseValue(currentAttribute.holder);
-                    int attributeValue = (int) player.getAttributeValue(currentAttribute.holder);
+                    double attributeBaseValue = player.getAttributeBaseValue(currentAttribute.holder);
+                    double attributeValue = player.getAttributeValue(currentAttribute.holder);
+                    String attributeBaseValueFormatted = UnshatteredUtils.oneDecimalFormat.format(attributeBaseValue);
+
                     graphics.text(font,
                             currentAttribute.symbol
                                     + " "
                                     + Component.translatable("attribute.name.unshattered." + currentAttribute.id).getString()
                                     + ": "
-                                    + (attributeValue == attributeBaseValue ? attributeBaseValue : attributeBaseValue + " (+" + attributeValue + ")")
+                                    + (attributeValue == attributeBaseValue ? attributeBaseValueFormatted : attributeBaseValueFormatted + " (+" + UnshatteredUtils.oneDecimalFormat.format(attributeValue) + ")")
                                     + (currentAttribute.percentage ? "%" : ""),
                             this.backgroundTopLeft.x + 9,
                             lineY,

@@ -9,25 +9,40 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static io.github.moosyu.Unshattered.MODID;
 import static io.github.moosyu.data.attachments.UnshatteredAttachments.PLAYER_STATE;
 
-// triggers when the player starts the game or switches world
-// however when the game starts this gives you the wrong value. idk why, maybe attributes arent properly loaded yet so you dont get modifiers.
-// todo: fix whatever causes that
 @EventBusSubscriber(modid = MODID)
 public class PlayerLevelChangeHandler {
+    private static final Set<UUID> pendingAttributeUpdates = new HashSet<>();
+
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player && !player.level().isClientSide()) {
-            PlayerStateAttachment stats = player.getData(PLAYER_STATE.get());
-            final AttributeInstance healthAttribute = player.getAttribute(UnshatteredAttributeValues.HEALTH.holder);
-            final AttributeInstance manaAttribute = player.getAttribute(UnshatteredAttributeValues.MANA.holder);
-            if (healthAttribute == null || manaAttribute == null) return;
-            stats.setCurrentStat(PlayerStateAttachment.Stat.HEALTH, healthAttribute.getValue(), player);
-            stats.setCurrentStat(PlayerStateAttachment.Stat.MANA, manaAttribute.getValue(), player);
+            pendingAttributeUpdates.add(player.getUUID());
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        Player player = event.getEntity();
+        
+        if (player.level().isClientSide() || !pendingAttributeUpdates.remove(player.getUUID())) return;
+
+        PlayerStateAttachment stats = player.getData(PLAYER_STATE.get());
+        AttributeInstance healthAttribute = player.getAttribute(UnshatteredAttributeValues.HEALTH.holder);
+        AttributeInstance manaAttribute = player.getAttribute(UnshatteredAttributeValues.MANA.holder);
+
+        if (healthAttribute == null || manaAttribute == null) return;
+
+        stats.setCurrentStat(PlayerStateAttachment.Stat.HEALTH, healthAttribute.getValue(), player);
+        stats.setCurrentStat(PlayerStateAttachment.Stat.MANA, manaAttribute.getValue(), player);
     }
 
     @SubscribeEvent
