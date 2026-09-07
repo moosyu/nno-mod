@@ -110,7 +110,6 @@ public class BlockBreakHandler {
         } else if (blockState.is(UnshatteredBlockTagsProvider.COLLECTABLE_FARMING_BLOCKS)) {
             ItemStack blockDrops = getBlockDrop(block, player, UnshatteredAttributeValues.FARMING_FORTUNE);
             UnshatteredUtils.givePlayerHarvestedItemStack(player, blockDrops);
-            // todo: make braking cactus' both add their drops to inventory but count broken cactus parts for exp
 
             if (experienceReward > 0.0f) {
                 skills.addExp(PlayerSkillsAttachment.Skill.FARMING, experienceReward, player);

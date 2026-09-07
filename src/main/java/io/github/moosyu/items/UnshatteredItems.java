@@ -145,7 +145,6 @@ public class UnshatteredItems {
             .humanoidArmor(LEAFLET_ARMOUR_MATERIAL, ArmorType.BOOTS)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.BOOTS)
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 2)
-            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.COMBAT, 4))
             .attributes(ItemAttributeModifiers.builder()
                     .add(UnshatteredAttributeValues.HEALTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_boots_health"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)
                     .add(UnshatteredAttributeValues.FORAGING_FORTUNE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_boots_foraging_fortune"), 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)

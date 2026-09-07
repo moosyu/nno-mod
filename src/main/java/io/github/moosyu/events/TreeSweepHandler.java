@@ -33,7 +33,6 @@ import static io.github.moosyu.data.attachments.UnshatteredAttachments.PLAYER_SK
 public class TreeSweepHandler {
     private static final int BREAK_COOLDOWN_MAX = 2;
     private static final List<TreeBreakInstance> ACTIVE_BREAKS = new ArrayList<>();
-    // todo: play a sound if the tree has been completely destroyed (creaking death)
     private record BreakTask(Level level, BlockPos pos, Player player, BlockState state) {}
 
     private static class TreeBreakInstance {
