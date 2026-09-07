@@ -30,7 +30,7 @@
       "dialogue_node": {
         "dialogue_choices": [
           {
-            "text": "i know right",
+            "text": "i know right. ",
             "triggered_event": {
               "type": "unshattered:give_item",
               "count": 1,
@@ -38,7 +38,7 @@
             }
           }
         ],
-        "text": "you've already spoken to me"
+        "text": "you've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to meyou've already spoken to me"
       },
       "priority": 1,
       "set_flags": [

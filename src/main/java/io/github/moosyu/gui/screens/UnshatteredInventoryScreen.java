@@ -79,11 +79,9 @@ public class UnshatteredInventoryScreen extends AbstractContainerScreen<Inventor
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, 256, 256);
 
-        if (this.minecraft.player == null) {
-            return;
+        if (this.minecraft.player != null) {
+            InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, this.leftPos + 26, this.topPos + 8, this.leftPos + 75, this.topPos + 78, 30, 0.0625F, this.xMouse, this.yMouse, this.minecraft.player);
         }
-
-        InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, this.leftPos + 26, this.topPos + 8, this.leftPos + 75, this.topPos + 78, 30, 0.0625F, this.xMouse, this.yMouse, this.minecraft.player);
     }
 
     @Override

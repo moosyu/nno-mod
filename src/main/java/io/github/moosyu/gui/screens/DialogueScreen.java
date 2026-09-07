@@ -12,6 +12,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jspecify.annotations.NonNull;
@@ -20,7 +23,9 @@ import java.util.List;
 
 public class DialogueScreen extends Screen {
     private static final int DIALOGUE_TEXTBOX_WIDTH = 300;
-    private static final int DIALOGUE_TEXTBOX_HEIGHT = 80;
+    private static final int DIALOGUE_TEXTBOX_HEIGHT = 87;
+    private static final int DIALOGUE_TEXTBOX_PADDING = 5;
+    private static final int DIALOGUE_TEXTBOX_MARGIN_BOTTOM = 2;
     private static final int BOTTOM_Y_OFFSET = 35;
     private static final int BUTTON_SPACING = 6;
     private static final int BUTTON_HEIGHT = 20;
@@ -86,7 +91,7 @@ public class DialogueScreen extends Screen {
                     } else {
                         closeDialogueScreen();
                     }
-                }).pos(x, this.height - BOTTOM_Y_OFFSET + 10).size(width, BUTTON_HEIGHT).build());
+                }).pos(x, this.height - BOTTOM_Y_OFFSET + DIALOGUE_TEXTBOX_MARGIN_BOTTOM).size(width, BUTTON_HEIGHT).build());
 
                 x += width + BUTTON_SPACING;
             }
@@ -94,7 +99,7 @@ public class DialogueScreen extends Screen {
             int width = 22;
 
             this.addRenderableWidget(Button.builder(Component.literal("..."), _ -> closeDialogueScreen())
-                    .pos((this.width / 2) - (width / 2), this.height - BOTTOM_Y_OFFSET + 10)
+                    .pos((this.width / 2) - (width / 2), this.height - BOTTOM_Y_OFFSET + DIALOGUE_TEXTBOX_MARGIN_BOTTOM)
                     .size(width, BUTTON_HEIGHT)
                     .build());
         }
@@ -123,12 +128,24 @@ public class DialogueScreen extends Screen {
                 0xFFFFFFFF
         );
 
-        graphics.text(font,
+        int fontSpacing = font.lineHeight + 2;
+        int availableHeight = DIALOGUE_TEXTBOX_HEIGHT - (DIALOGUE_TEXTBOX_PADDING * 2);
+        int maxVisibleLines = availableHeight / fontSpacing;
+        List<FormattedCharSequence> dialogueText = font.split(
                 selectedDialogueNode.text(),
-                (graphics.guiWidth() / 2) - (DIALOGUE_TEXTBOX_WIDTH / 2) + 5,
-                graphics.guiHeight() - DIALOGUE_TEXTBOX_HEIGHT - BOTTOM_Y_OFFSET + 5,
-                0xFFFFFFFF
+                DIALOGUE_TEXTBOX_WIDTH - (DIALOGUE_TEXTBOX_PADDING * 2)
         );
+
+        for (int i = 0; i < dialogueText.size(); i++) {
+            if (i >= maxVisibleLines) break;
+
+            graphics.text(font,
+                    dialogueText.get(i),
+                    (graphics.guiWidth() / 2) - (DIALOGUE_TEXTBOX_WIDTH / 2) + DIALOGUE_TEXTBOX_PADDING,
+                    (graphics.guiHeight() - DIALOGUE_TEXTBOX_HEIGHT - BOTTOM_Y_OFFSET + DIALOGUE_TEXTBOX_PADDING) + (fontSpacing * i),
+                    0xFFFFFFFF
+            );
+        }
 
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
