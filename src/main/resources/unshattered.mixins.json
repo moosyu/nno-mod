@@ -11,8 +11,6 @@
     "FishingHookMixin",
     "CustomSpawnersMixin",
     "BlocksAttacksMixin",
-    "AbstractCraftingMenuMixin",
-    "InventoryMenuMixin",
     "ResultSlotMixin"
   ]
 }

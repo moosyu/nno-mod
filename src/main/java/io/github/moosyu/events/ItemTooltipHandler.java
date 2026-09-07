@@ -11,9 +11,13 @@ import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +29,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.github.moosyu.Unshattered.MODID;
 
@@ -66,17 +71,17 @@ public class ItemTooltipHandler {
 
         if (itemDescription) {
             if (hasModifiers) tooltipComponents.add(Component.empty());
-            UnshatteredUtils.addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.description.unshattered." + BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
+            addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.description.unshattered." + BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
         }
 
         if (itemAbility != null) {
             tooltipComponents.add(Component.empty());
             if (itemAbility.passive()) {
                 tooltipComponents.add(Component.literal("Ability: ").append(Component.translatable("item.ability.unshattered." + itemAbility.abilityId().getPath())).withColor(0xFFFFAA00));
-                UnshatteredUtils.addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
+                addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
             } else {
                 tooltipComponents.add(Component.literal("Ability: ").append(Component.translatable("item.ability.unshattered." + itemAbility.abilityId().getPath())).withColor(0xFFFFAA00).append(Component.literal(" RIGHT CLICK").withColor(0xFFFFFF55).withStyle(ChatFormatting.BOLD)));
-                UnshatteredUtils.addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
+                addWrappedText(tooltipComponents, UnshatteredUtils.parseStyledText(Component.translatable("item.ability.description.unshattered." + itemAbility.abilityId().getPath()).getString(), 0xFFAAAAAA), MAX_WIDTH);
 
                 if (itemAbility.manaCost() > 0) tooltipComponents.add(Component.literal("Mana Cost: ").withColor(0xFF555555).append(Component.literal(String.valueOf(itemAbility.manaCost())).withColor(0xFF00AAAA)));
                 if (itemAbility.cooldown() > 0) tooltipComponents.add(Component.literal("Cooldown: ").withColor(0xFF555555).append(Component.literal(String.format("%.1f", (float) itemAbility.cooldown() / 20 /* convert ticks to seconds */)).append("s").withColor(0xFF55FF55)));
@@ -111,5 +116,27 @@ public class ItemTooltipHandler {
         }
 
         tooltipComponents.add(Component.literal(Component.translatable("rarity.unshattered." + itemRarity.name().toLowerCase()).getString().toUpperCase() + " " + Component.translatable("item_type.unshattered." + itemType.getSerializedName()).getString().toUpperCase()).withColor(itemRarity.getColour(1.0f)).withStyle(ChatFormatting.BOLD));
+    }
+
+    /**
+     *
+     * @param tooltip tooltip for wrapped text to be added back to
+     * @param text text component
+     * @param maxWidth width before wrap
+     */
+    private static void addWrappedText(List<Component> tooltip, Component text, int maxWidth) {
+        Font font = Minecraft.getInstance().font;
+        List<FormattedText> lines = font.getSplitter().splitLines(text, maxWidth, text.getStyle());
+
+        for (FormattedText line : lines) {
+            MutableComponent lineComponent = Component.empty();
+
+            line.visit((style, string) -> {
+                lineComponent.append(Component.literal(string).withStyle(style));
+                return Optional.empty();
+            }, text.getStyle());
+
+            tooltip.add(lineComponent);
+        }
     }
 }

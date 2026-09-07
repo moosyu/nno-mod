@@ -83,7 +83,7 @@ public class DatagenHandler {
                                     createDialogueOriginWithSelfFlag(1,
                                             new DialogueNode(Component.literal("you've already spoken to me"),
                                                     List.of(new DialogueChoice(Component.literal("i know right"),
-                                                            new GiveItemDialogueEvent(BuiltInRegistries.ITEM.wrapAsHolder(Items.DIAMOND), 1))
+                                                            new GiveItemDialogueEvent(BuiltInRegistries.ITEM.wrapAsHolder(Items.DIAMOND),1))
                                                     )
                                             ),
                                             List.of(TalkingRockBlock.HI_MESSAGE_IDENTIFIER),
@@ -94,7 +94,10 @@ public class DatagenHandler {
                                     createDialogueOrigin(2,
                                             new DialogueNode(Component.literal("find my pages"),
                                                     List.of(new DialogueChoice(Component.literal("i guess"), List.of(TalkingRockBlock.ROCKS_QUEST), new StartQuestDialogueEvent(TalkingRockBlock.ROCKS_QUEST)),
-                                                            new DialogueChoice(Component.literal("no thanks")))
+                                                            new DialogueChoice(Component.literal("no thanks"),
+                                                                    new DialogueNode(Component.literal("yeah ok i see how it is between us now"))
+                                                            )
+                                                    )
                                             ),
                                             List.of(TalkingRockBlock.HI2_MESSAGE_IDENTIFIER),
                                             List.of(TalkingRockBlock.ROCKS_QUEST)
@@ -105,38 +108,46 @@ public class DatagenHandler {
                     registerQuest(bootstrap, TalkingRockBlock.ROCKS_QUEST, QuestTypes.NOVICE, new GiveItemDialogueEvent(BuiltInRegistries.ITEM.wrapAsHolder(Items.STONE), 1));
                 }).add(DataPackRegistryHandler.REGEN_PATH_REGISTRY_KEY, bootstrap -> {
                     createRegenPathWithBlocks(bootstrap, "stone", List.of(UnshatteredBlocks.BREAKABLE_STONE_BLOCK.get(),
-                            UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(),
-                            Blocks.BEDROCK),
-                            120
+                                    UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(),
+                                    Blocks.BEDROCK
+                            ), 120
                     );
+
                     createRegenPathWithBlocks(bootstrap, "coal", List.of(UnshatteredBlocks.BREAKABLE_COAL_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap, "iron", List.of(UnshatteredBlocks.BREAKABLE_IRON_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap, "copper", List.of(UnshatteredBlocks.BREAKABLE_COPPER_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap,"gold", List.of(UnshatteredBlocks.BREAKABLE_GOLD_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap, "redstone", List.of(UnshatteredBlocks.BREAKABLE_REDSTONE_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap, "emerald", List.of(UnshatteredBlocks.BREAKABLE_EMERALD_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPathWithBlocks(bootstrap, "diamond", List.of(UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK.get(),
                             UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get(), Blocks.BEDROCK),
                             150
                     );
+
                     createRegenPath(bootstrap, "wheat", List.of(UnshatteredBlocks.BREAKABLE_WHEAT_BLOCK.get().defaultBlockState(),
                             Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE, 6),
                             Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE, 5),
@@ -148,18 +159,22 @@ public class DatagenHandler {
                             200,
                             6
                     );
+
                     createRegenPathWithBlocks(bootstrap, "pure_diamond", List.of(UnshatteredBlocks.PURE_DIAMOND_BLOCK.get(),
                             Blocks.BEDROCK),
                             200
                     );
+
                     createRegenPathWithBlocks(bootstrap, "obsidian", List.of(UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK.get(),
                                     Blocks.BEDROCK),
                             240
                     );
+
                     createRegenPathWithBlocks(bootstrap, "fig_wood", List.of(UnshatteredBlocks.BREAKABLE_FIG_LOG_BLOCK.get(),
                             Blocks.AIR),
                             200
                     );
+
                     createRegenPathWithBlocks(bootstrap, "oak_leaf", List.of(Blocks.OAK_LEAVES,
                                     Blocks.AIR),
                             200

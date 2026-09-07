@@ -22,7 +22,7 @@ import org.jspecify.annotations.NonNull;
 import static io.github.moosyu.Unshattered.MODID;
 
 public class UnshatteredInventoryScreen extends AbstractContainerScreen<InventoryMenu> {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(MODID, "textures/gui/inventory.png");
+    private static final Identifier TEXTURE = Identifier.withDefaultNamespace("textures/gui/container/inventory.png");
     public final int IMAGE_WIDTH = 176;
     public final int IMAGE_HEIGHT = 166;
     private float xMouse;
@@ -61,7 +61,7 @@ public class UnshatteredInventoryScreen extends AbstractContainerScreen<Inventor
         )).setTooltip(Tooltip.create(Component.translatable("container.unshattered.talisman_bag")));
 
         this.addRenderableWidget(new ImageButton(this.leftPos + 96,
-                this.topPos + 7,
+                this.topPos + 61,
                 20,
                 18,
                 new WidgetSprites(UnshatteredUtils.getUnshatteredIdentifier("inventory_buttons/stats")),

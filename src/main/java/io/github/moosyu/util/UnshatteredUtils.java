@@ -119,28 +119,6 @@ public final class UnshatteredUtils {
     }
 
     /**
-     *
-     * @param tooltip tooltip for wrapped text to be added back to
-     * @param text text component
-     * @param maxWidth width to be wrapped by in (??)
-     */
-    public static void addWrappedText(List<Component> tooltip, Component text, int maxWidth) {
-        Font font = Minecraft.getInstance().font;
-        List<FormattedText> lines = font.getSplitter().splitLines(text, maxWidth, text.getStyle());
-
-        for (FormattedText line : lines) {
-            MutableComponent lineComponent = Component.empty();
-
-            line.visit((style, string) -> {
-                lineComponent.append(Component.literal(string).withStyle(style));
-                return Optional.empty();
-            }, text.getStyle());
-
-            tooltip.add(lineComponent);
-        }
-    }
-
-    /**
      * @param input string that may need conversion
      * @return lowercase string with spaces replaced with underscores
      */

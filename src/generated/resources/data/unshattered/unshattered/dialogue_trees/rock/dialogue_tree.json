@@ -67,6 +67,10 @@
             }
           },
           {
+            "target_node": {
+              "dialogue_choices": [],
+              "text": "yeah ok i see how it is between us now"
+            },
             "text": "no thanks"
           }
         ],
