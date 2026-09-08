@@ -2,6 +2,7 @@ package io.github.moosyu.items.tools.pickaxes;
 
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.blocks.UnshatteredBlocks;
+import io.github.moosyu.data.components.ItemAbility;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.items.PassiveAbilityItem;
@@ -27,6 +28,7 @@ public class BrokenMithrilPickaxe extends Item implements PassiveAbilityItem {
         super(properties.component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.PICKAXE)
                 .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
                 .component(UnshatteredDataComponents.SELL_VALUE.get(), 500)
+                .component(UnshatteredDataComponents.ABILITY.get(), new ItemAbility(ABILITY_IDENTIFIER, 0, 0, 0, true))
                 .attributes(ItemAttributeModifiers.builder()
                         .add(UnshatteredAttributeValues.DAMAGE.holder,
                                 new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "broken_mithril_pickaxe_damage"), 4, AttributeModifier.Operation.ADD_VALUE),
@@ -49,7 +51,7 @@ public class BrokenMithrilPickaxe extends Item implements PassiveAbilityItem {
     public void onAbilityTriggered(ServerPlayer player, @Nullable LivingEntity target) {
         AttributeInstance miningSpeed = player.getAttribute(UnshatteredAttributeValues.MINING_SPEED.holder);
         if (miningSpeed != null) {
-            miningSpeed.addTransientModifier(new AttributeModifier(ABILITY_IDENTIFIER, 100, AttributeModifier.Operation.ADD_VALUE));
+            miningSpeed.addTransientModifier(new AttributeModifier(ABILITY_IDENTIFIER, 20, AttributeModifier.Operation.ADD_VALUE));
         }
     }
 

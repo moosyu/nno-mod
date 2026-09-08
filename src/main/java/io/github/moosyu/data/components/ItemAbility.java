@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.Identifier;
 
 /**
- * an item ability, used really only for the corresponding data component
+ * an item ability, used really only for the corresponding data component which is then used for displaying a correct tooltip
  * @param abilityId the ability identifier
  * @param manaCost mana cost to use the ability (usually 0 if it's passive)
  * @param cooldown ability cooldown

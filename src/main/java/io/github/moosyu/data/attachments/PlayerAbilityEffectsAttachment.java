@@ -1,13 +1,10 @@
 package io.github.moosyu.data.attachments;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.moosyu.items.PassiveAbilityItem;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -20,7 +17,7 @@ public final class PlayerAbilityEffectsAttachment {
     private final Map<Identifier, ActiveEffectEntry> activeEffects = new HashMap<>();
     private record ActiveEffectEntry(long expiryTime, @Nullable Consumer<ServerPlayer> onExpire, ItemStack itemStack) {}
     // the only serialized part
-    private final Set<PassiveAbilityItem> storedPassiveTickedItems = new LinkedHashSet<>();
+    private final Map<PassiveAbilityItem, Boolean> storedPassiveTickedItems = new HashMap<>();
 
     /**
      * @param abilityIdentifier identifier for the ability
@@ -102,12 +99,12 @@ public final class PlayerAbilityEffectsAttachment {
     }
 
     /**
-     * adds a passive tick item to the set and triggers its ability
+     * adds a passive tick item (with active set to true) to map and triggers its ability
      * @param item the item
      * @param player the player having the effect added
      */
     public void addStoredPassiveTickedItem(PassiveAbilityItem item, ServerPlayer player) {
-        if (item.ticked() && storedPassiveTickedItems.add(item)) {
+        if (item.ticked() && Boolean.TRUE.equals(storedPassiveTickedItems.put(item, true))) {
             item.onAbilityTriggered(player, null);
         }
     }
@@ -139,12 +136,17 @@ public final class PlayerAbilityEffectsAttachment {
             }
         }
 
-        Iterator<PassiveAbilityItem> passiveIterator = storedPassiveTickedItems.iterator();
-        while (passiveIterator.hasNext()) {
-            PassiveAbilityItem item = passiveIterator.next();
-            if (!item.abilityConditionsMet(player, null)) {
+        for (Map.Entry<PassiveAbilityItem, Boolean> entry : storedPassiveTickedItems.entrySet()) {
+            PassiveAbilityItem item = entry.getKey();
+            boolean active = entry.getValue();
+            boolean conditionsMet = item.abilityConditionsMet(player, null);
+
+            if (conditionsMet && !active) {
+                item.onAbilityTriggered(player, null);
+                entry.setValue(true);
+            } else if (!conditionsMet && active) {
                 item.onAbilityFinished(player, null);
-                passiveIterator.remove();
+                entry.setValue(false);
             }
         }
     }
@@ -161,44 +163,34 @@ public final class PlayerAbilityEffectsAttachment {
             }
         });
 
-        storedPassiveTickedItems.forEach(item -> item.onAbilityFinished(player, null));
+        storedPassiveTickedItems.forEach((item, _) -> item.onAbilityFinished(player, null));
 
         activeEffects.clear();
     }
 
     /**
-     * reapply passive ticked effects after leaving and rejoining level
+     * reapply passive ticked effects after leaving and rejoining level, does a full inventory check instead
+     * of checking a codec to make sure nothing terrible occured in the last session.
      * @param player server player having effects reapplied
      */
     public void reapplyPassiveTickedEffects(ServerPlayer player) {
-        Iterator<PassiveAbilityItem> iterator = storedPassiveTickedItems.iterator();
-        while (iterator.hasNext()) {
-            PassiveAbilityItem item = iterator.next();
-            if (item.abilityConditionsMet(player, null)) {
-                item.onAbilityTriggered(player, null);
-            } else {
-                iterator.remove();
+        storedPassiveTickedItems.clear();
+
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack itemStack = player.getItemBySlot(slot);
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof PassiveAbilityItem item) {
+                addToStoredPassiveTickedItems(item, player);
             }
         }
+
     }
 
-    public static final Codec<PassiveAbilityItem> PASSIVE_ABILITY_ITEM_CODEC = BuiltInRegistries.ITEM.byNameCodec()
-            .comapFlatMap(
-                    item -> item instanceof PassiveAbilityItem passive
-                            ? DataResult.success(passive)
-                            : DataResult.error(() -> BuiltInRegistries.ITEM.getKey(item) + " doesnt implement PassiveAbilityItem"),
-                    passive -> (Item) passive
-            );
-
-    public static final MapCodec<PlayerAbilityEffectsAttachment> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    PASSIVE_ABILITY_ITEM_CODEC.listOf()
-                            .fieldOf("stored_passive_ticked_items")
-                            .forGetter(attachment -> List.copyOf(attachment.storedPassiveTickedItems))
-            ).apply(instance, items -> {
-                PlayerAbilityEffectsAttachment attachment = new PlayerAbilityEffectsAttachment();
-                attachment.storedPassiveTickedItems.addAll(items);
-                return attachment;
-            })
-    );
+    private void addToStoredPassiveTickedItems(PassiveAbilityItem item, ServerPlayer player) {
+        if (item.abilityConditionsMet(player, null)) {
+            item.onAbilityTriggered(player, null);
+            storedPassiveTickedItems.put(item, true);
+        } else {
+            storedPassiveTickedItems.put(item, false);
+        }
+    }
 }

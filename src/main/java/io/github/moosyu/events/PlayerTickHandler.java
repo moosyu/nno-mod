@@ -121,9 +121,6 @@ public class PlayerTickHandler {
 
         state.decrementInvulnerableTime();
 
-        PlayerAbilityEffectsAttachment abilities = player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get());
-        if (abilities.hasAnyActiveEffect()) {
-            abilities.updateEffects((ServerPlayer) player);
-        }
+        player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get()).updateEffects((ServerPlayer) player);
     }
 }

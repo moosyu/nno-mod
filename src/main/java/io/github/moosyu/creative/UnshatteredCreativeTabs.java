@@ -137,6 +137,7 @@ public class UnshatteredCreativeTabs {
             output.accept(FIGSTONE_SPLITTER.get());
             output.accept(CHALLENGING_ROD.get());
             output.accept(FISHING_ROD.get());
+            output.accept(BROKEN_MITHRIL_PICKAXE.get());
         }).build()
     );
 

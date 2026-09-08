@@ -522,7 +522,6 @@ public class UnshatteredItems {
             )
     );
 
-
     public static final DeferredItem<Item> BROKEN_MITHRIL_PICKAXE = ITEMS.registerItem("broken_mithril_pickaxe", BrokenMithrilPickaxe::new);
 
     public static final DeferredItem<ZombieSwordBase> ORNATE_ZOMBIE_SWORD = ITEMS.registerItem("ornate_zombie_sword",
