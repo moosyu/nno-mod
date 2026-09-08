@@ -11,16 +11,14 @@ import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.data.dialogue.DialogueTree;
 import io.github.moosyu.events.DataPackRegistryHandler;
-import io.github.moosyu.items.UnshatteredInstantPassiveAbilityItem;
+import io.github.moosyu.items.PassiveAbilityItem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -30,13 +28,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
@@ -307,27 +308,30 @@ public final class UnshatteredUtils {
     // abilities
 
     /**
+     * triggers an item's passive ability if ticked() is false and the conditions are met
      * @param player player having the ability triggered
      * @param target the (optional) target of the ability, obviously if its something like increasing foraging fortune the target is null
      * @param triggeringItem the item that's possibly triggering the passive, might be needed sometimes to make sure the finish isn't run for the wrong item but generally both will be getting run on the same thread
      * @return the ability item or null if the item doesnt have a passive ability
      */
-    public static UnshatteredInstantPassiveAbilityItem triggerPassiveAbility(Player player, @Nullable LivingEntity target, @Nullable Item triggeringItem) {
-        if (triggeringItem instanceof UnshatteredInstantPassiveAbilityItem passiveAbilityItem && passiveAbilityItem.abilityConditionsMet(player, target)) {
+    public static @Nullable PassiveAbilityItem triggerInstantPassiveAbility(ServerPlayer player, @Nullable LivingEntity target, @Nullable Item triggeringItem) {
+        if (triggeringItem instanceof PassiveAbilityItem passiveAbilityItem && passiveAbilityItem.abilityConditionsMet(player, target) && !passiveAbilityItem.ticked()) {
             passiveAbilityItem.onAbilityTriggered(player, target);
+
             return passiveAbilityItem;
         }
+
         return null;
     }
 
     /**
-     * finishes a passive ability, triggering onAbilityFinished which should reset everything
+     * finishes a unticked passive ability, triggering onAbilityFinished which should reset everything
      * @param player player having the ability finished
      * @param target the (optional) target of the ability, obviously if its something like increasing foraging fortune the target is null
      * @param triggeringItem the item that a passive was triggered for, it's checked if it's null inside before trying to finish so no need to check
      */
-    public static void finishPassiveAbility(Player player, @Nullable LivingEntity target, @Nullable UnshatteredInstantPassiveAbilityItem triggeringItem) {
-        if (triggeringItem != null) {
+    public static void finishInstantPassiveAbility(ServerPlayer player, @Nullable LivingEntity target, @Nullable PassiveAbilityItem triggeringItem) {
+        if (triggeringItem != null && !triggeringItem.ticked()) {
             triggeringItem.onAbilityFinished(player, target);
         }
     }
@@ -344,5 +348,17 @@ public final class UnshatteredUtils {
             return Optional.empty();
         }
         return Optional.of(attributeInstance);
+    }
+
+    public static Optional<BlockHitResult> getLookedAtBlock(ServerPlayer player, double reach) {
+        Vec3 eyePosition = player.getEyePosition();
+        BlockHitResult result = player.level().clip(new ClipContext(eyePosition,
+                eyePosition.add(player.getViewVector(1.0F).scale(reach)),
+                ClipContext.Block.OUTLINE,
+                ClipContext.Fluid.NONE,
+                player)
+        );
+
+        return result.getType() == HitResult.Type.BLOCK ? Optional.of(result) : Optional.empty();
     }
 }

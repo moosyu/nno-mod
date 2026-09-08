@@ -15,7 +15,7 @@ import java.util.EnumMap;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class ArmourMaterials {
+public class UnshatteredArmourMaterials {
     private static final ResourceKey<? extends Registry<EquipmentAsset>> ROOT_ID = ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("equipment_asset"));
     public static ResourceKey<EquipmentAsset> LEAFLET_KEY = ResourceKey.create(ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "leaflet"));
     public static ResourceKey<EquipmentAsset> GLOW_SQUID_BOOTS_KEY = ResourceKey.create(ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "glow_squid_boots"));

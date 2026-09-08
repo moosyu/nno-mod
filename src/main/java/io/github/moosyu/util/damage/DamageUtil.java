@@ -8,7 +8,7 @@ import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
-import io.github.moosyu.items.UnshatteredInstantPassiveAbilityItem;
+import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.packets.DamageNumberPacket;
 import io.github.moosyu.packets.DeathSoundEffectPacket;
 import io.github.moosyu.packets.FerocityEffectPacket;
@@ -46,7 +46,7 @@ public final class DamageUtil {
      * @param player player dealing damage
      * @param target target attempting to be damaged
      */
-    public static void playerDealDamage(Player player, LivingEntity target, @Nullable UnshatteredInstantPassiveAbilityItem item, ItemTypes itemType) {
+    public static void playerDealDamage(Player player, LivingEntity target, @Nullable PassiveAbilityItem item, ItemTypes itemType) {
         if (!player.isCreative() && target.is(EntityType.ARMOR_STAND)) return;
 
         SkillRequirement skillRequirement = player.getItemInHand(InteractionHand.MAIN_HAND).get(UnshatteredDataComponents.SKILL_REQUIREMENT);
@@ -111,9 +111,7 @@ public final class DamageUtil {
             PacketDistributor.sendToPlayer((ServerPlayer) player, new DamageNumberPacket((int) damage, target.position()));
         }
 
-        if (item != null) {
-            UnshatteredUtils.finishPassiveAbility(player, target, item);
-        }
+        UnshatteredUtils.finishInstantPassiveAbility((ServerPlayer) player, target, item);
 
         player.resetAttackStrengthTicker();
         if (player.isSprinting()) player.setSprinting(true);

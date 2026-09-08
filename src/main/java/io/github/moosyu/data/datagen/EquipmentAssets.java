@@ -15,8 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 import static io.github.moosyu.Unshattered.MODID;
-import static io.github.moosyu.items.ArmourMaterials.GLOW_SQUID_BOOTS_KEY;
-import static io.github.moosyu.items.ArmourMaterials.LEAFLET_KEY;
+import static io.github.moosyu.items.UnshatteredArmourMaterials.GLOW_SQUID_BOOTS_KEY;
+import static io.github.moosyu.items.UnshatteredArmourMaterials.LEAFLET_KEY;
 
 // thanks for the code pookie
 // https://github.com/Tutorials-By-Kaupenjoe/NeoForge-Course-26.X/blob/22-armor/src/main/java/net/kaupenjoe/mccourse/datagen/ModEquipmentAsset.java

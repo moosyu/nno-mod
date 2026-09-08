@@ -1,5 +1,6 @@
 package io.github.moosyu.gui.menus;
 
+import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.gui.menus.storage.TalismanContainer;
@@ -42,8 +43,9 @@ public class TalismansMenu extends AbstractContainerMenu {
                                 ItemStack currentSlotContents = container.getItem(i);
                                 if (currentSlotContents.is(placingItem)) return false;
                             }
-                        } else return false;
-
+                        } else {
+                            return false;
+                        }
                         return true;
                     }
                 });

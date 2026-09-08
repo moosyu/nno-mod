@@ -1,10 +1,13 @@
 package io.github.moosyu.events;
 
+import io.github.moosyu.data.attachments.PlayerAbilityEffectsAttachment;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
+import io.github.moosyu.items.PassiveAbilityItem;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,25 +22,18 @@ public class LivingEquipmentChangeHandler {
     @SubscribeEvent
     public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (player.level().isClientSide()) return;
-            ItemStack itemStack = event.getTo();
-            SkillRequirement itemSkillRequirement = itemStack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
-            // possibly the worst way to do this but A: any good ways will be annoying to get working and B: the delay kind of reminds
-            // me of real skyblock which puts a smile on my face
-            // this also dupes in creative mode which gives me the impression there is a way to dupe using this in survival but whatever
-            if (itemSkillRequirement != null) {
-                PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
-                EquipmentSlot slotPlaced = event.getSlot();
-                if ((slotPlaced == EquipmentSlot.HEAD
-                        || slotPlaced == EquipmentSlot.CHEST
-                        || slotPlaced == EquipmentSlot.LEGS
-                        || slotPlaced == EquipmentSlot.FEET
-                ) && itemSkillRequirement.level() > playerSkills.getLevel(playerSkills.getExp(itemSkillRequirement.skill()))) {
-                    player.setItemSlot(slotPlaced, event.getFrom());
-                    player.getInventory().add(itemStack);
-                    player.sendSystemMessage(Component.literal(Component.translatable(itemSkillRequirement.skill().getTranslationKey()).getString() + " level " + itemSkillRequirement.level() + " is required to equip this armour piece!").withColor(0xFFFF5555));
+            if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                PlayerAbilityEffectsAttachment abilityEffects = player.getData(UnshatteredAttachments.PLAYER_ABILITIES);
+
+                if (event.getFrom().getItem() instanceof PassiveAbilityItem oldItem) {
+                    abilityEffects.removeStoredPassiveTickedItem(oldItem, serverPlayer);
+                }
+
+                if (event.getTo().getItem() instanceof PassiveAbilityItem newItem) {
+                    abilityEffects.addStoredPassiveTickedItem(newItem, serverPlayer);
                 }
             }
+
         }
     }
 }

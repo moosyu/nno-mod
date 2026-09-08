@@ -34,7 +34,9 @@ public final class UnshatteredAttachments {
     );
 
     public static final Supplier<AttachmentType<PlayerAbilityEffectsAttachment>> PLAYER_ABILITIES = ATTACHMENT_TYPES.register("player_abilities", () ->
-            AttachmentType.builder(PlayerAbilityEffectsAttachment::new).build()
+            AttachmentType.builder(PlayerAbilityEffectsAttachment::new)
+                    .serialize(PlayerAbilityEffectsAttachment.CODEC)
+                    .build()
     );
 
     public static final Supplier<AttachmentType<PlayerCurrencyAttachment>> PLAYER_CURRENCY = ATTACHMENT_TYPES.register("player_currency", () ->

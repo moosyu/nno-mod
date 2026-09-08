@@ -48,7 +48,7 @@ public class RogueSword extends UnshatteredSword {
         PlayerAbilityEffectsAttachment playerAbilities = player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get());
         if (player.getCooldowns().isOnCooldown(this.getDefaultInstance()) || !UnshatteredUtils.passesManaCheck(player, SPEED_BOOST_ABILITY.manaCost()) || movementSpeedAttribute == null) return InteractionResult.FAIL;
         if (playerAbilities.hasActiveEffect(ABILITY_IDENTIFIER)) {
-            playerAbilities.setActiveEffectExpiryTime(ABILITY_IDENTIFIER, SPEED_BOOST_ABILITY.duration(), level, this::onSpeedBoostExpire, player.getItemBySlot(hand.asEquipmentSlot()));
+            playerAbilities.addActiveEffect(ABILITY_IDENTIFIER, SPEED_BOOST_ABILITY.duration(), level, this::onSpeedBoostExpire, player.getItemBySlot(hand.asEquipmentSlot()));
         } else {
             playerAbilities.addActiveEffect(ABILITY_IDENTIFIER, SPEED_BOOST_ABILITY.duration(), level, this::onSpeedBoostExpire, player.getItemBySlot(hand.asEquipmentSlot()));
             movementSpeedAttribute.addTransientModifier(new AttributeModifier(ABILITY_IDENTIFIER, 0.05, AttributeModifier.Operation.ADD_VALUE));

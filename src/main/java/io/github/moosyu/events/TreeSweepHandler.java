@@ -6,12 +6,13 @@ import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.UnshatteredDataMaps;
 import io.github.moosyu.data.regen.RegenSavedData;
 import io.github.moosyu.items.ItemRange;
-import io.github.moosyu.items.UnshatteredInstantPassiveAbilityItem;
+import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.util.UnshatteredUtils;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -88,9 +89,9 @@ public class TreeSweepHandler {
     }
 
     private static int calculateLogs(Player player, int dropAmount) {
-        UnshatteredInstantPassiveAbilityItem passiveAbilityItem = UnshatteredUtils.triggerPassiveAbility(player, null, player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
+        PassiveAbilityItem passiveAbilityItem = UnshatteredUtils.triggerInstantPassiveAbility((ServerPlayer) player, null, player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
         int itemCount = UnshatteredUtils.getItemsCount(player.getAttributeValue(UnshatteredAttributeValues.FORAGING_FORTUNE.holder), dropAmount);
-        UnshatteredUtils.finishPassiveAbility(player, null, passiveAbilityItem);
+        UnshatteredUtils.finishInstantPassiveAbility((ServerPlayer) player, null, passiveAbilityItem);
         return itemCount;
     }
 

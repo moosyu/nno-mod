@@ -93,6 +93,7 @@ public class UnshatteredModelProvider extends ModelProvider {
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_LAPIS.get(), Items.LAPIS_LAZULI, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_REDSTONE.get(), Items.REDSTONE, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.COINS_TALISMAN.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.BROKEN_MITHRIL_PICKAXE.get(), ModelTemplates.FLAT_ITEM);
 
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get(), Blocks.GOLD_BLOCK);
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_DIAMOND_BLOCK.get(), Blocks.DIAMOND_BLOCK);

@@ -9,6 +9,7 @@ import io.github.moosyu.data.regions.Region;
 import io.github.moosyu.data.regions.RegionAreas;
 import io.github.moosyu.data.regions.RegionTemperatureTypes;
 import io.github.moosyu.data.regions.TemperatureTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -122,7 +123,7 @@ public class PlayerTickHandler {
 
         PlayerAbilityEffectsAttachment abilities = player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get());
         if (abilities.hasAnyActiveEffect()) {
-            abilities.tickEffects(level, player);
+            abilities.updateEffects((ServerPlayer) player);
         }
     }
 }

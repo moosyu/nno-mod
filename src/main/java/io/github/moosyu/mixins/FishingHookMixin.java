@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -59,7 +60,7 @@ public abstract class FishingHookMixin extends Projectile {
                 if (entity instanceof LivingEntity livingEntity && !player.level().isClientSide()) {
                     DamageUtil.playerDealDamage(player,
                             livingEntity,
-                            UnshatteredUtils.triggerPassiveAbility(player,
+                            UnshatteredUtils.triggerInstantPassiveAbility((ServerPlayer) player,
                                     livingEntity,
                                     player.getItemInHand(InteractionHand.MAIN_HAND).getItem()
                             ),

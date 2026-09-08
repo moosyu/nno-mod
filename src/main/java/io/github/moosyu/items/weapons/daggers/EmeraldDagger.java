@@ -4,11 +4,11 @@ import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.ItemAbility;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
-import io.github.moosyu.items.UnshatteredInstantPassiveAbilityItem;
+import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.rarities.UnshatteredRarities;
 import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -19,7 +19,7 @@ import org.jspecify.annotations.Nullable;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class EmeraldDagger extends DaggerItem implements UnshatteredInstantPassiveAbilityItem {
+public class EmeraldDagger extends DaggerItem implements PassiveAbilityItem {
     private static final Identifier ABILITY_IDENTIFIER = UnshatteredUtils.getUnshatteredIdentifier("emerald_dagger_greed");
 
     public EmeraldDagger(Properties properties) {
@@ -35,7 +35,7 @@ public class EmeraldDagger extends DaggerItem implements UnshatteredInstantPassi
     }
 
     @Override
-    public void onAbilityTriggered(Player player, @Nullable LivingEntity target) {
+    public void onAbilityTriggered(ServerPlayer player, @Nullable LivingEntity target) {
         UnshatteredUtils.getAttributeInstance(player, UnshatteredAttributeValues.FINAL_DAMAGE_MODIFIER.holder)
                 .ifPresent(attribute -> attribute
                         .addTransientModifier(new AttributeModifier(ABILITY_IDENTIFIER,
@@ -46,12 +46,17 @@ public class EmeraldDagger extends DaggerItem implements UnshatteredInstantPassi
     }
 
     @Override
-    public void onAbilityFinished(Player player, @Nullable LivingEntity target) {
+    public void onAbilityFinished(ServerPlayer player, @Nullable LivingEntity target) {
         UnshatteredUtils.getAttributeInstance(player, UnshatteredAttributeValues.FINAL_DAMAGE_MODIFIER.holder).ifPresent(attribute -> attribute.removeModifier(ABILITY_IDENTIFIER));
     }
 
     @Override
-    public boolean abilityConditionsMet(Player player, @Nullable LivingEntity target) {
+    public boolean abilityConditionsMet(ServerPlayer player, @Nullable LivingEntity target) {
         return target != null;
+    }
+
+    @Override
+    public boolean ticked() {
+        return false;
     }
 }

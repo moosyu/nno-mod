@@ -11,6 +11,7 @@
     "FishingHookMixin",
     "CustomSpawnersMixin",
     "BlocksAttacksMixin",
-    "ResultSlotMixin"
+    "ResultSlotMixin",
+    "IItemExtensionMixin"
   ]
 }

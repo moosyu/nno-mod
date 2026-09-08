@@ -10,6 +10,7 @@ import io.github.moosyu.items.talismans.BatTalisman;
 import io.github.moosyu.items.talismans.TalismanItem;
 import io.github.moosyu.items.tools.axes.RegionLockedFortuneAxe;
 import io.github.moosyu.items.tools.axes.UnshatteredAxeTool;
+import io.github.moosyu.items.tools.pickaxes.BrokenMithrilPickaxe;
 import io.github.moosyu.items.tools.rods.UnshatteredRod;
 import io.github.moosyu.items.weapons.axes.UnshatteredAxeWeapon;
 import io.github.moosyu.items.weapons.cleavers.*;
@@ -29,8 +30,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static io.github.moosyu.Unshattered.MODID;
-import static io.github.moosyu.items.ArmourMaterials.GLOW_SQUID_BOOTS_MATERIAL;
-import static io.github.moosyu.items.ArmourMaterials.LEAFLET_ARMOUR_MATERIAL;
+import static io.github.moosyu.items.UnshatteredArmourMaterials.GLOW_SQUID_BOOTS_MATERIAL;
+import static io.github.moosyu.items.UnshatteredArmourMaterials.LEAFLET_ARMOUR_MATERIAL;
 import static io.github.moosyu.blocks.UnshatteredBlocks.*;
 
 public class UnshatteredItems {
@@ -113,6 +114,7 @@ public class UnshatteredItems {
             .humanoidArmor(LEAFLET_ARMOUR_MATERIAL, ArmorType.HELMET)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.HELMET)
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 2)
+            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.COMBAT, 10))
             .attributes(ItemAttributeModifiers.builder().add(UnshatteredAttributeValues.HEALTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_helmet_health"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                     .add(UnshatteredAttributeValues.FORAGING_FORTUNE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_helmet_foraging_fortune"), 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                     .build()
@@ -519,6 +521,9 @@ public class UnshatteredItems {
                     10
             )
     );
+
+
+    public static final DeferredItem<Item> BROKEN_MITHRIL_PICKAXE = ITEMS.registerItem("broken_mithril_pickaxe", BrokenMithrilPickaxe::new);
 
     public static final DeferredItem<ZombieSwordBase> ORNATE_ZOMBIE_SWORD = ITEMS.registerItem("ornate_zombie_sword",
             props -> new ZombieSwordBase(props.component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.EPIC)

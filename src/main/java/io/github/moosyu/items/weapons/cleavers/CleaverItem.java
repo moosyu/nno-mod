@@ -5,9 +5,10 @@ import io.github.moosyu.data.attachments.PlayerAbilityEffectsAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
-import io.github.moosyu.items.UnshatteredInstantPassiveAbilityItem;
+import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.AABB;
 
 import static io.github.moosyu.Unshattered.MODID;
 
-public class CleaverItem extends Item implements UnshatteredInstantPassiveAbilityItem {
+public class CleaverItem extends Item implements PassiveAbilityItem {
     private static final Identifier ABILITY_IDENTIFIER = Identifier.fromNamespaceAndPath(MODID, "cleaver_cleave");
     private final float radius;
     private final float cleaveDamageFraction;
@@ -31,7 +32,7 @@ public class CleaverItem extends Item implements UnshatteredInstantPassiveAbilit
     }
 
     @Override
-    public void onAbilityTriggered(Player player, LivingEntity target) {
+    public void onAbilityTriggered(ServerPlayer player, LivingEntity target) {
         Level level = player.level();
         if (level.isClientSide()) return;
         PlayerAbilityEffectsAttachment abilities = player.getData(UnshatteredAttachments.PLAYER_ABILITIES);
@@ -53,14 +54,19 @@ public class CleaverItem extends Item implements UnshatteredInstantPassiveAbilit
     }
 
     @Override
-    public void onAbilityFinished(Player player, LivingEntity target) {
+    public void onAbilityFinished(ServerPlayer player, LivingEntity target) {
         PlayerAbilityEffectsAttachment abilities = player.getData(UnshatteredAttachments.PLAYER_ABILITIES);
         abilities.removeActiveEffect(ABILITY_IDENTIFIER, player);
         UnshatteredUtils.getAttributeInstance(player, UnshatteredAttributeValues.FINAL_DAMAGE_MODIFIER.holder).ifPresent(attribute -> attribute.removeModifier(ABILITY_IDENTIFIER));
     }
 
     @Override
-    public boolean abilityConditionsMet(Player player, LivingEntity target) {
+    public boolean abilityConditionsMet(ServerPlayer player, LivingEntity target) {
         return !player.getData(UnshatteredAttachments.PLAYER_ABILITIES).hasActiveEffect(ABILITY_IDENTIFIER);
+    }
+
+    @Override
+    public boolean ticked() {
+        return false;
     }
 }

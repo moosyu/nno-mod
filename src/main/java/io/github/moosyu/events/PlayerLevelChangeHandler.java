@@ -2,7 +2,9 @@ package io.github.moosyu.events;
 
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
+import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.regen.RegenClientCache;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,6 +28,7 @@ public class PlayerLevelChangeHandler {
     public static void onPlayerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player && !player.level().isClientSide()) {
             pendingAttributeUpdates.add(player.getUUID());
+            player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get()).reapplyPassiveTickedEffects((ServerPlayer) player);
         }
     }
 
@@ -49,6 +52,8 @@ public class PlayerLevelChangeHandler {
     public static void onPlayerLeave(EntityLeaveLevelEvent event) {
         if (event.getEntity() instanceof Player player && player.level().isClientSide()) {
             RegenClientCache.clear();
+        } else if (event.getEntity() instanceof ServerPlayer player && !player.level().isClientSide()) {
+            player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get()).forceStopEffects(player);
         }
     }
 }
