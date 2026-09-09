@@ -2,6 +2,7 @@ package io.github.moosyu.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
+import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -46,8 +47,7 @@ public class RenderNameTagHandler {
             if (healthAttribute == null) {
                 event.setContent(Component.literal("SOMETHING WENT WRONG!! (NO HEALTH ASSIGNED)").withColor(0xFFFF5555));
             } else {
-                Optional<AttributeSupplier> supplier = getDefaultSupplier(livingEntity);
-                double baseHealth = supplier.map(s -> s.getBaseValue(UnshatteredAttributeValues.HEALTH.holder)).orElse(0.0);
+                double baseHealth = UnshatteredUtils.getDefaultAttributes(livingEntity).map(supplier -> supplier.getBaseValue(UnshatteredAttributeValues.HEALTH.holder)).orElse(0.0);
                 event.setContent(Component.literal(livingEntity.getPlainTextName()).withColor(0xFFFF5555)
                         .append(Component.literal(" " + Mth.ceil(healthAttribute.getValue())).withColor(healthAttribute.getValue() / baseHealth <= 0.5 ? 0xFFFFFF55 : 0xFF55FF55))
                         .append(Component.literal("/").withColor(0xFFFFFFFF))
@@ -90,12 +90,5 @@ public class RenderNameTagHandler {
         );
 
         poseStack.popPose();
-    }
-
-    // random bullshit to hide the cast warning
-    private static <T extends LivingEntity> Optional<AttributeSupplier> getDefaultSupplier(T entity) {
-        @SuppressWarnings("unchecked")
-        EntityType<T> type = (EntityType<T>) entity.getType();
-        return Optional.of(DefaultAttributes.getSupplier(type));
     }
 }

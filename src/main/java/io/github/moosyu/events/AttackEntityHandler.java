@@ -27,15 +27,7 @@ public class AttackEntityHandler {
         ) return;
         event.setCanceled(true);
 
-        ItemStack item = player.getItemInHand(InteractionHand.MAIN_HAND);
-        playerDealDamage(player,
-                target,
-                UnshatteredUtils.triggerInstantPassiveAbility((ServerPlayer) player,
-                        target,
-                        item.getItem()
-                ),
-                item.getOrDefault(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.ITEM)
-        );
+        playerDealDamage(player, target, player.getItemInHand(InteractionHand.MAIN_HAND).getOrDefault(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.ITEM));
     }
 
     @SubscribeEvent

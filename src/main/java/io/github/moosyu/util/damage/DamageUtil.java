@@ -5,9 +5,7 @@ import io.github.moosyu.data.attachments.PlayerCurrencyAttachment;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
-import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
-import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.packets.DamageNumberPacket;
 import io.github.moosyu.packets.DeathSoundEffectPacket;
 import io.github.moosyu.packets.FerocityEffectPacket;
@@ -19,14 +17,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -44,8 +40,9 @@ public final class DamageUtil {
      * make sure it isn't clientside before triggering.
      * @param player player dealing damage
      * @param target target attempting to be damaged
+     * @param itemType the item type used for attack cooldown
      */
-    public static void playerDealDamage(Player player, LivingEntity target, @Nullable PassiveAbilityItem item, ItemTypes itemType) {
+    public static void playerDealDamage(Player player, LivingEntity target, ItemTypes itemType) {
         if (!player.isCreative() && target.is(EntityType.ARMOR_STAND)) return;
 
         PlayerSkillsAttachment playerSkill = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
@@ -104,7 +101,7 @@ public final class DamageUtil {
             PacketDistributor.sendToPlayer((ServerPlayer) player, new DamageNumberPacket((int) damage, target.position()));
         }
 
-        UnshatteredUtils.finishInstantPassiveAbility((ServerPlayer) player, target, item);
+        UnshatteredUtils.finishInstantPassiveAbilities((ServerPlayer) player, target);
 
         player.resetAttackStrengthTicker();
         if (player.isSprinting()) player.setSprinting(true);
@@ -163,7 +160,7 @@ public final class DamageUtil {
      */
     public static void damagePlayer(Player player, double damageDealt, ServerLevel level, Component deathMessage) {
         PlayerStateAttachment states = player.getData(PLAYER_STATE.get());
-        double playerHealth = states.getCurrentStat(PlayerStateAttachment.Stat.HEALTH);
+        double playerHealth = states.getStatValue(PlayerStateAttachment.Stat.HEALTH);
         double originalDamage = damageDealt;
 
         if (states.getInvulnerableTime() > INVULNERABILITY_TIME_MAX / 2) {
@@ -175,7 +172,7 @@ public final class DamageUtil {
         states.setInvulnerableTime(INVULNERABILITY_TIME_MAX);
 
         if (playerHealth - damageDealt > 0.0d) {
-            states.removeCurrentStat(PlayerStateAttachment.Stat.HEALTH, damageDealt, player);
+            states.decreaseStatValue(PlayerStateAttachment.Stat.HEALTH, damageDealt, player);
         } else {
             PlayerCurrencyAttachment currency = player.getData(PLAYER_CURRENCY.get());
             BlockPos spawnPos = level.getRespawnData().pos();
@@ -185,8 +182,8 @@ public final class DamageUtil {
                     .withStyle(ChatFormatting.RED)
                     .append(Component.literal(" You lost " + (currency.getCoins() / 2) + " coins."))
             );
-            states.setCurrentStat(PlayerStateAttachment.Stat.HEALTH, player.getAttributeValue(UnshatteredAttributeValues.HEALTH.holder), player);
-            states.setCurrentStat(PlayerStateAttachment.Stat.MANA, player.getAttributeValue(UnshatteredAttributeValues.MANA.holder), player);
+            states.setStatValue(PlayerStateAttachment.Stat.HEALTH, player.getAttributeValue(UnshatteredAttributeValues.HEALTH.holder), player);
+            states.setStatValue(PlayerStateAttachment.Stat.MANA, player.getAttributeValue(UnshatteredAttributeValues.MANA.holder), player);
             currency.removeCoins(currency.getCoins() / 2);
             player.syncData(PLAYER_CURRENCY.get());
             PacketDistributor.sendToPlayer((ServerPlayer) player, new DeathSoundEffectPacket());

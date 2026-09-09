@@ -2,7 +2,6 @@ package io.github.moosyu.events;
 
 import io.github.moosyu.data.attachments.PlayerRegionAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
-import io.github.moosyu.data.attachments.PlayerAbilityEffectsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.data.regions.Region;
@@ -104,11 +103,11 @@ public class PlayerTickHandler {
             double healthGained = (maxHealthValue / 30) * (healthRegenValue / 100);
             double manaGained = (maxManaValue * 0.04) * (manaRegenValue / 100);
 
-            state.addCurrentStat(PlayerStateAttachment.Stat.HEALTH, healthGained, maxHealthValue, player);
-            state.addCurrentStat(PlayerStateAttachment.Stat.MANA, manaGained, maxManaValue, player);
+            state.increaseStatValue(PlayerStateAttachment.Stat.HEALTH, healthGained, player);
+            state.increaseStatValue(PlayerStateAttachment.Stat.MANA, manaGained, player);
         } else {
-            state.setCurrentStat(PlayerStateAttachment.Stat.HEALTH, Math.min(maxHealthValue, state.getCurrentStat(PlayerStateAttachment.Stat.HEALTH)), player);
-            state.setCurrentStat(PlayerStateAttachment.Stat.MANA, Math.min(maxManaValue, state.getCurrentStat(PlayerStateAttachment.Stat.MANA)), player);
+            state.setStatValue(PlayerStateAttachment.Stat.HEALTH, Math.min(maxHealthValue, state.getStatValue(PlayerStateAttachment.Stat.HEALTH)), player);
+            state.setStatValue(PlayerStateAttachment.Stat.MANA, Math.min(maxManaValue, state.getStatValue(PlayerStateAttachment.Stat.MANA)), player);
         }
 
         state.setMaxStat(PlayerStateAttachment.Stat.HEALTH, maxHealthValue, player);

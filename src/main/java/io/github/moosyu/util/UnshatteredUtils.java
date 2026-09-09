@@ -3,11 +3,9 @@ package io.github.moosyu.util;
 import io.github.moosyu.Unshattered;
 import io.github.moosyu.collectables.CollectableEntries;
 import io.github.moosyu.data.attachments.PlayerCollectionsAttachment;
-import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.ItemCharges;
-import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.data.dialogue.DialogueTree;
 import io.github.moosyu.events.DataPackRegistryHandler;
 import io.github.moosyu.items.PassiveAbilityItem;
@@ -21,18 +19,19 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
@@ -263,7 +262,7 @@ public final class UnshatteredUtils {
      * @return true if the player passes false if they dont + text saying the player doesn't meet the requirement
      */
     public static boolean passesManaCheck(Player player, int manaCost) {
-        double playerManaAmount = player.getData(UnshatteredAttachments.PLAYER_STATE.get()).getCurrentStat(PlayerStateAttachment.Stat.MANA);
+        double playerManaAmount = player.getData(UnshatteredAttachments.PLAYER_STATE.get()).getStatValue(PlayerStateAttachment.Stat.MANA);
         if (playerManaAmount < manaCost) {
             player.sendSystemMessage(Component.literal("You don't have enough mana to use this " + "(" + Mth.ceil(playerManaAmount) + "/" + manaCost + ").").withColor(ERROR_COLOR));
             return false;
@@ -290,32 +289,29 @@ public final class UnshatteredUtils {
     // abilities
 
     /**
-     * triggers an item's passive ability if ticked() is false and the conditions are met
+     * triggers all non ticked passive item's abilities if their conditions are met
      * @param player player having the ability triggered
-     * @param target the (optional) target of the ability, obviously if its something like increasing foraging fortune the target is null
-     * @param triggeringItem the item that's possibly triggering the passive, might be needed sometimes to make sure the finish isn't run for the wrong item but generally both will be getting run on the same thread
-     * @return the ability item or null if the item doesnt have a passive ability
+     * @param target the (optional) target of the ability, obviously if its something like increasing foraging fortune the target is null and the abilities should be created accordingly
      */
-    public static @Nullable PassiveAbilityItem triggerInstantPassiveAbility(ServerPlayer player, @Nullable LivingEntity target, @Nullable Item triggeringItem) {
-        if (triggeringItem instanceof PassiveAbilityItem passiveAbilityItem && passiveAbilityItem.abilityConditionsMet(player, target) && !passiveAbilityItem.ticked()) {
-            passiveAbilityItem.onAbilityTriggered(player, target);
-
-            return passiveAbilityItem;
-        }
-
-        return null;
+    public static void triggerInstantPassiveAbilities(ServerPlayer player, @Nullable LivingEntity target) {
+        player.getData(UnshatteredAttachments.PLAYER_ABILITIES).getStoredPassiveNonTickedItems().forEach(item -> {
+            if (item.abilityConditionsMet(player, target) && !item.ticked()) {
+                item.onAbilityTriggered(player, target);
+            }
+        });
     }
 
     /**
-     * finishes a unticked passive ability, triggering onAbilityFinished which should reset everything
+     * finishes all instant passive abilities. doesnt check whether they were actually triggered however so only cleanup should be put here without the assumption that anything was changed.
      * @param player player having the ability finished
      * @param target the (optional) target of the ability, obviously if its something like increasing foraging fortune the target is null
-     * @param triggeringItem the item that a passive was triggered for, it's checked if it's null inside before trying to finish so no need to check
      */
-    public static void finishInstantPassiveAbility(ServerPlayer player, @Nullable LivingEntity target, @Nullable PassiveAbilityItem triggeringItem) {
-        if (triggeringItem != null && !triggeringItem.ticked()) {
-            triggeringItem.onAbilityFinished(player, target);
-        }
+    public static void finishInstantPassiveAbilities(ServerPlayer player, @Nullable LivingEntity target) {
+        player.getData(UnshatteredAttachments.PLAYER_ABILITIES).getStoredPassiveNonTickedItems().forEach(item -> {
+            if (!item.ticked()) {
+                item.onAbilityFinished(player, target);
+            }
+        });
     }
 
     /**
@@ -332,6 +328,11 @@ public final class UnshatteredUtils {
         return Optional.of(attributeInstance);
     }
 
+    /**
+     * @param player the player looking
+     * @param reach player's reach, probably either BLOCK_INTERACTION_RANGE or ENTITY_INTERACTION_RANGE attributes
+     * @return a block hit result if the raycast hit a block, Optional.empty() if it didn't
+     */
     public static Optional<BlockHitResult> getLookedAtBlock(ServerPlayer player, double reach) {
         Vec3 eyePosition = player.getEyePosition();
         BlockHitResult result = player.level().clip(new ClipContext(eyePosition,
@@ -342,5 +343,11 @@ public final class UnshatteredUtils {
         );
 
         return result.getType() == HitResult.Type.BLOCK ? Optional.of(result) : Optional.empty();
+    }
+
+    public static <T extends LivingEntity> Optional<AttributeSupplier> getDefaultAttributes(T entity) {
+        @SuppressWarnings("unchecked")
+        EntityType<T> type = (EntityType<T>) entity.getType();
+        return Optional.of(DefaultAttributes.getSupplier(type));
     }
 }

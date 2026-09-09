@@ -4,6 +4,7 @@ import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.blocks.UnshatteredBlocks;
 import io.github.moosyu.data.components.ItemAbility;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
+import io.github.moosyu.data.datagen.UnshatteredBlockTagsProvider;
 import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.items.PassiveAbilityItem;
 import io.github.moosyu.rarities.UnshatteredRarities;
@@ -66,7 +67,7 @@ public class BrokenMithrilPickaxe extends Item implements PassiveAbilityItem {
     @Override
     public boolean abilityConditionsMet(ServerPlayer player, @Nullable LivingEntity target) {
         return UnshatteredUtils.getLookedAtBlock(player, player.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE))
-                .map(blockHitResult -> player.level().getBlockState(blockHitResult.getBlockPos()).is(UnshatteredBlocks.BREAKABLE_COAL_ORE_BLOCK))
+                .map(blockHitResult -> player.level().getBlockState(blockHitResult.getBlockPos()).is(UnshatteredBlockTagsProvider.MITHRIL_BLOCKS))
                 .orElse(false);
     }
 

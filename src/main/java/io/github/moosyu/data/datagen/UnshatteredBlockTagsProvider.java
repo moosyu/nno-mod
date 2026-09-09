@@ -1,5 +1,6 @@
 package io.github.moosyu.data.datagen;
 
+import io.github.moosyu.util.UnshatteredUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -19,9 +20,10 @@ public class UnshatteredBlockTagsProvider extends BlockTagsProvider {
         super(output, lookupProvider, MODID);
     }
 
-    public static final TagKey<Block> COLLECTABLE_MINING_BLOCKS = BlockTags.create(Identifier.fromNamespaceAndPath(MODID, "collectable_mining_blocks"));
-    public static final TagKey<Block> COLLECTABLE_FARMING_BLOCKS = BlockTags.create(Identifier.fromNamespaceAndPath(MODID, "collectable_farming_blocks"));
-    public static final TagKey<Block> COLLECTABLE_FORAGING_BLOCKS = BlockTags.create(Identifier.fromNamespaceAndPath(MODID, "collectable_foraging_blocks"));
+    public static final TagKey<Block> COLLECTABLE_MINING_BLOCKS = BlockTags.create(UnshatteredUtils.getUnshatteredIdentifier("collectable_mining_blocks"));
+    public static final TagKey<Block> COLLECTABLE_FARMING_BLOCKS = BlockTags.create(UnshatteredUtils.getUnshatteredIdentifier("collectable_farming_blocks"));
+    public static final TagKey<Block> COLLECTABLE_FORAGING_BLOCKS = BlockTags.create(UnshatteredUtils.getUnshatteredIdentifier("collectable_foraging_blocks"));
+    public static final TagKey<Block> MITHRIL_BLOCKS = BlockTags.create(UnshatteredUtils.getUnshatteredIdentifier("mithril_blocks"));
 
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {

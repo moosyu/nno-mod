@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 public final class PlayerStateAttachment {
-    // index 0 and 1 are current stats and 2 and 3 are max values so they can sync with proper timing
+    // index 0 and 1 are stats' current values and 2 and 3 are max values so they can sync with proper timing
     private final double[] stats = new double[Stat.values().length * 2];
     // unsynced
     private boolean cancelKnockback = false;
@@ -31,15 +31,15 @@ public final class PlayerStateAttachment {
         System.arraycopy(newStats, 0, stats, 0, stats.length);
     }
 
-    public double getCurrentStat(Stat currentStat) {
-        return stats[currentStat.ordinal()];
+    public double getStatValue(Stat stat) {
+        return stats[stat.ordinal()];
     }
 
     private static int maxIndex(Stat stat) {
         return stat.ordinal() + Stat.values().length;
     }
 
-    public double getMaxStat(Stat stat) {
+    public double getMaxStatValue(Stat stat) {
         return stats[maxIndex(stat)];
     }
 
@@ -67,7 +67,7 @@ public final class PlayerStateAttachment {
      * @param newAmount the amount to set it to
      * @param player the player having the stat modified
      */
-    public void setCurrentStat(Stat stat, double newAmount, Player player) {
+    public void setStatValue(Stat stat, double newAmount, Player player) {
         setStat(newAmount, player, stat.ordinal());
     }
 
@@ -75,13 +75,12 @@ public final class PlayerStateAttachment {
      * add amount from a stat and syncs it
      * @param stat the stat to modify
      * @param amount the amount to remove
-     * @param maxAmount the max amount the stat could be to make sure it doesnt surpass it
      * @param player the player having the stat modified
      */
-    public void addCurrentStat(Stat stat, double amount, double maxAmount, Player player) {
+    public void increaseStatValue(Stat stat, double amount, Player player) {
         int index = stat.ordinal();
         // the Math.min should return the smaller of the two (so the value doesnt overflow max). very smart but very dangerous.
-        stats[index] = (float) Math.min(stats[index] + amount, maxAmount);
+        stats[index] = (float) Math.min(stats[index] + amount, getMaxStatValue(stat));
         lastUpdatedStat = index;
         player.syncData(UnshatteredAttachments.PLAYER_STATE);
     }
@@ -92,14 +91,14 @@ public final class PlayerStateAttachment {
      * @param amount the amount to remove
      * @param player the player having the stat modified
      */
-    public void removeCurrentStat(Stat stat, double amount, Player player) {
+    public void decreaseStatValue(Stat stat, double amount, Player player) {
         int index = stat.ordinal();
         stats[index] -= amount;
         lastUpdatedStat = index;
         player.syncData(UnshatteredAttachments.PLAYER_STATE);
     }
 
-    public void setCurrentStatByIndex(int index, double value) {
+    public void setStatValueByIndex(int index, double value) {
         stats[index] = value;
     }
 
@@ -179,7 +178,7 @@ public final class PlayerStateAttachment {
             int statIndex = buf.readInt();
             double value = buf.readDouble();
 
-            attachment.setCurrentStatByIndex(statIndex, value);
+            attachment.setStatValueByIndex(statIndex, value);
         }
         attachment.setFailedMessageFired(buf.readBoolean());
         attachment.setDialogueOpen(buf.readBoolean());

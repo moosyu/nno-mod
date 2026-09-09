@@ -55,7 +55,7 @@ public class RogueSword extends UnshatteredSword {
         }
         if (!player.isCreative()) {
             player.getData(UnshatteredAttachments.PLAYER_STATE.get())
-                    .removeCurrentStat(PlayerStateAttachment.Stat.MANA, SPEED_BOOST_ABILITY.manaCost(), player);
+                    .decreaseStatValue(PlayerStateAttachment.Stat.MANA, SPEED_BOOST_ABILITY.manaCost(), player);
         }
         player.getCooldowns().addCooldown(this.getDefaultInstance(), SPEED_BOOST_ABILITY.cooldown());
         return InteractionResult.PASS;

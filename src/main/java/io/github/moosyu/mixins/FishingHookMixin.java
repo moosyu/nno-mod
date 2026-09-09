@@ -58,14 +58,8 @@ public abstract class FishingHookMixin extends Projectile {
                 ci.cancel();
             } else {
                 if (entity instanceof LivingEntity livingEntity && !player.level().isClientSide()) {
-                    DamageUtil.playerDealDamage(player,
-                            livingEntity,
-                            UnshatteredUtils.triggerInstantPassiveAbility((ServerPlayer) player,
-                                    livingEntity,
-                                    player.getItemInHand(InteractionHand.MAIN_HAND).getItem()
-                            ),
-                            ItemTypes.FISHING_ROD
-                    );
+                    UnshatteredUtils.triggerInstantPassiveAbilities((ServerPlayer) player, livingEntity);
+                    DamageUtil.playerDealDamage(player, livingEntity, ItemTypes.FISHING_ROD);
                 }
             }
         }

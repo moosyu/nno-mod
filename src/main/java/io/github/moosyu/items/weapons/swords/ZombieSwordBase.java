@@ -84,10 +84,10 @@ public class ZombieSwordBase extends UnshatteredSword {
                 if (!abilities.hasActiveEffect(abilityIdentifier)) {
                     abilities.addActiveEffect(abilityIdentifier, itemCharges.rechargeTime(), level, p -> onRecharge(p, itemStack), player.getItemBySlot(hand.asEquipmentSlot()));
                 }
-                playerState.removeCurrentStat(PlayerStateAttachment.Stat.MANA, instantHealAbility.manaCost(), player);
+                playerState.decreaseStatValue(PlayerStateAttachment.Stat.MANA, instantHealAbility.manaCost(), player);
             }
 
-            playerState.addCurrentStat(PlayerStateAttachment.Stat.HEALTH, healAmount + (maxHealthAttribute.getValue() * 0.05), maxHealthAttribute.getValue(), player);
+            playerState.increaseStatValue(PlayerStateAttachment.Stat.HEALTH, healAmount + (maxHealthAttribute.getValue() * 0.05), player);
         }
 
         PacketDistributor.sendToPlayer((ServerPlayer) player, new ZombieSwordEffectsPacket());

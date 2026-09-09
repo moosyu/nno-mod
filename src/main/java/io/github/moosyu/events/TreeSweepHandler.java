@@ -89,9 +89,9 @@ public class TreeSweepHandler {
     }
 
     private static int calculateLogs(Player player, int dropAmount) {
-        PassiveAbilityItem passiveAbilityItem = UnshatteredUtils.triggerInstantPassiveAbility((ServerPlayer) player, null, player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
+        UnshatteredUtils.triggerInstantPassiveAbilities((ServerPlayer) player, null);
         int itemCount = UnshatteredUtils.getItemsCount(player.getAttributeValue(UnshatteredAttributeValues.FORAGING_FORTUNE.holder), dropAmount);
-        UnshatteredUtils.finishInstantPassiveAbility((ServerPlayer) player, null, passiveAbilityItem);
+        UnshatteredUtils.finishInstantPassiveAbilities((ServerPlayer) player, null);
         return itemCount;
     }
 

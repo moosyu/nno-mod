@@ -15,7 +15,7 @@ public class StatCommand {
                 return 0;
             }
             PlayerStateAttachment stats = player.getData(UnshatteredAttachments.PLAYER_STATE.get());
-            context.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal(String.valueOf(stats.getCurrentStat(PlayerStateAttachment.Stat.HEALTH))),
+            context.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal(String.valueOf(stats.getStatValue(PlayerStateAttachment.Stat.HEALTH))),
                     false);
             return 1;
         }));

@@ -87,9 +87,7 @@ public class ItemTooltipHandler {
             }
         }
 
-
         tooltipComponents.add(Component.empty());
-        if (itemType.reforgeable()) tooltipComponents.add(Component.translatable("tooltip.unshattered.reforgable").withColor(0xFF555555));
 
         if (sellPrice > 0) {
             tooltipComponents.add(Component.translatable("tooltip.unshattered.sell_price").withColor(0xFFAAAAAA)
@@ -97,6 +95,8 @@ public class ItemTooltipHandler {
                     .append(Component.literal(String.format("%,d", sellPrice)).withColor(0xFFF9A604))
             );
         }
+
+        if (itemType.reforgeable()) tooltipComponents.add(Component.translatable("tooltip.unshattered.reforgable").withColor(0xFF555555));
 
         tooltipComponents.add(Component.literal(Component.translatable("rarity.unshattered." + itemRarity.name().toLowerCase()).getString().toUpperCase() + " " + Component.translatable("item_type.unshattered." + itemType.getSerializedName()).getString().toUpperCase()).withColor(itemRarity.getColour(1.0f)).withStyle(ChatFormatting.BOLD));
     }

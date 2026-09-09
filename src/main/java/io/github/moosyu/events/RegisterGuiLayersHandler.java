@@ -20,16 +20,16 @@ public class RegisterGuiLayersHandler {
                 0xFFFC5454,
                 -54,
                 -18,
-                player -> player.getData(PLAYER_STATE.get()).getCurrentStat(PlayerStateAttachment.Stat.HEALTH),
-                player -> player.getData(PLAYER_STATE.get()).getMaxStat(PlayerStateAttachment.Stat.HEALTH))
+                player -> player.getData(PLAYER_STATE.get()).getStatValue(PlayerStateAttachment.Stat.HEALTH),
+                player -> player.getData(PLAYER_STATE.get()).getMaxStatValue(PlayerStateAttachment.Stat.HEALTH))
         );
 
         event.replaceLayer(VanillaGuiLayers.FOOD_LEVEL, new BarLayer(0xFF00A6FF,
                 0xFF4E5BC6,
                 54,
                 -18,
-                player -> player.getData(PLAYER_STATE.get()).getCurrentStat(PlayerStateAttachment.Stat.MANA),
-                player -> player.getData(PLAYER_STATE.get()).getMaxStat(PlayerStateAttachment.Stat.MANA))
+                player -> player.getData(PLAYER_STATE.get()).getStatValue(PlayerStateAttachment.Stat.MANA),
+                player -> player.getData(PLAYER_STATE.get()).getMaxStatValue(PlayerStateAttachment.Stat.MANA))
         );
 
         event.replaceLayer(VanillaGuiLayers.SELECTED_ITEM_NAME, new SelectedItemLayer());
