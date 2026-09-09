@@ -17,7 +17,6 @@ public final class UnshatteredDataComponents {
     public static final Supplier<DataComponentType<UnshatteredRarities>> RARITY = DATA_COMPONENTS.registerComponentType("rarity", builder -> builder.persistent(UnshatteredRarities.CODEC));
     public static final Supplier<DataComponentType<ItemTypes>> ITEM_TYPE = DATA_COMPONENTS.registerComponentType("item_type", builder -> builder.persistent(ItemTypes.CODEC));
     public static final Supplier<DataComponentType<Boolean>> DESCRIPTION = DATA_COMPONENTS.registerComponentType("description", builder -> builder.persistent(Codec.BOOL));
-    public static final Supplier<DataComponentType<SkillRequirement>> SKILL_REQUIREMENT = DATA_COMPONENTS.registerComponentType("skill_requirement", builder -> builder.persistent(SkillRequirement.CODEC));
     public static final Supplier<DataComponentType<ItemAbility>> ABILITY = DATA_COMPONENTS.registerComponentType("ability", builder -> builder.persistent(ItemAbility.CODEC));
     public static final Supplier<DataComponentType<ItemCharges>> CHARGES = DATA_COMPONENTS.registerComponentType("charges", builder -> builder.persistent(ItemCharges.CODEC));
     public static final Supplier<DataComponentType<Integer>> SELL_VALUE = DATA_COMPONENTS.registerComponentType("sell_value", builder -> builder.persistent(Codec.INT));

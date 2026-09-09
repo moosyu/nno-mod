@@ -3,6 +3,7 @@ package io.github.moosyu.data.datagen;
 import io.github.moosyu.blocks.UnshatteredBlocks;
 import io.github.moosyu.items.UnshatteredItems;
 import io.github.moosyu.util.UnshatteredUtils;
+import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -10,6 +11,7 @@ import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.renderer.item.properties.conditional.FishingRodCast;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,6 +23,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jspecify.annotations.NonNull;
+
+import java.util.List;
+import java.util.Optional;
 
 import static io.github.moosyu.Unshattered.MODID;
 
@@ -51,7 +56,7 @@ public class UnshatteredModelProvider extends ModelProvider {
         itemModels.generateFlatItem(UnshatteredItems.HYPER_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.GIANT_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.RUSTY_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.LEAFLET_HELMET.get(), Blocks.OAK_LEAVES);
+        itemModels.generateFlatItem(UnshatteredItems.LEAFLET_HELMET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_LEGGINGS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_BOOTS.get(), ModelTemplates.FLAT_ITEM);

@@ -7,7 +7,6 @@ import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.ItemCharges;
-import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.data.dialogue.DialogueTree;
 import io.github.moosyu.events.DataPackRegistryHandler;
@@ -259,23 +258,6 @@ public final class UnshatteredUtils {
     // item requirements
 
     /**
-     * @param player the player being skill checked
-     * @param itemUsed the item that may or may not have a skill requirement to use
-     * @return whether the player passed the check. armour (if tagged correctly) will always be true as that check is handled in LivingEquipmentChangeHandler
-     */
-    public static boolean passesSkillCheck(Player player, ItemStack itemUsed) {
-        SkillRequirement itemSkillRequirement = itemUsed.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
-        // armours already have their own logic in LivingEquipmentChangeHandler
-        if (itemSkillRequirement == null || itemUsed.is(Tags.Items.ARMORS)) return true;
-        PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
-        if (playerSkills.getLevel(playerSkills.getExp(itemSkillRequirement.skill())) < itemSkillRequirement.level()) {
-            player.sendSystemMessage(Component.literal(Component.translatable(itemSkillRequirement.skill().getTranslationKey()).getString() + " level " + itemSkillRequirement.level() + " is required to use this item!").withColor(ERROR_COLOR));
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @param player the player having their mana checked
      * @param manaCost the mana requirement to do whatever
      * @return true if the player passes false if they dont + text saying the player doesn't meet the requirement
@@ -302,30 +284,6 @@ public final class UnshatteredUtils {
                             .withColor(ERROR_COLOR));
             return false;
         }
-        return true;
-    }
-
-    /**
-     * mainly for armour, doesn't handle things like putting the item back in its slot or cancelling the interaction, just makes sure item skill requirement isnt null
-     * and sends message if the user failed the check.
-     * @param player player adding itemstack
-     * @param itemStack itemstack being added
-     * @return where the player passes the skill check to use equipment piece
-     */
-    public static boolean passesEquipmentSkillCheck(Player player, ItemStack itemStack) {
-        SkillRequirement itemSkillRequirement = itemStack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
-        PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
-        if (itemSkillRequirement != null && itemSkillRequirement.level() > playerSkills.getLevel(playerSkills.getExp(itemSkillRequirement.skill()))) {
-            if (!player.level().isClientSide()) {
-                player.sendSystemMessage(Component.literal(Component.translatable(itemSkillRequirement.skill().getTranslationKey()).getString()
-                        + " level "
-                        + itemSkillRequirement.level()
-                        + " is required to equip this armour piece!").withColor(UnshatteredUtils.ERROR_COLOR)
-                );
-            }
-            return false;
-        }
-
         return true;
     }
 

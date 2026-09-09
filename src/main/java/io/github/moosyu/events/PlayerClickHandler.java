@@ -79,12 +79,6 @@ public class PlayerClickHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        if (event.getLevel().isClientSide()) return;
-        if (!UnshatteredUtils.passesSkillCheck(event.getEntity(), event.getItemStack())) event.setCanceled(true);
-    }
-
-    @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         Level level = event.getLevel();
         if (level.isClientSide()) return;

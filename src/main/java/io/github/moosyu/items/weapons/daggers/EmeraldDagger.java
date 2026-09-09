@@ -26,6 +26,7 @@ public class EmeraldDagger extends DaggerItem implements PassiveAbilityItem {
         super(properties
                 .component(UnshatteredDataComponents.RARITY, UnshatteredRarities.EPIC)
                 .component(UnshatteredDataComponents.ABILITY.get(), new ItemAbility(ABILITY_IDENTIFIER, 0, 0, 0, true))
+                .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
                 .attributes(ItemAttributeModifiers.builder()
                         .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "emerald_dagger_damage"), 7, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                         .add(UnshatteredAttributeValues.FEROCITY.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "emerald_dagger_ferocity"), 40, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)

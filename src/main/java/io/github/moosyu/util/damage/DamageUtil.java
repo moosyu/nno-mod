@@ -5,7 +5,6 @@ import io.github.moosyu.data.attachments.PlayerCurrencyAttachment;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
-import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.components.UnshatteredDataComponents;
 import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.items.PassiveAbilityItem;
@@ -49,15 +48,9 @@ public final class DamageUtil {
     public static void playerDealDamage(Player player, LivingEntity target, @Nullable PassiveAbilityItem item, ItemTypes itemType) {
         if (!player.isCreative() && target.is(EntityType.ARMOR_STAND)) return;
 
-        SkillRequirement skillRequirement = player.getItemInHand(InteractionHand.MAIN_HAND).get(UnshatteredDataComponents.SKILL_REQUIREMENT);
         PlayerSkillsAttachment playerSkill = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
         float attackStrength = player.getAttackStrengthScale(0.0f);
         double critDamage = 0.0d;
-
-        if (skillRequirement != null && skillRequirement.level() > playerSkill.getLevel(playerSkill.getExp(skillRequirement.skill()))) {
-            player.sendSystemMessage(Component.literal(Component.translatable(skillRequirement.skill().getTranslationKey()).getString() + " level " + skillRequirement.level() + " is required to use this weapon!").withColor(0xFFFF5555));
-            return;
-        }
 
         if (attackStrength >= 0.9f) {
             critDamage = player.getAttributeValue(UnshatteredAttributeValues.CRITICAL_CHANCE.holder) >= (player.getRandom().nextIntBetweenInclusive(0, 101))

@@ -149,7 +149,6 @@ public class BlockBreakHandler {
                         .containsKey(key))
                 .orElse(false)
                 || !hasBreakingPowerRequirement(player, level.getBlockState(blockPos.get()).typeHolder())
-                || !UnshatteredUtils.passesSkillCheck(player, player.getMainHandItem())
         ) {
             event.setNewSpeed(0.0f);
             return;

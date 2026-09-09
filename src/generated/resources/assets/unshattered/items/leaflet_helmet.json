@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "unshattered:block/leaflet_helmet"
+    "model": "unshattered:item/leaflet_helmet"
   }
 }

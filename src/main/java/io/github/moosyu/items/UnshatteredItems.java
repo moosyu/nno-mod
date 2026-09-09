@@ -1,10 +1,8 @@
 package io.github.moosyu.items;
 
-import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.blocks.UnshatteredBlocks;
 import io.github.moosyu.data.components.ItemCharges;
-import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.regions.UnshatteredRegions;
 import io.github.moosyu.items.talismans.BatTalisman;
 import io.github.moosyu.items.talismans.TalismanItem;
@@ -39,7 +37,6 @@ public class UnshatteredItems {
 
     public static final DeferredItem<UnshatteredAxeWeapon> MERCENARY_AXE = ITEMS.registerItem("mercenary_axe", props -> new UnshatteredAxeWeapon(props
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE)
-            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.COMBAT, 4))
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
             .attributes(ItemAttributeModifiers.builder()
                     .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "mercenary_axe_damage"), 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
@@ -334,7 +331,6 @@ public class UnshatteredItems {
             .stacksTo(1)
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.FISHING_ROD)
-            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.FISHING, 5))
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 5000)
             .attributes(ItemAttributeModifiers.builder()
@@ -496,7 +492,6 @@ public class UnshatteredItems {
             .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.UNCOMMON)
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 2500)
             .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
-            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.COMBAT, 4))
             .attributes(ItemAttributeModifiers.builder()
                     .add(UnshatteredAttributeValues.DAMAGE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "squire_sword_damage"), 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                     .add(UnshatteredAttributeValues.STRENGTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "squire_sword_strength"), 2, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)

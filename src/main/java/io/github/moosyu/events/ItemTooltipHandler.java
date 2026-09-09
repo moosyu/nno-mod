@@ -3,7 +3,6 @@ package io.github.moosyu.events;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.data.components.ItemCharges;
-import io.github.moosyu.data.components.SkillRequirement;
 import io.github.moosyu.data.components.ItemAbility;
 import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.rarities.UnshatteredRarities;
@@ -47,7 +46,6 @@ public class ItemTooltipHandler {
         ItemTypes itemType = stack.getOrDefault(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.ITEM);
         boolean hasModifiers = false;
         boolean itemDescription = Boolean.TRUE.equals(stack.get(UnshatteredDataComponents.DESCRIPTION.get()));
-        SkillRequirement itemSkillRequirement = stack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
         ItemAbility itemAbility = stack.get(UnshatteredDataComponents.ABILITY);
         ItemCharges itemCharges = stack.get(UnshatteredDataComponents.CHARGES);
         int sellPrice = stack.getOrDefault(UnshatteredDataComponents.SELL_VALUE, 0) * stack.count();
@@ -92,21 +90,6 @@ public class ItemTooltipHandler {
 
         tooltipComponents.add(Component.empty());
         if (itemType.reforgeable()) tooltipComponents.add(Component.translatable("tooltip.unshattered.reforgable").withColor(0xFF555555));
-        if (itemSkillRequirement != null) {
-            PlayerSkillsAttachment.Skill requiredSkill = itemSkillRequirement.skill();
-            PlayerSkillsAttachment playerSkill = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
-            if (itemSkillRequirement.level() > playerSkill.getLevel(playerSkill.getExp(requiredSkill))) {
-                tooltipComponents.add(
-                        Component.literal("❣ ").withColor(0xFFAA0000)
-                                .append(Component.literal("Requires ").withColor(0xFFFF5555))
-                                .append(Component.empty()
-                                        .append(Component.translatable(itemSkillRequirement.skill().getTranslationKey()))
-                                        .append(" level ")
-                                        .append(String.valueOf(itemSkillRequirement.level()))
-                                        .withColor(0xFF55FF55)
-                                ));
-            }
-        }
 
         if (sellPrice > 0) {
             tooltipComponents.add(Component.translatable("tooltip.unshattered.sell_price").withColor(0xFFAAAAAA)
