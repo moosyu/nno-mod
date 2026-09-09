@@ -114,7 +114,6 @@ public class UnshatteredItems {
             .humanoidArmor(LEAFLET_ARMOUR_MATERIAL, ArmorType.HELMET)
             .component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.HELMET)
             .component(UnshatteredDataComponents.SELL_VALUE.get(), 2)
-            .component(UnshatteredDataComponents.SKILL_REQUIREMENT.get(), new SkillRequirement(PlayerSkillsAttachment.Skill.COMBAT, 10))
             .attributes(ItemAttributeModifiers.builder().add(UnshatteredAttributeValues.HEALTH.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_helmet_health"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                     .add(UnshatteredAttributeValues.FORAGING_FORTUNE.holder, new AttributeModifier(Identifier.fromNamespaceAndPath(MODID, "leaflet_helmet_foraging_fortune"), 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                     .build()

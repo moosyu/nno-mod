@@ -26,11 +26,10 @@ public class LivingEquipmentChangeHandler {
         if (event.getEntity() instanceof Player player) {
             ItemStack oldItem = event.getFrom();
             ItemStack newItem = event.getTo();
-            // duplicate from ResultSlotMixin, this handles things like right clicks but less elegantly so i include both
-            if (!UnshatteredUtils.passesEquipmentSkillCheck(player, newItem)) {
-                player.setItemSlot(event.getSlot(), oldItem.copy());
-
-                if (!newItem.isEmpty() && !player.getInventory().add(newItem.copy())) {
+            // duplicate from ResultSlotMixin but it doesnt catch everything so i added this even if it's less elegant
+            if (event.getSlot().isArmor() && !newItem.isEmpty() && !UnshatteredUtils.passesEquipmentSkillCheck(player, newItem)) {
+                player.setItemSlot(event.getSlot(), ItemStack.EMPTY);
+                if (!player.getInventory().add(newItem.copy())) {
                     player.drop(newItem.copy(), false);
                 }
 

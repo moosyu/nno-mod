@@ -21,22 +21,7 @@ public interface IItemExtensionMixin {
     @Inject(method = "canEquip", at = @At("HEAD"), cancellable = true)
     private void canEquip(ItemStack stack, EquipmentSlot armorType, LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (entity.isEquippableInSlot(stack, armorType) && entity instanceof Player player) {
-            SkillRequirement itemSkillRequirement = stack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
-
-            PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
-            if (itemSkillRequirement == null || itemSkillRequirement.level() <= playerSkills.getLevel(playerSkills.getExp(itemSkillRequirement.skill()))) {
-                cir.setReturnValue(true);
-            } else {
-                if (!player.level().isClientSide()) {
-                    player.sendSystemMessage(Component.literal(Component.translatable(itemSkillRequirement.skill().getTranslationKey()).getString()
-                            + " level "
-                            + itemSkillRequirement.level()
-                            + " is required to equip this armour piece!").withColor(UnshatteredUtils.ERROR_COLOR)
-                    );
-                }
-
-                cir.setReturnValue(false);
-            }
+            cir.setReturnValue(UnshatteredUtils.passesEquipmentSkillCheck(player, stack));
         } else {
             cir.setReturnValue(false);
         }

@@ -51,7 +51,7 @@ public class UnshatteredModelProvider extends ModelProvider {
         itemModels.generateFlatItem(UnshatteredItems.HYPER_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.GIANT_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.RUSTY_CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(UnshatteredItems.LEAFLET_HELMET.get(), ModelTemplates.FLAT_ITEM);
+        createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.LEAFLET_HELMET.get(), Blocks.OAK_LEAVES);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_LEGGINGS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.LEAFLET_BOOTS.get(), ModelTemplates.FLAT_ITEM);

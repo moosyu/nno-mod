@@ -305,6 +305,13 @@ public final class UnshatteredUtils {
         return true;
     }
 
+    /**
+     * mainly for armour, doesn't handle things like putting the item back in its slot or cancelling the interaction, just makes sure item skill requirement isnt null
+     * and sends message if the user failed the check.
+     * @param player player adding itemstack
+     * @param itemStack itemstack being added
+     * @return where the player passes the skill check to use equipment piece
+     */
     public static boolean passesEquipmentSkillCheck(Player player, ItemStack itemStack) {
         SkillRequirement itemSkillRequirement = itemStack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
         PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
@@ -316,6 +323,7 @@ public final class UnshatteredUtils {
                         + " is required to equip this armour piece!").withColor(UnshatteredUtils.ERROR_COLOR)
                 );
             }
+            return false;
         }
 
         return true;
