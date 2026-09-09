@@ -305,6 +305,22 @@ public final class UnshatteredUtils {
         return true;
     }
 
+    public static boolean passesEquipmentSkillCheck(Player player, ItemStack itemStack) {
+        SkillRequirement itemSkillRequirement = itemStack.get(UnshatteredDataComponents.SKILL_REQUIREMENT.get());
+        PlayerSkillsAttachment playerSkills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
+        if (itemSkillRequirement != null && itemSkillRequirement.level() > playerSkills.getLevel(playerSkills.getExp(itemSkillRequirement.skill()))) {
+            if (!player.level().isClientSide()) {
+                player.sendSystemMessage(Component.literal(Component.translatable(itemSkillRequirement.skill().getTranslationKey()).getString()
+                        + " level "
+                        + itemSkillRequirement.level()
+                        + " is required to equip this armour piece!").withColor(UnshatteredUtils.ERROR_COLOR)
+                );
+            }
+        }
+
+        return true;
+    }
+
     // abilities
 
     /**
