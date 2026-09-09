@@ -66,7 +66,7 @@ public class CleaverItem extends Item implements PassiveAbilityItem {
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }

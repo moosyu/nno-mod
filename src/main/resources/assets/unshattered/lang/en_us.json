@@ -115,6 +115,7 @@
   "item.ability.unshattered.emerald_dagger_greed": "Greed",
   "item.ability.unshattered.mithril_speed": "Mithril Miner",
   "item.ability.unshattered.bat_talisman_leech": "Leech",
+  "item.ability.unshattered.coin_talisman_accrual": "Accrual",
 
   "item.ability.description.unshattered.rogue_sword_speed_boost": "Grants [colour=0xFFFFFFFF]+0.5✦ Speed[/colour] for [colour=0xFF55FF55]30s[/colour].",
   "item.ability.description.unshattered.mind_blowing": "Deals [colour=0xFF55FF55]+100%[/colour] damage to undead mobs.",
@@ -133,6 +134,7 @@
   "item.ability.description.unshattered.emerald_dagger_greed": "The emerald dagger grows stronger the more [colour=0xFFFFAA00]coins[/colour] stored in your purse.",
   "item.ability.description.unshattered.mithril_speed": "Gain [colour=0xFFFFAA00]+20⸕[/colour] while mining mithril.",
   "item.ability.description.unshattered.bat_talisman_leech": "Gain [colour=0xFFFC3A3A]2%[/colour] of enemy's maximum [colour=0xFFFC3A3A]health[/colour] on kill.",
+  "item.ability.description.unshattered.coin_talisman_accrual": "Gain a small chance to get some [colour=0xFFFFAA00]coins[/colour] every second.",
 
   "block.unshattered.fig_log": "Fig Log",
   "block.unshattered.breakable_fig_log": "Breakable Fig Log",

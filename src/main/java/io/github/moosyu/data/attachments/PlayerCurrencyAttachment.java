@@ -21,14 +21,26 @@ public final class PlayerCurrencyAttachment {
         return coins;
     }
 
+    /**
+     * set coins in purse, doesnt sync
+     * @param coins amount to set as
+     */
     public void setCoins(int coins) {
         this.coins = coins;
     }
 
+    /**
+     * adds coins to purse, doesnt sync
+     * @param amount amount to add
+     */
     public void addCoins(int amount) {
         coins += amount;
     }
 
+    /**
+     * remove coins for purse, doesnt sync
+     * @param amount amount to remove
+     */
     public void removeCoins(int amount) {
         coins -= amount;
     }

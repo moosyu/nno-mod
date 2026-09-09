@@ -8,7 +8,6 @@ import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.ItemCharges;
 import io.github.moosyu.data.dialogue.DialogueTree;
 import io.github.moosyu.events.DataPackRegistryHandler;
-import io.github.moosyu.items.PassiveAbilityItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -295,7 +294,7 @@ public final class UnshatteredUtils {
      */
     public static void triggerInstantPassiveAbilities(ServerPlayer player, @Nullable LivingEntity target) {
         player.getData(UnshatteredAttachments.PLAYER_ABILITIES).getStoredPassiveNonTickedItems().forEach(item -> {
-            if (item.abilityConditionsMet(player, target) && !item.ticked()) {
+            if (item.abilityConditionsMet(player, target) && !item.isOngoing()) {
                 item.onAbilityTriggered(player, target);
             }
         });
@@ -308,7 +307,7 @@ public final class UnshatteredUtils {
      */
     public static void finishInstantPassiveAbilities(ServerPlayer player, @Nullable LivingEntity target) {
         player.getData(UnshatteredAttachments.PLAYER_ABILITIES).getStoredPassiveNonTickedItems().forEach(item -> {
-            if (!item.ticked()) {
+            if (!item.isOngoing()) {
                 item.onAbilityFinished(player, target);
             }
         });

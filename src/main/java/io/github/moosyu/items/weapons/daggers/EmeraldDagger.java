@@ -57,7 +57,7 @@ public class EmeraldDagger extends DaggerItem implements PassiveAbilityItem {
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }

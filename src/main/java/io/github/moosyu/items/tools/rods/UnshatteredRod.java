@@ -42,7 +42,7 @@ public class UnshatteredRod extends FishingRodItem implements PassiveAbilityItem
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }

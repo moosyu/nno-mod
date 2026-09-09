@@ -28,7 +28,7 @@ public class PlayerLevelChangeHandler {
     public static void onPlayerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player && !player.level().isClientSide()) {
             pendingAttributeUpdates.add(player.getUUID());
-            player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get()).applyPassiveTickedEffects((ServerPlayer) player);
+            player.getData(UnshatteredAttachments.PLAYER_ABILITIES.get()).applyPassiveEffects((ServerPlayer) player);
         }
     }
 

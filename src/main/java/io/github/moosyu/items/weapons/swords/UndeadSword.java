@@ -46,7 +46,7 @@ public class UndeadSword extends UnshatteredSword implements PassiveAbilityItem 
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }

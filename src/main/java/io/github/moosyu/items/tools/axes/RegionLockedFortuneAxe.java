@@ -59,7 +59,7 @@ public class RegionLockedFortuneAxe extends UnshatteredAxeTool implements Passiv
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }

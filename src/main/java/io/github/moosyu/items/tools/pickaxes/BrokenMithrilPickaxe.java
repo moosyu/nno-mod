@@ -72,7 +72,7 @@ public class BrokenMithrilPickaxe extends Item implements PassiveAbilityItem {
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return true;
     }
 }

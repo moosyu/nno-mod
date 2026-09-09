@@ -5,6 +5,7 @@ import io.github.moosyu.blocks.UnshatteredBlocks;
 import io.github.moosyu.data.components.ItemCharges;
 import io.github.moosyu.data.regions.UnshatteredRegions;
 import io.github.moosyu.items.talismans.BatTalisman;
+import io.github.moosyu.items.talismans.CoinTalisman;
 import io.github.moosyu.items.talismans.TalismanItem;
 import io.github.moosyu.items.tools.axes.RegionLockedFortuneAxe;
 import io.github.moosyu.items.tools.axes.UnshatteredAxeTool;
@@ -567,10 +568,7 @@ public class UnshatteredItems {
 
     public static final DeferredItem<DaggerItem> EMERALD_DAGGER = ITEMS.registerItem("emerald_dagger", EmeraldDagger::new);
 
-    public static final DeferredItem<TalismanItem> COINS_TALISMAN = ITEMS.registerItem("coins_talisman", props -> new TalismanItem(props
-            .component(UnshatteredDataComponents.DESCRIPTION.get(), true)
-            .component(UnshatteredDataComponents.SELL_VALUE.get(), 70)
-    ));
+    public static final DeferredItem<TalismanItem> COINS_TALISMAN = ITEMS.registerItem("coins_talisman", CoinTalisman::new);
 
     public static final DeferredItem<Item> GLOW_SQUID_BOOTS = ITEMS.registerItem("glow_squid_boots", props -> new Item(props
             .humanoidArmor(GLOW_SQUID_BOOTS_MATERIAL, ArmorType.BOOTS)

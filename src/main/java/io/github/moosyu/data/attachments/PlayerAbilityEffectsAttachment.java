@@ -1,6 +1,7 @@
 package io.github.moosyu.data.attachments;
 
-import io.github.moosyu.gui.menus.storage.TalismanContainer;
+import io.github.moosyu.data.components.UnshatteredDataComponents;
+import io.github.moosyu.items.ItemTypes;
 import io.github.moosyu.items.PassiveAbilityItem;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
 public final class PlayerAbilityEffectsAttachment {
     private final Map<Identifier, ActiveEffectEntry> activeEffects = new HashMap<>();
     private record ActiveEffectEntry(long expiryTime, @Nullable Consumer<ServerPlayer> onExpire, ItemStack itemStack) {}
-    private final Map<PassiveAbilityItem, Boolean> storedPassiveTickedItems = new HashMap<>();
+    private final Map<PassiveAbilityItem, Boolean> storedPassiveOngoingItems = new HashMap<>();
     private final Set<PassiveAbilityItem> storedPassiveNonTickedItems = new HashSet<>();
 
     /**
@@ -103,8 +104,8 @@ public final class PlayerAbilityEffectsAttachment {
      * @param player the player having the effect added
      */
     public void addPassiveItem(PassiveAbilityItem item, ServerPlayer player) {
-        if (item.ticked()) {
-            if (!Boolean.TRUE.equals(storedPassiveTickedItems.put(item, true))) {
+        if (item.isOngoing()) {
+            if (!Boolean.TRUE.equals(storedPassiveOngoingItems.put(item, true)) && item.abilityConditionsMet(player, null)) {
                 item.onAbilityTriggered(player, null);
             }
         } else {
@@ -118,8 +119,8 @@ public final class PlayerAbilityEffectsAttachment {
      * @param player the player
      */
     public void removePassiveItem(PassiveAbilityItem item, ServerPlayer player) {
-        if (item.ticked()) {
-            if (storedPassiveTickedItems.remove(item)) {
+        if (item.isOngoing()) {
+            if (storedPassiveOngoingItems.remove(item)) {
                 item.onAbilityFinished(player, null);
             }
         } else {
@@ -149,17 +150,24 @@ public final class PlayerAbilityEffectsAttachment {
             }
         }
 
-        for (Map.Entry<PassiveAbilityItem, Boolean> entry : storedPassiveTickedItems.entrySet()) {
+        for (Map.Entry<PassiveAbilityItem, Boolean> entry : storedPassiveOngoingItems.entrySet()) {
             PassiveAbilityItem item = entry.getKey();
             boolean active = entry.getValue();
             boolean conditionsMet = item.abilityConditionsMet(player, null);
 
-            if (conditionsMet && !active) {
-                item.onAbilityTriggered(player, null);
-                entry.setValue(true);
-            } else if (!conditionsMet && active) {
-                item.onAbilityFinished(player, null);
-                entry.setValue(false);
+            if (item.isTicked()) {
+                if (conditionsMet) {
+                    item.onAbilityTriggered(player, null);
+                    entry.setValue(true);
+                }
+            } else {
+                if (conditionsMet && !active) {
+                    item.onAbilityTriggered(player, null);
+                    entry.setValue(true);
+                } else if (!conditionsMet && active) {
+                    item.onAbilityFinished(player, null);
+                    entry.setValue(false);
+                }
             }
         }
     }
@@ -176,7 +184,7 @@ public final class PlayerAbilityEffectsAttachment {
             }
         });
 
-        storedPassiveTickedItems.forEach((item, active) -> {
+        storedPassiveOngoingItems.forEach((item, active) -> {
             if (active) {
                 item.onAbilityFinished(player, null);
             }
@@ -192,19 +200,19 @@ public final class PlayerAbilityEffectsAttachment {
      * of checking a codec to make sure nothing terrible occured in the last session.
      * @param player server player having effects reapplied
      */
-    public void applyPassiveTickedEffects(ServerPlayer player) {
-        storedPassiveTickedItems.clear();
+    public void applyPassiveEffects(ServerPlayer player) {
+        storedPassiveOngoingItems.clear();
         storedPassiveNonTickedItems.clear();
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack itemStack = player.getItemBySlot(slot);
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof PassiveAbilityItem item) {
-                if (item.ticked()) {
+                if (item.isOngoing()) {
                     if (item.abilityConditionsMet(player, null)) {
                         item.onAbilityTriggered(player, null);
-                        storedPassiveTickedItems.put(item, true);
+                        storedPassiveOngoingItems.put(item, true);
                     } else {
-                        storedPassiveTickedItems.put(item, false);
+                        storedPassiveOngoingItems.put(item, false);
                     }
                 } else {
                     storedPassiveNonTickedItems.add(item);
@@ -213,13 +221,13 @@ public final class PlayerAbilityEffectsAttachment {
         }
 
         player.getData(UnshatteredAttachments.PLAYER_TALISMAN_STORAGE.get()).forEach(itemStack -> {
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof PassiveAbilityItem item) {
-                if (item.ticked()) {
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof PassiveAbilityItem item && itemStack.get(UnshatteredDataComponents.ITEM_TYPE.get()) == ItemTypes.TALISMAN) {
+                if (item.isOngoing()) {
                     if (item.abilityConditionsMet(player, null)) {
                         item.onAbilityTriggered(player, null);
-                        storedPassiveTickedItems.put(item, true);
+                        storedPassiveOngoingItems.put(item, true);
                     } else {
-                        storedPassiveTickedItems.put(item, false);
+                        storedPassiveOngoingItems.put(item, false);
                     }
                 } else {
                     storedPassiveNonTickedItems.add(item);

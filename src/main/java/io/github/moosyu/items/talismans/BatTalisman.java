@@ -44,7 +44,7 @@ public class BatTalisman extends TalismanItem implements PassiveAbilityItem {
     }
 
     @Override
-    public boolean ticked() {
+    public boolean isOngoing() {
         return false;
     }
 }
