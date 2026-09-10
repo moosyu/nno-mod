@@ -39,6 +39,9 @@ public class UnshatteredBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BREAKABLE_DIAMOND_ORE_BLOCK.get());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(PURE_DIAMOND_BLOCK.get());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BREAKABLE_OBSIDIAN_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BREAKABLE_SOFT_MITHRIL_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BREAKABLE_HARD_MITHRIL_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BREAKABLE_COBBLED_MITHRIL_BLOCK.get());
         tag(BlockTags.LOGS).add(FIG_LOG_BLOCK.get());
         tag(BlockTags.LOGS).add(BREAKABLE_FIG_LOG_BLOCK.get());
         tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_STONE_BLOCK.get());
@@ -52,7 +55,13 @@ public class UnshatteredBlockTagsProvider extends BlockTagsProvider {
         tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_DIAMOND_ORE_BLOCK.get());
         tag(COLLECTABLE_MINING_BLOCKS).add(PURE_DIAMOND_BLOCK.get());
         tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_OBSIDIAN_BLOCK.get());
+        tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_SOFT_MITHRIL_BLOCK.get());
+        tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_COBBLED_MITHRIL_BLOCK.get());
+        tag(COLLECTABLE_MINING_BLOCKS).add(BREAKABLE_HARD_MITHRIL_BLOCK.get());
         tag(COLLECTABLE_FORAGING_BLOCKS).add(BREAKABLE_FIG_LOG_BLOCK.get());
         tag(COLLECTABLE_FARMING_BLOCKS).add(BREAKABLE_WHEAT_BLOCK.get());
+        tag(MITHRIL_BLOCKS).add(BREAKABLE_COBBLED_MITHRIL_BLOCK.get());
+        tag(MITHRIL_BLOCKS).add(BREAKABLE_HARD_MITHRIL_BLOCK.get());
+        tag(MITHRIL_BLOCKS).add(BREAKABLE_SOFT_MITHRIL_BLOCK.get());
     }
 }

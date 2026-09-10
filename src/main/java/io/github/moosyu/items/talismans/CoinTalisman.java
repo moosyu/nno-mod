@@ -26,7 +26,6 @@ public class CoinTalisman extends TalismanItem implements PassiveAbilityItem {
     public void onAbilityTriggered(ServerPlayer player, @Nullable LivingEntity target) {
         player.getData(UnshatteredAttachments.PLAYER_CURRENCY).addCoins(player.getRandom().nextIntBetweenInclusive(1, 9));
         player.syncData(UnshatteredAttachments.PLAYER_CURRENCY);
-        System.out.println("triggered");
     }
 
     @Override
@@ -34,7 +33,7 @@ public class CoinTalisman extends TalismanItem implements PassiveAbilityItem {
 
     @Override
     public boolean abilityConditionsMet(ServerPlayer player, @Nullable LivingEntity target) {
-        // roughly once a minute should be true
+        // roughly once every two minutes should be true
         return player.getRandom().nextInt(2400) == 0;
     }
 

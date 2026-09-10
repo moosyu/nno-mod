@@ -91,13 +91,34 @@ public final class UnshatteredBlocks {
 
     public static final DeferredBlock<Block> PURE_DIAMOND_BLOCK = BLOCKS.registerBlock("pure_diamond_block",
             props -> new Block(props
-                    .destroyTime(6.0f)
+                    .destroyTime(15.0f)
             )
     );
 
     public static final DeferredBlock<Block> BREAKABLE_OBSIDIAN_BLOCK = BLOCKS.registerBlock("breakable_obsidian_block",
             props -> new Block(props
                     .destroyTime(50.0f)
+            )
+    );
+
+    public static final DeferredBlock<Block> BREAKABLE_SOFT_MITHRIL_BLOCK = BLOCKS.registerBlock("breakable_soft_mithril_block",
+            props -> new Block(props
+                    .destroyTime(45.0f)
+                    .sound(SoundType.WOOL)
+            )
+    );
+
+    public static final DeferredBlock<Block> BREAKABLE_HARD_MITHRIL_BLOCK = BLOCKS.registerBlock("breakable_hard_mithril_block",
+            props -> new Block(props
+                    .destroyTime(60.0f)
+                    .sound(SoundType.STONE)
+            )
+    );
+
+    public static final DeferredBlock<Block> BREAKABLE_COBBLED_MITHRIL_BLOCK = BLOCKS.registerBlock("breakable_cobbled_mithril_block",
+            props -> new Block(props
+                    .destroyTime(32.5f)
+                    .sound(SoundType.STONE)
             )
     );
 }

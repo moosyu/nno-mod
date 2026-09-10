@@ -1,5 +1,6 @@
 package io.github.moosyu.data.datagen;
 
+import io.github.moosyu.blocks.BlockDropData;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.blocks.UnshatteredBlocks;
 import io.github.moosyu.data.drops.MobItemDropData;
@@ -12,8 +13,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.DataMapProvider;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.datamaps.DataMapType;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
@@ -28,6 +32,8 @@ public class UnshatteredDataMapProvider extends DataMapProvider {
 
     @Override
     protected void gather(HolderLookup.@NonNull Provider provider) {
+        Builder<List<BlockDropData>, Block> breakableDropsBuilder = this.builder(BREAKABLE_DROPS_DATA);
+
         this.builder(HARVESTABLE_BLOCKS_EXP_DATA)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_FIG_LOG_BLOCK.get()), 15.0f, false)
                 .add(BlockTags.FLOWERS, 1.0f, false)
@@ -61,7 +67,11 @@ public class UnshatteredDataMapProvider extends DataMapProvider {
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK.get()), 10.0f, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.PURE_DIAMOND_BLOCK.get()), 20.0f, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK.get()), 20.0f, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK.get()), 25.0f, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK.get()), 35.0f, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK.get()), 45.0f, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(Blocks.NETHER_WART), 4.0f, false);
+
         this.builder(FISHABLE_ITEMS_EXP_DATA)
                 .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.COD), 0.5f, false)
                 .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.SALMON), 0.7f, false)
@@ -71,9 +81,11 @@ public class UnshatteredDataMapProvider extends DataMapProvider {
                 .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.PRISMARINE_CRYSTALS), 0.5f, false)
                 .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.CLAY_BALL), 0.1f, false)
                 .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.SPONGE), 4.0f, false);
+
         this.builder(FISHABLE_MOBS_EXP_DATA)
                 .add(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(EntityType.SQUID), 25.0f, false)
                 .add(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(EntityType.GLOW_SQUID), 90.0f, false);
+
         this.builder(COMBATABLE_MOBS_LOOT_DATA)
                 .add(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(EntityType.ZOMBIE), new MobRewardData(
                         List.of(new MobItemDropData(Items.ROTTEN_FLESH, 1.0f, false, 1),
@@ -224,6 +236,7 @@ public class UnshatteredDataMapProvider extends DataMapProvider {
                         PlayerSkillsAttachment.Skill.COMBAT,
                         20.0f
                 ), false);
+
         this.builder(BLOCK_BREAKING_POWER_DATA)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK.get()), 1, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_STONE_BLOCK.get()), 1, false)
@@ -235,20 +248,34 @@ public class UnshatteredDataMapProvider extends DataMapProvider {
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_EMERALD_ORE_BLOCK.get()), 3, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK.get()), 3, false)
                 .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.PURE_DIAMOND_BLOCK.get()), 3, false)
-                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK.get()), 4, false);
-        this.builder(BREAKABLE_DROPS_DATA)
-                .add(UnshatteredBlocks.BREAKABLE_FIG_LOG_BLOCK, new ItemRange(UnshatteredItems.FIG_LOG.get()), false)
-                .add(UnshatteredBlocks.BREAKABLE_STONE_BLOCK, new ItemRange(Items.COBBLESTONE), false)
-                .add(UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK, new ItemRange(Items.COBBLESTONE), false)
-                .add(UnshatteredBlocks.BREAKABLE_COAL_ORE_BLOCK, new ItemRange(Items.COAL), false)
-                .add(UnshatteredBlocks.BREAKABLE_IRON_ORE_BLOCK, new ItemRange(Items.IRON_INGOT), false)
-                .add(UnshatteredBlocks.BREAKABLE_COPPER_ORE_BLOCK, new ItemRange(Items.COPPER_INGOT, 2, 5), false)
-                .add(UnshatteredBlocks.BREAKABLE_GOLD_ORE_BLOCK, new ItemRange(Items.GOLD_INGOT), false)
-                .add(UnshatteredBlocks.BREAKABLE_REDSTONE_ORE_BLOCK, new ItemRange(Items.REDSTONE, 4, 5), false)
-                .add(UnshatteredBlocks.BREAKABLE_EMERALD_ORE_BLOCK, new ItemRange(Items.EMERALD), false)
-                .add(UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK, new ItemRange(Items.DIAMOND), false)
-                .add(UnshatteredBlocks.BREAKABLE_WHEAT_BLOCK, new ItemRange(Items.WHEAT), false)
-                .add(UnshatteredBlocks.PURE_DIAMOND_BLOCK, new ItemRange(Items.DIAMOND, 7, 9), false)
-                .add(UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK, new ItemRange(Items.OBSIDIAN), false);
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK.get()), 4, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK.get()), 3, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK.get()), 4, false)
+                .add(BuiltInRegistries.BLOCK.wrapAsHolder(UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK.get()), 4, false);
+
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_FIG_LOG_BLOCK, new ItemRange(UnshatteredItems.FIG_LOG.get()));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_STONE_BLOCK, new ItemRange(Items.COBBLESTONE));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_COBBLESTONE_BLOCK, new ItemRange(Items.COBBLESTONE));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_COAL_ORE_BLOCK, new ItemRange(Items.COAL));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_IRON_ORE_BLOCK, new ItemRange(Items.IRON_INGOT));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_COPPER_ORE_BLOCK, new ItemRange(Items.COPPER_INGOT));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_GOLD_ORE_BLOCK, new ItemRange(Items.GOLD_INGOT));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_REDSTONE_ORE_BLOCK, new ItemRange(Items.REDSTONE));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_EMERALD_ORE_BLOCK, new ItemRange(Items.EMERALD));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK, new ItemRange(Items.DIAMOND));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_WHEAT_BLOCK, new ItemRange(Items.WHEAT));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.PURE_DIAMOND_BLOCK, new ItemRange(Items.COBBLESTONE));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK, new ItemRange(Items.OBSIDIAN));
+        breakableDropsBuilder.add(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK,
+                List.of(new BlockDropData(new ItemRange(UnshatteredItems.MITHRIL.get())), new BlockDropData(new ItemRange(Items.COBBLESTONE, 1, 3))),
+                false
+        );
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK, new ItemRange(UnshatteredItems.MITHRIL.get()));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK, new ItemRange(UnshatteredItems.MITHRIL.get(), 1, 2));
+        createSingleBlockDropData(breakableDropsBuilder, UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK, new ItemRange(UnshatteredItems.MITHRIL.get(), 3, 5));
+    }
+
+    private void createSingleBlockDropData(DataMapProvider.Builder<List<BlockDropData>, Block> builder, DeferredBlock<Block> block, ItemRange itemRange) {
+        builder.add(block, List.of(new BlockDropData(itemRange, 1.0f)), false);
     }
 }

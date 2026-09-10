@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "unshattered:block/breakable_soft_mithril_block"
+  }
+}

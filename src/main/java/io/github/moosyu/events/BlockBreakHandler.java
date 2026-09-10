@@ -1,6 +1,7 @@
 package io.github.moosyu.events;
 
 import io.github.moosyu.Unshattered;
+import io.github.moosyu.blocks.BlockDropData;
 import io.github.moosyu.data.regen.RegenClientCache;
 import io.github.moosyu.data.regen.RegenPaths;
 import io.github.moosyu.data.regen.RegenSavedData;
@@ -96,9 +97,7 @@ public class BlockBreakHandler {
         PlayerSkillsAttachment skills = player.getData(UnshatteredAttachments.PLAYER_SKILLS.get());
 
         if (blockState.is(UnshatteredBlockTagsProvider.COLLECTABLE_MINING_BLOCKS)) {
-            ItemStack blockDrops = getBlockDrop(block, player, UnshatteredAttributeValues.MINING_FORTUNE);
-
-            UnshatteredUtils.givePlayerHarvestedItemStack(player, blockDrops);
+            UnshatteredUtils.addBlockBrokenResultToInventory(blockHolder, player, UnshatteredAttributeValues.MINING_FORTUNE);
 
             if (experienceReward > 0.0f) {
                 skills.addExp(PlayerSkillsAttachment.Skill.MINING, experienceReward, player);
@@ -108,8 +107,7 @@ public class BlockBreakHandler {
             ServerLevel serverLevel = (ServerLevel) level;
             serverLevel.getDataStorage().computeIfAbsent(RegenSavedData.ID).destroyRegeneratingBlock(blockPos, serverLevel);
         } else if (blockState.is(UnshatteredBlockTagsProvider.COLLECTABLE_FARMING_BLOCKS)) {
-            ItemStack blockDrops = getBlockDrop(block, player, UnshatteredAttributeValues.FARMING_FORTUNE);
-            UnshatteredUtils.givePlayerHarvestedItemStack(player, blockDrops);
+            UnshatteredUtils.addBlockBrokenResultToInventory(blockHolder, player, UnshatteredAttributeValues.FARMING_FORTUNE);
 
             if (experienceReward > 0.0f) {
                 skills.addExp(PlayerSkillsAttachment.Skill.FARMING, experienceReward, player);
@@ -160,28 +158,12 @@ public class BlockBreakHandler {
     }
 
     /**
-     * @param blockBroken the block being broken
-     * @param player the player getting the drop (and having their fortune checked)
-     * @param fortuneType the type of fortune to be used to calculate the drop amount
-     * @return item drop (with fortune calculation)
-     */
-    private static ItemStack getBlockDrop(Block blockBroken, Player player, UnshatteredAttributeValues fortuneType) {
-        ItemRange drop = BuiltInRegistries.BLOCK.wrapAsHolder(blockBroken).getData(UnshatteredDataMaps.BREAKABLE_DROPS_DATA);
-        if (drop == null) {
-            Unshattered.LOGGER.warn("{} doesn't have a drop but it was broken!", blockBroken.getName());
-            return ItemStack.EMPTY;
-        }
-
-        return new ItemStack(drop.item(), UnshatteredUtils.getItemsCount(player.getAttributeValue(fortuneType.holder), drop.getDropAmount(player.getRandom())));
-    }
-
-    /**
      * check if a player can break a given block based on their breaking power, sending a message if not
      * @param player player breaking the block
      * @param block block attempting to be broken
      * @return whether the block can be broken by the player
      */
-    public static boolean hasBreakingPowerRequirement(Player player, Holder<Block> block) {
+    private static boolean hasBreakingPowerRequirement(Player player, Holder<Block> block) {
         int requiredBreakingPower = Objects.requireNonNullElse(block.getData(UnshatteredDataMaps.BLOCK_BREAKING_POWER_DATA), 0);
         int playerBreakingPower = (int) player.getAttributeValue(UnshatteredAttributeValues.BREAKING_POWER.holder);
         if (playerBreakingPower >= requiredBreakingPower) return true;

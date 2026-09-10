@@ -59,6 +59,7 @@ public class UnshatteredRecipeProvider extends RecipeProvider {
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_LAPIS, UnshatteredItems.ENCHANTED_LAPIS_BLOCK.get());
         createEnchantedItemWithBlocksRecipe(output, Items.REDSTONE, Items.REDSTONE_BLOCK, UnshatteredItems.ENCHANTED_REDSTONE.get());
         createEnchantedItemRecipe(output, UnshatteredItems.ENCHANTED_REDSTONE, UnshatteredItems.ENCHANTED_REDSTONE_BLOCK.get());
+        createEnchantedItemRecipe(output, UnshatteredItems.MITHRIL, UnshatteredItems.ENCHANTED_MITHRIL.get());
 
         new SizedItemRecipeBuilder(new ItemStackTemplate(UnshatteredItems.ORNATE_ZOMBIE_SWORD.get()))
                 .pattern("A", "B", "C")

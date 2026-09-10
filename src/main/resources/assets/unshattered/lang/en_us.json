@@ -97,6 +97,8 @@
   "item.unshattered.coins_talisman": "Coins Talisman",
   "item.unshattered.emerald_dagger": "Emerald Dagger",
   "item.unshattered.broken_mithril_pickaxe": "Broken Mithril Pickaxe",
+  "item.unshattered.mithril": "Mithril",
+  "item.unshattered.enchanted_mithril": "Enchanted Mithril",
 
   "item.ability.unshattered.rogue_sword_speed_boost": "Speed Boost",
   "item.ability.unshattered.mind_blowing": "Mind Blowing",
@@ -117,7 +119,7 @@
   "item.ability.unshattered.bat_talisman_leech": "Leech",
   "item.ability.unshattered.coin_talisman_accrual": "Accrual",
 
-  "item.ability.description.unshattered.rogue_sword_speed_boost": "Grants [colour=0xFFFFFFFF]+0.5✦ Speed[/colour] for [colour=0xFF55FF55]30s[/colour].",
+  "item.ability.description.unshattered.rogue_sword_speed_boost": "Grants [colour=0xFFFFFFFF]+1.5✦ Speed[/colour] for [colour=0xFF55FF55]30s[/colour].",
   "item.ability.description.unshattered.mind_blowing": "Deals [colour=0xFF55FF55]+100%[/colour] damage to undead mobs.",
   "item.ability.description.unshattered.ignition": "Ignites enemies for [colour=0xFF55FF55]3s[/colour].",
   "item.ability.description.unshattered.zombie_sword_instant_heal": "Heal for [colour=0xFFFF5555]120[/colour] + [colour=0xFFFF5555]5%❤[/colour].",
@@ -151,6 +153,9 @@
   "block.unshattered.breakable_obsidian_block": "Breakable Obsidian",
   "block.unshattered.breakable_wheat_block": "Breakable Wheat",
   "block.unshattered.rock_talkable": "Talking Rock",
+  "block.unshattered.breakable_soft_mithril_block": "Breakable Soft Mithril",
+  "block.unshattered.breakable_hard_mithril_block": "Breakable Hard Mithril",
+  "block.unshattered.breakable_cobbled_mithril_block": "Breakable Cobbled Mithril",
 
   "item.description.unshattered.bat_the_fish": "Where is my cape!",
   "item.description.unshattered.century_the_fish": "The term 'century' was actually named after him, or so he says.",

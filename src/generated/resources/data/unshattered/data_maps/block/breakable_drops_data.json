@@ -1,69 +1,172 @@
 {
   "values": {
-    "unshattered:breakable_coal_ore_block": {
-      "item": "minecraft:coal",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_cobblestone_block": {
-      "item": "minecraft:cobblestone",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_copper_ore_block": {
-      "item": "minecraft:copper_ingot",
-      "max_amount": 5,
-      "min_amount": 2
-    },
-    "unshattered:breakable_diamond_ore_block": {
-      "item": "minecraft:diamond",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_emerald_ore_block": {
-      "item": "minecraft:emerald",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_fig_log": {
-      "item": "unshattered:fig_log",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_gold_ore_block": {
-      "item": "minecraft:gold_ingot",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_iron_ore_block": {
-      "item": "minecraft:iron_ingot",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_obsidian_block": {
-      "item": "minecraft:obsidian",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_redstone_ore_block": {
-      "item": "minecraft:redstone",
-      "max_amount": 5,
-      "min_amount": 4
-    },
-    "unshattered:breakable_stone_block": {
-      "item": "minecraft:cobblestone",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:breakable_wheat_block": {
-      "item": "minecraft:wheat",
-      "max_amount": 1,
-      "min_amount": 1
-    },
-    "unshattered:pure_diamond_block": {
-      "item": "minecraft:diamond",
-      "max_amount": 9,
-      "min_amount": 7
-    }
+    "unshattered:breakable_coal_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:coal",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_cobbled_mithril_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "unshattered:mithril",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      },
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:cobblestone",
+          "max_amount": 3,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_cobblestone_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:cobblestone",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_copper_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:copper_ingot",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_diamond_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:diamond",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_emerald_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:emerald",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_fig_log": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "unshattered:fig_log",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_gold_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:gold_ingot",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_hard_mithril_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "unshattered:mithril",
+          "max_amount": 5,
+          "min_amount": 3
+        }
+      }
+    ],
+    "unshattered:breakable_iron_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:iron_ingot",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_obsidian_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:obsidian",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_redstone_ore_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:redstone",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_soft_mithril_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "unshattered:mithril",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_stone_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:cobblestone",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:breakable_wheat_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:wheat",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ],
+    "unshattered:pure_diamond_block": [
+      {
+        "drop_chance": 1.0,
+        "item_range": {
+          "item": "minecraft:cobblestone",
+          "max_amount": 1,
+          "min_amount": 1
+        }
+      }
+    ]
   }
 }

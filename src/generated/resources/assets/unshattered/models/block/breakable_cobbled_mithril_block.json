@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "unshattered:block/breakable_cobbled_mithril_block"
+  }
+}

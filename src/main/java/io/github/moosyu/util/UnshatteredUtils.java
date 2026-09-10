@@ -1,13 +1,17 @@
 package io.github.moosyu.util;
 
 import io.github.moosyu.Unshattered;
+import io.github.moosyu.attributes.UnshatteredAttributeValues;
+import io.github.moosyu.blocks.BlockDropData;
 import io.github.moosyu.collectables.CollectableEntries;
+import io.github.moosyu.data.UnshatteredDataMaps;
 import io.github.moosyu.data.attachments.PlayerCollectionsAttachment;
 import io.github.moosyu.data.attachments.PlayerStateAttachment;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
 import io.github.moosyu.data.components.ItemCharges;
 import io.github.moosyu.data.dialogue.DialogueTree;
 import io.github.moosyu.events.DataPackRegistryHandler;
+import io.github.moosyu.items.ItemRange;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -28,6 +32,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -35,6 +40,7 @@ import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
@@ -242,16 +248,52 @@ public final class UnshatteredUtils {
         collections.addPickedUpItem(itemStack, player);
     }
 
+    // block drop methods
+
     /**
      * should be used instead of Inventory#add when adding items that were harvested by the player
      * @param player player having the item added
      * @param itemStack itemstack being added to inventory
      */
     public static void givePlayerHarvestedItemStack(Player player, ItemStack itemStack) {
+        if (itemStack.isEmpty()) return;
+
         addItemToCollection(player, itemStack);
-        player.getInventory().add(itemStack);
+        if (!player.getInventory().add(itemStack)) {
+            player.drop(itemStack, false);
+        }
         player.syncData(UnshatteredAttachments.PLAYER_COLLECTIONS);
     }
+
+    /**
+     * @param blockDropData the data of the block being broken
+     * @param player the player getting the drop (and having their fortune checked)
+     * @param fortuneType the type of fortune to be used to calculate the drop amount
+     * @return item stack (with fortune calculation) applied to count
+     */
+    public static ItemStack getBlockDrop(BlockDropData blockDropData, Player player, UnshatteredAttributeValues fortuneType) {
+        int brokenBlockCount = UnshatteredUtils.getItemsCount(player.getAttributeValue(fortuneType.holder), blockDropData.itemRange().getDropAmount(player.getRandom()));
+
+        if (brokenBlockCount == 0) {
+            return ItemStack.EMPTY;
+        }
+
+        return new ItemStack(blockDropData.itemRange().item(), UnshatteredUtils.getItemsCount(player.getAttributeValue(fortuneType.holder), brokenBlockCount));
+    }
+
+    public static void addBlockBrokenResultToInventory(Holder<Block> blockHolder, Player player, UnshatteredAttributeValues fortuneType) {
+        List<BlockDropData> blockDropDataList = blockHolder.getData(UnshatteredDataMaps.BREAKABLE_DROPS_DATA);
+        if (blockDropDataList == null) {
+            Unshattered.LOGGER.error("block broken ({}) without defined drop data.", blockHolder.getRegisteredName());
+            return;
+        }
+
+        for (BlockDropData blockDropData : blockDropDataList) {
+            ItemStack blockDrops = UnshatteredUtils.getBlockDrop(blockDropData, player, fortuneType);
+            UnshatteredUtils.givePlayerHarvestedItemStack(player, blockDrops);
+        }
+    }
+
 
     // item requirements
 

@@ -179,6 +179,12 @@ public class DatagenHandler {
                                     Blocks.AIR),
                             200
                     );
+
+                    createRegenPathWithBlocks(bootstrap, "soft_mithril", List.of(UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK.get(), Blocks.BEDROCK), 220);
+
+                    createRegenPathWithBlocks(bootstrap, "hard_mithril", List.of(UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK.get(), Blocks.BEDROCK), 220);
+
+                    createRegenPathWithBlocks(bootstrap, "cobbled_mithril", List.of(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK.get(), Blocks.BEDROCK), 220);
                 })
         );
     }

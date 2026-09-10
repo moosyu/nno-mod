@@ -1,14 +1,17 @@
 {
   "values": {
     "unshattered:breakable_coal_ore_block": 1,
+    "unshattered:breakable_cobbled_mithril_block": 3,
     "unshattered:breakable_cobblestone_block": 1,
     "unshattered:breakable_copper_ore_block": 1,
     "unshattered:breakable_diamond_ore_block": 3,
     "unshattered:breakable_emerald_ore_block": 3,
     "unshattered:breakable_gold_ore_block": 3,
+    "unshattered:breakable_hard_mithril_block": 4,
     "unshattered:breakable_iron_ore_block": 2,
     "unshattered:breakable_obsidian_block": 4,
     "unshattered:breakable_redstone_ore_block": 3,
+    "unshattered:breakable_soft_mithril_block": 4,
     "unshattered:breakable_stone_block": 1,
     "unshattered:pure_diamond_block": 3
   }

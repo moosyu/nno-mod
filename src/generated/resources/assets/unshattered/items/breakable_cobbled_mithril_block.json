@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "unshattered:block/breakable_cobbled_mithril_block"
+  }
+}

@@ -1,5 +1,7 @@
 package io.github.moosyu.events;
 
+import io.github.moosyu.Unshattered;
+import io.github.moosyu.blocks.BlockDropData;
 import io.github.moosyu.data.attachments.PlayerSkillsAttachment;
 import io.github.moosyu.attributes.UnshatteredAttributeValues;
 import io.github.moosyu.data.attachments.UnshatteredAttachments;
@@ -80,7 +82,7 @@ public class TreeSweepHandler {
             float expReward = Objects.requireNonNullElse(BuiltInRegistries.BLOCK.wrapAsHolder(logItem).getData(UnshatteredDataMaps.HARVESTABLE_BLOCKS_EXP_DATA), 0.0f);
 
             for (BreakTask current : tasks) {
-                giveHarvestedLogs(player, current.state.getBlock());
+                UnshatteredUtils.addBlockBrokenResultToInventory(current.state().typeHolder(), player, UnshatteredAttributeValues.FORAGING_FORTUNE);
             }
 
             skills.addExp(PlayerSkillsAttachment.Skill.FORAGING, tasks.size() * expReward, player);
@@ -90,8 +92,11 @@ public class TreeSweepHandler {
 
     private static int calculateLogs(Player player, int dropAmount) {
         UnshatteredUtils.triggerInstantPassiveAbilities((ServerPlayer) player, null);
+
         int itemCount = UnshatteredUtils.getItemsCount(player.getAttributeValue(UnshatteredAttributeValues.FORAGING_FORTUNE.holder), dropAmount);
+
         UnshatteredUtils.finishInstantPassiveAbilities((ServerPlayer) player, null);
+
         return itemCount;
     }
 
@@ -107,20 +112,13 @@ public class TreeSweepHandler {
         if (sweep <= 0) {
             skills.addExp(PlayerSkillsAttachment.Skill.FORAGING, 6.0f, player);
             player.syncData(PLAYER_SKILLS);
-            giveHarvestedLogs(player, startBlock.getBlock());
+            UnshatteredUtils.addBlockBrokenResultToInventory(startBlock.typeHolder(), player, UnshatteredAttributeValues.FORAGING_FORTUNE);
             return;
         }
 
         Queue<BreakTask> result = breakConnectedLogs(level, startPos, player, sweep);
         result.add(new BreakTask(level, startPos, player, startBlock));
         ACTIVE_BREAKS.add(new TreeBreakInstance(new ArrayList<>(result)));
-    }
-
-    private static void giveHarvestedLogs(Player player, Block brokenBlock) {
-        ItemRange itemRange = brokenBlock.defaultBlockState().getData(UnshatteredDataMaps.BREAKABLE_DROPS_DATA);
-        if (itemRange == null) return;
-
-        UnshatteredUtils.givePlayerHarvestedItemStack(player, new ItemStack(itemRange.item(), calculateLogs(player, itemRange.getDropAmount(player.getRandom()))));
     }
 
     private static Queue<BreakTask> breakConnectedLogs(Level level, BlockPos startPos, Player player, int sweep) {

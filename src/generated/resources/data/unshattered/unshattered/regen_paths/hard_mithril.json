@@ -1,0 +1,12 @@
+{
+  "path": [
+    {
+      "Name": "unshattered:breakable_hard_mithril_block"
+    },
+    {
+      "Name": "minecraft:bedrock"
+    }
+  ],
+  "regen_ticks": 220,
+  "stages_incremented": 1
+}

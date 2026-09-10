@@ -583,4 +583,19 @@ public class UnshatteredItems {
     ));
 
     public static final DeferredItem<BlockItem> ROCK_TALKABLE_BLOCK = ITEMS.registerSimpleBlockItem(UnshatteredBlocks.ROCK_TALKABLE_BLOCK.getDelegate());
+
+    public static final DeferredItem<BlockItem> BREAKABLE_SOFT_MITHRIL_BLOCK = ITEMS.registerSimpleBlockItem(UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK.getDelegate());
+
+    public static final DeferredItem<BlockItem> BREAKABLE_HARD_MITHRIL_BLOCK = ITEMS.registerSimpleBlockItem(UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK.getDelegate());
+
+    public static final DeferredItem<BlockItem> BREAKABLE_COBBLED_MITHRIL_BLOCK = ITEMS.registerSimpleBlockItem(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK.getDelegate());
+
+    public static final DeferredItem<Item> MITHRIL = ITEMS.registerItem("mithril", props -> new Item(props.component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 9))
+    );
+
+    public static final DeferredItem<EnchantedItem> ENCHANTED_MITHRIL = ITEMS.registerItem("enchanted_mithril", props -> new EnchantedItem(props.component(UnshatteredDataComponents.ITEM_TYPE.get(), ItemTypes.MATERIAL)
+            .component(UnshatteredDataComponents.SELL_VALUE.get(), 1440)
+            .component(UnshatteredDataComponents.RARITY.get(), UnshatteredRarities.RARE))
+    );
 }

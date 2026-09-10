@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "unshattered:block/breakable_hard_mithril_block"
+    }
+  }
+}

@@ -99,6 +99,8 @@ public class UnshatteredModelProvider extends ModelProvider {
         itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_REDSTONE.get(), Items.REDSTONE, ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.COINS_TALISMAN.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(UnshatteredItems.BROKEN_MITHRIL_PICKAXE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.MITHRIL.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(UnshatteredItems.ENCHANTED_MITHRIL.get(), ModelTemplates.createItem(UnshatteredItems.MITHRIL.getRegisteredName()));
 
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_GOLD_BLOCK.get(), Blocks.GOLD_BLOCK);
         createCubeBlockItemModel(itemModels, blockModels, UnshatteredItems.ENCHANTED_DIAMOND_BLOCK.get(), Blocks.DIAMOND_BLOCK);
@@ -166,6 +168,10 @@ public class UnshatteredModelProvider extends ModelProvider {
         generateVanillaCubeBlock(blockModels, UnshatteredBlocks.BREAKABLE_DIAMOND_ORE_BLOCK.get(), Blocks.DIAMOND_ORE);
         generateVanillaCubeBlock(blockModels, UnshatteredBlocks.PURE_DIAMOND_BLOCK.get(), Blocks.DIAMOND_BLOCK);
         generateVanillaCubeBlock(blockModels, UnshatteredBlocks.BREAKABLE_OBSIDIAN_BLOCK.get(), Blocks.OBSIDIAN);
+
+        blockModels.createTrivialCube(UnshatteredBlocks.BREAKABLE_COBBLED_MITHRIL_BLOCK.get());
+        blockModels.createTrivialCube(UnshatteredBlocks.BREAKABLE_SOFT_MITHRIL_BLOCK.get());
+        blockModels.createTrivialCube(UnshatteredBlocks.BREAKABLE_HARD_MITHRIL_BLOCK.get());
     }
 
     /**

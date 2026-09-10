@@ -78,6 +78,9 @@ public class UnshatteredCreativeTabs {
             output.accept(PURE_DIAMOND.get());
             output.accept(BREAKABLE_OBSIDIAN.get());
             output.accept(BREAKABLE_WHEAT.get());
+            output.accept(BREAKABLE_SOFT_MITHRIL_BLOCK.get());
+            output.accept(BREAKABLE_HARD_MITHRIL_BLOCK.get());
+            output.accept(BREAKABLE_COBBLED_MITHRIL_BLOCK.get());
         }).build()
     );
 
@@ -106,6 +109,8 @@ public class UnshatteredCreativeTabs {
             output.accept(ENCHANTED_LAPIS_BLOCK);
             output.accept(ENCHANTED_REDSTONE);
             output.accept(ENCHANTED_REDSTONE_BLOCK);
+            output.accept(MITHRIL);
+            output.accept(ENCHANTED_MITHRIL);
         }).build()
     );
 
